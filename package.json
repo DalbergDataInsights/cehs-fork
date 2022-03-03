@@ -1,0 +1,39 @@
+{
+  "name": "data-insights",
+  "version": "1.0.0",
+  "description": "",
+  "licenses": [],
+  "private": true,
+  "scripts": {
+    "build": "d2-app-scripts build",
+    "start": "d2-app-scripts start & node setupProxy.js",
+    "test": "d2-app-scripts test",
+    "deploy": "d2-app-scripts deploy"
+  },
+  "devDependencies": {
+    "@dhis2/cli-app-scripts": "^5.5.0",
+    "@types/lodash": "^4.14.165",
+    "@types/react-router-dom": "^5.1.6"
+  },
+  "dependencies": {
+    "@dhis2/app-runtime": "^2.6.1",
+    "@dhis2/app-runtime-adapter-d2": "^1.0.1",
+    "antd": "^4.8.5",
+    "bootstrap": "^4.5.3",
+    "cors": "^2.8.5",
+    "d2": "^31.8.2",
+    "effector": "^22.1.2",
+    "effector-react": "^22.0.6",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.1",
+    "lodash": "^4.17.20",
+    "mobx": "^6.1.7",
+    "mobx-react": "^7.1.0",
+    "moment": "^2.29.1",
+    "plotly.js": "^1.57.1",
+    "react-bootstrap": "^1.4.0",
+    "react-plotly.js": "^2.5.0",
+    "react-query": "^3.34.0",
+    "react-router-dom": "^5.2.0"
+  }
+}

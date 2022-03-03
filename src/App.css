@@ -1,0 +1,206 @@
+#ds-wrapper {
+  text-align: left;
+  overflow: auto;
+  transition: 0.5s;
+  width: 100vw;
+  height: calc(100vh - 48px);
+  display: flex;
+}
+
+#ds-paginator {
+  width: 75vw;
+  margin-left: auto;
+  margin-right: auto;
+  transition: margin-left 0.5s;
+  transition: margin-right 0.5s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  padding: 3%;
+}
+
+.sidebar {
+  height: 100%;
+  width: 20vw;
+  background-color: rgb(34, 94, 140);
+  overflow-x: hidden;
+  transition: all 0.5s ease 0s;
+}
+
+.left {
+  /* position: fixed; */
+  display: flex;
+  z-index: 1;
+  top: 48px;
+  left: 0px;
+}
+
+.navbar {
+  background-color: rgb(19, 52, 78);
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.nav-header {
+  color: white;
+  font-size: 1.9vh;
+  font-weight: 100;
+  height: 4vh;
+  margin: 0px auto;
+}
+
+.infoicon {
+  color: white;
+  font-size: 1.5rem;
+  float: right;
+  cursor: help;
+}
+.infotext {
+  color: white;
+  font-size: 1.9vh;
+  /* font-weight: 100; */
+  height: 4vh;
+  /* margin: 0px auto; */
+}
+
+.data-card {
+  /* width: 100%; */
+  overflow: visible;
+  /* margin: 0px 0px 50px 0px; */
+  /* background-color: yellow; */
+  /* height: auto; */
+}
+.large-icon {
+  color: rgb(19, 52, 78);
+  font-size: 5vw;
+}
+.grap-header {
+  font-size: 1.7vw;
+  margin-bottom: 0px;
+  font-weight: bold;
+}
+
+.graph-subheader {
+  font-size: 1.5vw;
+  margin-bottom: 0px;
+}
+
+.data-card__header-container {
+  padding: 12px 0px 12px 0px;
+  margin: 12px 0 12px 0;
+  background: rgb(19, 52, 78);
+}
+
+.graph {
+  /* position: relative; */
+  width: 100%;
+  /* height: 480px; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  /* background-color: yellow; */
+}
+
+.label {
+  border-bottom: 0.5px solid white;
+  /* margin-left: 5px; */
+  /* margin-right: 5px; */
+  margin-bottom: 10px;
+  color: white;
+  font-size: 1.6vh;
+}
+
+.logo-controll {
+  color: white;
+  font-size: 1.2rem;
+  float: right;
+  cursor: help;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: rgb(19, 52, 78);
+  border: none;
+  color: white;
+}
+
+.ant-picker {
+  background-color: rgb(19, 52, 78);
+  border: none;
+  width: 100%;
+}
+
+.ant-select-arrow {
+  color: white;
+}
+
+.crd {
+  color: white;
+  box-shadow: gray 5px 5px 5px;
+  border: solid rgba(0, 0, 0, 0.25);
+  text-align: center;
+  min-height: 160px;
+  /* background-color: rgba(244, 174, 26, 0.8); */
+}
+
+.crd-title {
+  min-height: 70px;
+  border-bottom: solid rgba(0, 0, 0, 0.25);
+  /* background-color: rgb(244, 174, 26); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.crd-num {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.crd-per {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.data-card__download-button {
+  color: rgb(19, 52, 78) !important;
+  cursor: pointer;
+  float: right;
+  padding-bottom: 10px;
+}
+
+.ant-picker-large .ant-picker-input > input {
+  color: white;
+}
+
+.anticon {
+  color: white;
+}
+
+.h5,
+h5 {
+  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
+  color: rgb(34, 94, 140);
+  text-align: center;
+  width: 100%;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  height: calc(100vh - 48px);
+}
