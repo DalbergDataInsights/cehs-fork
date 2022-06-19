@@ -106,3 +106,9 @@ export function monthsBetween(...args) {
     (m) => ~~(m / 12) + ("0" + ((m % 12) + 1)).slice(-2)
   );
 }
+
+export function transpose(data) {
+  if (data) {
+    return data[0].map((x, i) => data.map((x) => x[i]));
+  }
+}
