@@ -32,3 +32,4 @@ export const setSelectedDataElementGroup = domain.createEvent();
 export const onPolicyChange = domain.createEvent();
 export const onPeriodChange = domain.createEvent();
 export const onPercentageOptionChange = domain.createEvent();
+export const setSelectedVariable = domain.createEvent();
