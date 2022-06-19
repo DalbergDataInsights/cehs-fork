@@ -94,3 +94,15 @@ export function processTitle(startDate, endDate, data, periodDescription = "") {
 
   return `remained constant ${periodDescription}`;
 }
+
+export function monthsBetween(...args) {
+  let [a, b] = args.map((arg) =>
+    arg
+      .split("-")
+      .slice(0, 2)
+      .reduce((y, m) => m - 1 + y * 12)
+  );
+  return Array.from({ length: b - a + 1 }, (_) => a++).map(
+    (m) => ~~(m / 12) + ("0" + ((m % 12) + 1)).slice(-2)
+  );
+}
