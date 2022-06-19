@@ -112,3 +112,30 @@ export function transpose(data) {
     return data[0].map((x, i) => data.map((x) => x[i]));
   }
 }
+
+export function processOrgRawDataToTimeSeries(data) {
+  if (!data) {
+    return {};
+  }
+  let data_tranposed = transpose(data); // tranpose the data
+  let time = data_tranposed[2]; // Get the raw time periods
+  let values = data_tranposed[3]; // Get the raw values
+  let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
+  let time_dict = {}; // Create an empty dictionary
+
+  // Initalize the time dictionary
+  for (let i = 0; i < time_unique.length; i++) {
+    let x = 0;
+    let time_i = time_unique[i];
+    // time_dict[time_unique[i]] = 0;
+    for (let j = 0; j < time.length; j++) {
+      if (time[j] == time_i) {
+        x = x + Number(values[j]);
+      }
+    }
+    time_dict[time_unique[i]] = x;
+  }
+
+  console.log(time_dict);
+  return time_dict;
+}
