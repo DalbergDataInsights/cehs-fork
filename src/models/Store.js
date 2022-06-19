@@ -44,6 +44,9 @@ export const $store = domain
     selectedContributionOption: "1",
     dataSet: "",
   })
+  .on(events.setSelectedVariable, (state, val) => {
+    return { ...state, selectedVariable: val };
+  })
   .on(events.changeCurrentUser, (state, user) => {
     return { ...state, currentUser: user };
   })
