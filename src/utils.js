@@ -22,6 +22,7 @@ export function processMapData(data, districts, startMonth, endMonth) {
     return { district: district.name, value: 0 };
   });
 }
+
 export function processCountryData(data) {
   const years = ["2018", "2019", "2020", "2021"];
   const months = [
@@ -55,7 +56,7 @@ export function processCountryData(data) {
   ];
 
   return years.map((year) => {
-    const y = months.map((m) => data[`${year}${m}`] || "");
+    const y = months.map((m) => parseInt(data[`${year}${m}`]));
     return {
       name: year,
       x,
@@ -119,7 +120,7 @@ export function processOrgRawDataToTimeSeries(data) {
   }
   let data_tranposed = transpose(data); // tranpose the data
   let time = data_tranposed[2]; // Get the raw time periods
-  let values = data_tranposed[3]; // Get the raw values
+  let values = data_tranposed[3].map((val) => parseInt(val)); // Get the raw values
   let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
   let time_dict = {}; // Create an empty dictionary
 
@@ -127,10 +128,9 @@ export function processOrgRawDataToTimeSeries(data) {
   for (let i = 0; i < time_unique.length; i++) {
     let x = 0;
     let time_i = time_unique[i];
-    // time_dict[time_unique[i]] = 0;
     for (let j = 0; j < time.length; j++) {
       if (time[j] == time_i) {
-        x = x + Number(values[j]);
+        x = x + values[j];
       }
     }
     time_dict[time_unique[i]] = x;
