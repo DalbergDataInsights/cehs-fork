@@ -20,6 +20,7 @@ export const $store = domain
       "11",
       "12",
     ],
+    selectedVariable: "1st_anc_visits",
     selectedDataElementGroup: "",
     selectedIndicatorGroupSet: "",
     selectedIndicatorGroup: "",
