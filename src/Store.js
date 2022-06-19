@@ -65,7 +65,7 @@ export class Store {
   loading = false;
   selectedPolicy = "Keep outliers";
   selectedAnalysis = "Compare two months";
-  period = [moment("2019-01-01"), moment("2020-01-31")];
+  period = [moment("2021-01-01"), moment("2021-12-31")];
 
   selectedPecentageOption = "1";
   selectedTotalOption = "1";
