@@ -139,3 +139,17 @@ export function processOrgRawDataToTimeSeries(data) {
   console.log(time_dict);
   return time_dict;
 }
+
+export function processOrgDataTotal(data) {
+  if (data.length == 0) {
+    return 0;
+  }
+  const values = data.map((val) => val[3]);
+  const valuesNumeric = values.map((val) => parseInt(val));
+  const valuesReducer = (accumulator, curr) => accumulator + curr;
+  if (valuesNumeric.length > 0) {
+    return valuesNumeric.reduce(valuesReducer);
+  } else {
+    return 0;
+  }
+}
