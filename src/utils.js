@@ -153,3 +153,24 @@ export function processOrgDataTotal(data) {
     return 0;
   }
 }
+
+export function getDataPerOrgUnits(orgUnits, data) {
+  const orgUnitIds = orgUnits.map((val) => val.id);
+  console.log("Printing organisation units");
+  console.log(orgUnitIds);
+  const orgUnitData = {};
+
+  if (data) {
+    if (data["results"]["rows"]) {
+      orgUnitIds.map((id) => {
+        orgUnitData[`${id}`] = data["results"]["rows"].filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+    console.log("Printing out districts data");
+    console.log(orgUnitData);
+    console.log(Object.keys(orgUnitData));
+  }
+  return orgUnitData;
+}
