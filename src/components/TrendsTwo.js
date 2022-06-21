@@ -9,6 +9,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
+import MapVisualizationTwo from "./MapVisualizationTwo";
 
 const myQuery = {
   results: {
@@ -81,6 +82,13 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         processor={processCountryData}
+      />
+
+      <MapVisualizationTwo
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
+        maptype={"total"}
       />
     </div>
   );
