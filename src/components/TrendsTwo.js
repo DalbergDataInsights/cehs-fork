@@ -10,6 +10,7 @@ import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
+import TreeMapVisualization from "./TreeMapVisualization";
 
 const myQuery = {
   results: {
@@ -125,6 +126,11 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"district"}
+      />
+      <TreeMapVisualization
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
       />
     </div>
   );
