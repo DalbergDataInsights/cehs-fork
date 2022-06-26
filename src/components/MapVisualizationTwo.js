@@ -43,6 +43,11 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
   );
   console.log(districtDataPercentages);
 
+  const dataViz =
+    maptype == "total"
+      ? getOrgUnitDataTotals(store.districts, data)
+      : getOrgUnitDataPercentageChanges(store.districts, data);
+
   return (
     <>
       <Row className="data-card mb-5 shadow-sm rounded">
@@ -55,11 +60,40 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
             )}
+
+            {maptype == "percentage" && (
+              <Col className="graph">
+                <h5>{`Percentage change in ${displayName} between ${store.period[0].format(
+                  "MMM-YYYY"
+                )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
+              </Col>
+            )}
           </Row>
+
+          {maptype == "percentage" && (
+            <Row>
+              <Col>
+                <Select
+                  style={{ width: "100%", backgroundColor: "white" }}
+                  size="large"
+                  value={store.selectedPercentageOption}
+                  onChange={(val) => onPercentageOptionChange(val)}
+                >
+                  <Option value="1">
+                    Compare month of interest and month of reference
+                  </Option>
+                  <Option value="2">
+                    Compare quarters averages, using the three months periods
+                    ending on month of interest and month of reference
+                  </Option>
+                </Select>
+              </Col>
+            </Row>
+          )}
 
           {loading && <Loading />}
 
-          {data && (
+          {data && dataViz && (
             <Row>
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
@@ -68,8 +102,8 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                       data={[
                         {
                           type: "choroplethmapbox",
-                          locations: Object.keys(districtDataPercentages),
-                          z: Object.values(districtDataPercentages),
+                          locations: Object.keys(dataViz),
+                          z: Object.values(dataViz),
                           featureidkey: "properties.name",
                           geojson: store.rawGeojson,
                           colorscale: "Bluered",
@@ -101,10 +135,7 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
-                    <HorizontalBarTwo
-                      data={districtDataPercentages}
-                      type={false}
-                    />
+                    <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
                 <Download />

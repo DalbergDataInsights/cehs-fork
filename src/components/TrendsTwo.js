@@ -90,6 +90,13 @@ const TrendsTwo = () => {
         error={districtLevelError}
         maptype={"total"}
       />
+
+      <MapVisualizationTwo
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
+        maptype={"percentage"}
+      />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { sortDictionary } from "../utils";
 
 const HorizontalBarTwo = ({ data, type }) => {
   const sorted = sortDictionary(data);
-  const textTemplateValue = type ? "%{x}" : "%{x}%";
+  const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
   return (
     <Plot
       data={[
