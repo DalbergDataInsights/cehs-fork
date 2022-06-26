@@ -82,7 +82,27 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
                 level="Across the country"
               />
             )}
-            {
+            {level == "district" && (
+              <>
+                <VisualizationTitle
+                  analysis={processTitle(
+                    periods[0],
+                    periods[1],
+                    processOrgRawDataToTimeSeries(selectedDistrictData),
+                    ""
+                  )}
+                  what={`Deep-dive in ${districtName}`}
+                  indicatorDescription={variableObject.displayName}
+                  level=""
+                />
+                <Row style={{ marginBottom: 20 }}>
+                  <Col className="graph">
+                    <h5>{`Total number of ${variableObject.displayName} in ${districtName}`}</h5>
+                  </Col>
+                </Row>
+              </>
+            )}
+            {/* {
               (level = "district" && (
                 <VisualizationTitle
                   analysis={processTitle(
@@ -96,14 +116,14 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
                   level=""
                 />
               ))
-            }
-            {level == "district" && (
+            } */}
+            {/* {level == "district" && (
               <Row style={{ marginBottom: 20 }}>
                 <Col className="graph">
                   <h5>{`Total number of ${variableObject.displayName} in ${districtName}`}</h5>
                 </Col>
               </Row>
-            )}
+            )} */}
 
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>

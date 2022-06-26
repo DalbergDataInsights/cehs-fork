@@ -82,6 +82,7 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         processor={processCountryData}
+        level={"country"}
       />
 
       <MapVisualizationTwo
@@ -96,6 +97,14 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"percentage"}
+      />
+
+      <LineVisualizationTwo
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
+        processor={processCountryData}
+        level={"district"}
       />
     </div>
   );
