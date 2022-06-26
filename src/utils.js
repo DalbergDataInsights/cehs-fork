@@ -200,6 +200,58 @@ export function getOrgUnitDataTotals(orgUnits, data) {
   return orgUnitDataTotalsRenamed;
 }
 
+function sortByColumn(a, colIndex) {
+  a.sort(sortFunction);
+
+  function sortFunction(a, b) {
+    if (a[colIndex] === b[colIndex]) {
+      return 0;
+    } else {
+      return a[colIndex] < b[colIndex] ? -1 : 1;
+    }
+  }
+
+  return a;
+}
+
+export function processOrgUnitDataPercent(data) {
+  if (!data) {
+    return 0;
+  }
+  const sortedData = sortByColumn(data, 2);
+  const values = sortedData.map((val) => val[3]);
+  const valuesNumeric = values.map((val) => parseInt(val));
+  const percentChange =
+    ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
+      valuesNumeric[0]) *
+    100;
+  return parseFloat(percentChange.toFixed(2));
+}
+
+export function getOrgUnitDataPercentageChanges(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataPercentages = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataPercentages[key] = processOrgUnitDataPercent(value);
+  });
+  console.log("Printing org unit data percentages");
+  console.log(orgUnitDataPercentages);
+
+  const orgUnitDataPercentagesRenamed = {};
+  Object.entries(orgUnitDataPercentages).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataPercentagesRenamed[orgUnitName] = value;
+  });
+
+  console.log("Printing org unit data percentages named");
+  console.log(orgUnitDataPercentagesRenamed);
+
+  return orgUnitDataPercentagesRenamed;
+}
+
 export function sortDictionary(data) {
   if (data) {
     var items = Object.keys(data).map(function (key) {
