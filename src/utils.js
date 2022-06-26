@@ -174,3 +174,43 @@ export function getDataPerOrgUnits(orgUnits, data) {
   }
   return orgUnitData;
 }
+
+export function getOrgUnitDataTotals(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = processOrgDataTotal(value);
+  });
+
+  console.log("Printing org unit data totals");
+  console.log(orgUnitDataTotals);
+
+  const orgUnitDataTotalsRenamed = {};
+  Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataTotalsRenamed[orgUnitName] = value;
+  });
+
+  console.log("Printing org unit data totals with formatted names");
+  console.log(orgUnitDataTotalsRenamed);
+
+  return orgUnitDataTotalsRenamed;
+}
+
+export function sortDictionary(data) {
+  if (data) {
+    var items = Object.keys(data).map(function (key) {
+      return [key, data[key]];
+    });
+
+    items.sort(function (first, second) {
+      return second[1] - first[1];
+    });
+    return items;
+  } else {
+    return [];
+  }
+}
