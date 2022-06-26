@@ -10,7 +10,7 @@ import VisualizationTitle from "./VisualizationTitle";
 import { processOrgRawDataToTimeSeries } from "../utils";
 import indicatorMeta from "../config/Indicators";
 
-const LineVisualizationTwo = ({ data, loading, error, processor }) => {
+const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
   const store = useStore($store);
   console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
@@ -35,30 +35,80 @@ const LineVisualizationTwo = ({ data, loading, error, processor }) => {
     }
   }
 
+  // ================================================================================
+  const districts = store.districts;
+  const districtIds = districts.map((val) => val.id); // Getting the ids for each district
+  console.log("Printing organisation units");
+  console.log(districtIds);
+  const districtData = {};
+  if (data) {
+    if (data["results"]["rows"]) {
+      districtIds.map((id) => {
+        districtData[`${id}`] = data["results"]["rows"].filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+    console.log("Printing out districts data");
+    console.log(districtData);
+    console.log(Object.keys(districtData));
+  }
+
+  const selectedDistrictData = districtData[store.selectedDistrict];
+  console.log(`Data for this district: ${store.selectedDistrict}`);
+  console.log(selectedDistrictData);
+
+  const dataViz =
+    level == "country"
+      ? processedData
+      : processOrgRawDataToTimeSeries(selectedDistrictData);
+
   return (
     <>
       {loading && <Loading />}
-      {data && !loading && processedData && (
+      {data && !loading && dataViz && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
-            <VisualizationTitle
-              analysis={processTitle(
-                periods[0],
-                periods[1],
-                processOrgRawDataToTimeSeries(data["results"]["rows"]),
-                ""
-              )}
-              what="Overview:"
-              indicatorDescription={variableObject.displayName}
-              level="Across the country"
-            />
+            {level == "country" && (
+              <VisualizationTitle
+                analysis={processTitle(
+                  periods[0],
+                  periods[1],
+                  processOrgRawDataToTimeSeries(data["results"]["rows"]),
+                  ""
+                )}
+                what="Overview:"
+                indicatorDescription={variableObject.displayName}
+                level="Across the country"
+              />
+            )}
+            {
+              (level = "district" && (
+                <VisualizationTitle
+                  analysis={processTitle(
+                    periods[0],
+                    periods[1],
+                    processOrgRawDataToTimeSeries(selectedDistrictData),
+                    ""
+                  )}
+                  what={`Deep-dive in ${districtName}`}
+                  indicatorDescription={variableObject.displayName}
+                  level=""
+                />
+              ))
+            }
+            {level == "district" && (
+              <Row style={{ marginBottom: 20 }}>
+                <Col className="graph">
+                  <h5>{`Total number of ${variableObject.displayName} in ${districtName}`}</h5>
+                </Col>
+              </Row>
+            )}
 
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(
-                    processOrgRawDataToTimeSeries(data["results"]["rows"])
-                  )}
+                  data={processor(dataViz)}
                   layout={{
                     showlegend: true,
                     autosize: true,
