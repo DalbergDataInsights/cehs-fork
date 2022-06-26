@@ -5,7 +5,10 @@ import { Col, Row } from "react-bootstrap";
 import VisualizationTitle from "./VisualizationTitle";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
-import { getOrgUnitDataTotals } from "../utils";
+import {
+  getOrgUnitDataPercentageChanges,
+  getOrgUnitDataTotals,
+} from "../utils";
 import Download from "./Download";
 import HorizontalBarTwo from "./HorizontalBarTwo";
 import { Select } from "antd";
@@ -34,6 +37,12 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
   const districtDataTotals = getOrgUnitDataTotals(store.districts, data);
   console.log(districtDataTotals);
 
+  const districtDataPercentages = getOrgUnitDataPercentageChanges(
+    store.districts,
+    data
+  );
+  console.log(districtDataPercentages);
+
   return (
     <>
       <Row className="data-card mb-5 shadow-sm rounded">
@@ -59,12 +68,11 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                       data={[
                         {
                           type: "choroplethmapbox",
-                          locations: Object.keys(districtDataTotals),
-                          z: Object.values(districtDataTotals),
+                          locations: Object.keys(districtDataPercentages),
+                          z: Object.values(districtDataPercentages),
                           featureidkey: "properties.name",
                           geojson: store.rawGeojson,
                           colorscale: "Bluered",
-                          // reversescale: true,
                         },
                       ]}
                       layout={{
@@ -93,7 +101,10 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
-                    <HorizontalBarTwo data={districtDataTotals} type={true} />
+                    <HorizontalBarTwo
+                      data={districtDataPercentages}
+                      type={false}
+                    />
                   </Col>
                 </Row>
                 <Download />
