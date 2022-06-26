@@ -71,7 +71,6 @@ const TrendsTwo = () => {
   console.log(districtLevelData);
   console.log(store.selectedVariable);
 
-  // Facility level queries and visualizations
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
