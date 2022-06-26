@@ -131,6 +131,14 @@ const TrendsTwo = () => {
         loading={facilityLevelLoading}
         error={facilityLevelError}
       />
+
+      <LineVisualizationTwo
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processCountryData}
+        level={"facility"}
+      />
     </div>
   );
 };
