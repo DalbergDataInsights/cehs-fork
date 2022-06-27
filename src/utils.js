@@ -139,3 +139,130 @@ export function processOrgRawDataToTimeSeries(data) {
   console.log(time_dict);
   return time_dict;
 }
+
+export function processOrgDataTotal(data) {
+  if (data.length == 0) {
+    return 0;
+  }
+  const values = data.map((val) => val[3]);
+  const valuesNumeric = values.map((val) => parseInt(val));
+  const valuesReducer = (accumulator, curr) => accumulator + curr;
+  if (valuesNumeric.length > 0) {
+    return valuesNumeric.reduce(valuesReducer);
+  } else {
+    return 0;
+  }
+}
+
+export function getDataPerOrgUnits(orgUnits, data) {
+  const orgUnitIds = orgUnits.map((val) => val.id);
+  console.log("Printing organisation units");
+  console.log(orgUnitIds);
+  const orgUnitData = {};
+
+  if (data) {
+    if (data["results"]["rows"]) {
+      orgUnitIds.map((id) => {
+        orgUnitData[`${id}`] = data["results"]["rows"].filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+    console.log("Printing out districts data");
+    console.log(orgUnitData);
+    console.log(Object.keys(orgUnitData));
+  }
+  return orgUnitData;
+}
+
+export function getOrgUnitDataTotals(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = processOrgDataTotal(value);
+  });
+
+  console.log("Printing org unit data totals");
+  console.log(orgUnitDataTotals);
+
+  const orgUnitDataTotalsRenamed = {};
+  Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataTotalsRenamed[orgUnitName] = value;
+  });
+
+  console.log("Printing org unit data totals with formatted names");
+  console.log(orgUnitDataTotalsRenamed);
+
+  return orgUnitDataTotalsRenamed;
+}
+
+function sortByColumn(a, colIndex) {
+  a.sort(sortFunction);
+
+  function sortFunction(a, b) {
+    if (a[colIndex] === b[colIndex]) {
+      return 0;
+    } else {
+      return a[colIndex] < b[colIndex] ? -1 : 1;
+    }
+  }
+
+  return a;
+}
+
+export function processOrgUnitDataPercent(data) {
+  if (!data) {
+    return 0;
+  }
+  const sortedData = sortByColumn(data, 2);
+  const values = sortedData.map((val) => val[3]);
+  const valuesNumeric = values.map((val) => parseInt(val));
+  const percentChange =
+    ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
+      valuesNumeric[0]) *
+    100;
+  return parseFloat(percentChange.toFixed(2));
+}
+
+export function getOrgUnitDataPercentageChanges(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataPercentages = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataPercentages[key] = processOrgUnitDataPercent(value);
+  });
+  console.log("Printing org unit data percentages");
+  console.log(orgUnitDataPercentages);
+
+  const orgUnitDataPercentagesRenamed = {};
+  Object.entries(orgUnitDataPercentages).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataPercentagesRenamed[orgUnitName] = value;
+  });
+
+  console.log("Printing org unit data percentages named");
+  console.log(orgUnitDataPercentagesRenamed);
+
+  return orgUnitDataPercentagesRenamed;
+}
+
+export function sortDictionary(data) {
+  if (data) {
+    var items = Object.keys(data).map(function (key) {
+      return [key, data[key]];
+    });
+
+    items.sort(function (first, second) {
+      return second[1] - first[1];
+    });
+    return items;
+  } else {
+    return [];
+  }
+}
