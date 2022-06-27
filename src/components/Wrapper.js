@@ -11,6 +11,7 @@ import SideBar from "./SideBar";
 import { ThreeLines } from "./ThreeLines";
 import Trends from "./Trends";
 import { loadDefaults } from "../Query";
+import TrendsTwo from "./TrendsTwo";
 
 const antIcon = (
   <LoadingOutlined style={{ fontSize: 32, color: "#225E8C" }} spin />
@@ -54,7 +55,7 @@ const Wrapper = () => {
                   <Reports />
                 </Route>
                 <Route path="/">
-                  <Trends />
+                  <TrendsTwo />
                 </Route>
               </Switch>
             </div>

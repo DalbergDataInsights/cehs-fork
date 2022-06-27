@@ -50,6 +50,7 @@ export class Store {
     "12",
   ];
 
+  selectedVariable = "1st_anc_visits";
   selectedIndicatorGroupSet = "";
   selectedIndicatorGroup = "";
   selectedIndicator = "";
@@ -64,7 +65,7 @@ export class Store {
   loading = false;
   selectedPolicy = "Keep outliers";
   selectedAnalysis = "Compare two months";
-  period = [moment("2019-01-01"), moment("2020-01-31")];
+  period = [moment("2021-01-01"), moment("2021-12-31")];
 
   selectedPecentageOption = "1";
   selectedTotalOption = "1";
@@ -205,7 +206,7 @@ export class Store {
       const [districtData, districtTitle] = await Promise.all([
         this.loadYearlyData(this.selectedDistrict),
         this.loadTrendTitle(this.selectedDistrict),
-        this.loadTreeMapData()
+        this.loadTreeMapData(),
       ]);
       this.acrossDistrict.setData(districtData);
       this.acrossDistrict.finish();
@@ -698,8 +699,7 @@ export class Store {
 
     return [
       {
-        name:
-          "Percentage of facilities expected to report which reported on there 105-1 form",
+        name: "Percentage of facilities expected to report which reported on there 105-1 form",
         x: periods.map((p) => moment(p, "YYYYMM").format("MMM YYYY")),
         y: data.map((d) => d.rate),
         hoverinfo: "x+y",
@@ -714,8 +714,7 @@ export class Store {
         },
       },
       {
-        name:
-          "Percentage of reporting facilities that reported a value of one or above for this indicator",
+        name: "Percentage of reporting facilities that reported a value of one or above for this indicator",
         x: periods.map((p) => moment(p, "YYYYMM").format("MMM YYYY")),
         y: data.map((d) => parseFloat(d.actual)),
         hoverinfo: "x+y",

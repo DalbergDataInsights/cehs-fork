@@ -22,6 +22,7 @@ export function processMapData(data, districts, startMonth, endMonth) {
     return { district: district.name, value: 0 };
   });
 }
+
 export function processCountryData(data) {
   const years = ["2018", "2019", "2020", "2021"];
   const months = [
@@ -55,7 +56,7 @@ export function processCountryData(data) {
   ];
 
   return years.map((year) => {
-    const y = months.map((m) => data[`${year}${m}`] || "");
+    const y = months.map((m) => parseInt(data[`${year}${m}`]));
     return {
       name: year,
       x,
@@ -93,4 +94,48 @@ export function processTitle(startDate, endDate, data, periodDescription = "") {
   }
 
   return `remained constant ${periodDescription}`;
+}
+
+export function monthsBetween(...args) {
+  let [a, b] = args.map((arg) =>
+    arg
+      .split("-")
+      .slice(0, 2)
+      .reduce((y, m) => m - 1 + y * 12)
+  );
+  return Array.from({ length: b - a + 1 }, (_) => a++).map(
+    (m) => ~~(m / 12) + ("0" + ((m % 12) + 1)).slice(-2)
+  );
+}
+
+export function transpose(data) {
+  if (data) {
+    return data[0].map((x, i) => data.map((x) => x[i]));
+  }
+}
+
+export function processOrgRawDataToTimeSeries(data) {
+  if (!data) {
+    return {};
+  }
+  let data_tranposed = transpose(data); // tranpose the data
+  let time = data_tranposed[2]; // Get the raw time periods
+  let values = data_tranposed[3].map((val) => parseInt(val)); // Get the raw values
+  let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
+  let time_dict = {}; // Create an empty dictionary
+
+  // Initalize the time dictionary
+  for (let i = 0; i < time_unique.length; i++) {
+    let x = 0;
+    let time_i = time_unique[i];
+    for (let j = 0; j < time.length; j++) {
+      if (time[j] == time_i) {
+        x = x + values[j];
+      }
+    }
+    time_dict[time_unique[i]] = x;
+  }
+
+  console.log(time_dict);
+  return time_dict;
 }

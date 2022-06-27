@@ -20,6 +20,7 @@ export const $store = domain
       "11",
       "12",
     ],
+    selectedVariable: "1st_anc_visits",
     selectedDataElementGroup: "",
     selectedIndicatorGroupSet: "",
     selectedIndicatorGroup: "",
@@ -37,11 +38,14 @@ export const $store = domain
     loading: false,
     selectedPolicy: "Keep outliers",
     selectedAnalysis: "Compare two months",
-    period: [moment("2019-01-01"), moment("2020-01-31")],
+    period: [moment("2021-01-01"), moment("2021-12-31")],
     selectedPercentageOption: "1",
     selectedTotalOption: "1",
     selectedContributionOption: "1",
     dataSet: "",
+  })
+  .on(events.setSelectedVariable, (state, val) => {
+    return { ...state, selectedVariable: val };
   })
   .on(events.changeCurrentUser, (state, user) => {
     return { ...state, currentUser: user };
