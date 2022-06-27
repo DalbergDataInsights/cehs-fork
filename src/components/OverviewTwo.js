@@ -8,7 +8,6 @@ import { processOrgDataTotal, processOrgUnitDataPercent } from "../utils";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
-import indicatorMeta from "../config/Indicators";
 import overviewIndicatorMeta from "../config/OverviewIndicators";
 import TextVisualizationTwo from "./TextVisualizationTwo";
 
@@ -36,6 +35,10 @@ const { Option } = Select;
 const OverviewTwo = () => {
   const store = useStore($store);
   const period = store.period;
+
+  useEffect(() => {
+    setPage("overview");
+  }, []);
 
   const overviewIndicatorsIds = overviewIndicatorMeta.map(
     (i) => i.numerator.dataElementId
