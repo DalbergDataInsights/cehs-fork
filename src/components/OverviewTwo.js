@@ -66,7 +66,7 @@ const OverviewTwo = () => {
     nationalLevelRefetch({ variableId: overviewIndicatorsIds, period: period });
   }, [period]);
 
-  console.log(data);
+  // console.log(data);
 
   const indicatorData = {};
   if (data) {
