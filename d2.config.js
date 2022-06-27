@@ -1,6 +1,6 @@
 const config = {
   type: "app",
-  title: "CEHS Uganda",
+  title: "HIVES",
 
   entryPoints: {
     app: "./src/App",
