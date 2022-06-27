@@ -5,6 +5,8 @@ import { sortDictionary } from "../utils";
 const HorizontalBarTwo = ({ data, type }) => {
   const sorted = sortDictionary(data);
   const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
+  const colorScaleValue = "rgb(0,0,255)";
+
   return (
     <Plot
       data={[
@@ -21,8 +23,9 @@ const HorizontalBarTwo = ({ data, type }) => {
           showlegend: false,
           hoverinfo: "none",
           marker: {
-            color: "rgb(211, 41, 61)",
+            color: colorScaleValue,
           },
+          // reversescale: reversedScaleValue,
         },
       ]}
       layout={{

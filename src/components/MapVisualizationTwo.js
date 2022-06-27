@@ -48,6 +48,9 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
       ? getOrgUnitDataTotals(store.districts, data)
       : getOrgUnitDataPercentageChanges(store.districts, data);
 
+  const colorScaleValue = maptype == "total" ? "Blues" : "Bluered";
+  const reversedScaleValue = true;
+
   return (
     <>
       <Row className="data-card mb-5 shadow-sm rounded">
@@ -106,7 +109,8 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                           z: Object.values(dataViz),
                           featureidkey: "properties.name",
                           geojson: store.rawGeojson,
-                          colorscale: "Bluered",
+                          colorscale: colorScaleValue,
+                          reversescale: reversedScaleValue,
                         },
                       ]}
                       layout={{
