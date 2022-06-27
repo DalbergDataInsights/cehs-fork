@@ -131,17 +131,24 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
             {level == "country" && (
-              <VisualizationTitle
-                analysis={processTitle(
-                  periods[0],
-                  periods[1],
-                  processOrgRawDataToTimeSeries(data["results"]["rows"]),
-                  ""
-                )}
-                what="Overview:"
-                indicatorDescription={variableObject.displayName}
-                level="Across the country"
-              />
+              <>
+                <VisualizationTitle
+                  analysis={processTitle(
+                    periods[0],
+                    periods[1],
+                    processOrgRawDataToTimeSeries(data["results"]["rows"]),
+                    ""
+                  )}
+                  what="Overview:"
+                  indicatorDescription={variableObject.displayName}
+                  level="Across the country"
+                />
+                <Row style={{ marginBottom: 20 }}>
+                  <Col className="graph">
+                    <h5>{`Total number of ${variableObject.displayName} across the country`}</h5>
+                  </Col>
+                </Row>
+              </>
             )}
             {level == "district" && (
               <>
