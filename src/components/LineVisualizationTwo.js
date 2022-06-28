@@ -33,15 +33,15 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
   if (data) {
     if (data["results"]["rows"]) {
       processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
-      console.log(processedData);
+      // console.log(processedData);
     }
   }
 
   // ================================================================================
   const districts = store.districts;
   const districtIds = districts.map((val) => val.id); // Getting the ids for each district
-  console.log("Printing organisation units");
-  console.log(districtIds);
+  // console.log("Printing organisation units");
+  // console.log(districtIds);
   const districtData = {};
   if (data) {
     if (data["results"]["rows"]) {
@@ -51,23 +51,23 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
         );
       });
     }
-    console.log("Printing out districts data");
-    console.log(districtData);
-    console.log(Object.keys(districtData));
+    // console.log("Printing out districts data");
+    // console.log(districtData);
+    // console.log(Object.keys(districtData));
   }
 
   const selectedDistrictData = districtData[store.selectedDistrict];
-  console.log(`Data for this district: ${store.selectedDistrict}`);
-  console.log(selectedDistrictData);
+  // console.log(`Data for this district: ${store.selectedDistrict}`);
+  // console.log(selectedDistrictData);
 
   // ===========================
   const selectedDistrict = store.selectedDistrict;
   const districtFacilities =
     districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
-  console.log("District facilities");
-  console.log(districtFacilities);
-  console.log(data);
+  // console.log("District facilities");
+  // console.log(districtFacilities);
+  // console.log(data);
 
   let districtFacilitiesData = null;
   if (data) {
@@ -78,8 +78,8 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
     }
   }
 
-  console.log("Printing out data from the facilities in the district only");
-  console.log(districtFacilitiesData);
+  // console.log("Printing out data from the facilities in the district only");
+  // console.log(districtFacilitiesData);
 
   // Create a dictionary for the facilities and their data
   const facilitiesDataDict = {};
@@ -90,9 +90,9 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
       );
     });
 
-    console.log("Printing out data for each facility");
-    console.log(facilitiesDataDict);
-    console.log(Object.keys(facilitiesDataDict));
+    // console.log("Printing out data for each facility");
+    // console.log(facilitiesDataDict);
+    // console.log(Object.keys(facilitiesDataDict));
   }
 
   // Now with the facility raw data for the facilities in the district
@@ -102,17 +102,17 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
     facilitiesDataTotals[key] = processOrgDataTotal(value);
   });
 
-  console.log("Printing out the totals from facilities");
-  console.log(facilitiesDataTotals);
+  // console.log("Printing out the totals from facilities");
+  // console.log(facilitiesDataTotals);
 
   // Now to process the facility data to get things for the Line visualization
   // Select the zeroth facility for now   TODO : Need to change this - Just gives a ZERO.
   // Not all facilities report.
-  console.log("Printing out data for a specific facility");
+  // console.log("Printing out data for a specific facility");
   // console.log(facilitiesDataDict[districtFacilities[0]]);
   const sortedData = sortDictionary(facilitiesDataTotals);
   const facility = sortedData.slice(0, 1).map((v) => v[0])[0];
-  console.log(facilitiesDataDict[facility]);
+  // console.log(facilitiesDataDict[facility]);
 
   const facilityName = facilitiesMeta[facility];
 
@@ -131,17 +131,24 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
             {level == "country" && (
-              <VisualizationTitle
-                analysis={processTitle(
-                  periods[0],
-                  periods[1],
-                  processOrgRawDataToTimeSeries(data["results"]["rows"]),
-                  ""
-                )}
-                what="Overview:"
-                indicatorDescription={variableObject.displayName}
-                level="Across the country"
-              />
+              <>
+                <VisualizationTitle
+                  analysis={processTitle(
+                    periods[0],
+                    periods[1],
+                    processOrgRawDataToTimeSeries(data["results"]["rows"]),
+                    ""
+                  )}
+                  what="Overview:"
+                  indicatorDescription={variableObject.displayName}
+                  level="Across the country"
+                />
+                <Row style={{ marginBottom: 20 }}>
+                  <Col className="graph">
+                    <h5>{`Total number of ${variableObject.displayName} across the country`}</h5>
+                  </Col>
+                </Row>
+              </>
             )}
             {level == "district" && (
               <>

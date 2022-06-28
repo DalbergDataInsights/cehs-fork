@@ -25,7 +25,7 @@ const Navigation = () => {
       <Row style={{ width: "100%" }}>
         <Col className="align-self-center" xs={12}>
           <p className="text-left infotext">
-            CEHS APP DASHBOARDS
+            HIVES APP DASHBOARD
             <Popover content={<span>Click for more information</span>}>
               <span
                 className="material-icons align-middle infoicon"

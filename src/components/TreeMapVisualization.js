@@ -29,8 +29,8 @@ const TreeMapVisualization = ({ data, loading, error }) => {
   const variableId = store.selectedVariable;
   const period = store.period;
 
-  console.log("Printing inside treemap visualization");
-  console.log(data);
+  // console.log("Printing inside treemap visualization");
+  // console.log(data);
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
@@ -40,9 +40,9 @@ const TreeMapVisualization = ({ data, loading, error }) => {
   const districtFacilities =
     districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
-  console.log("District facilities");
-  console.log(districtFacilities);
-  console.log(data);
+  // console.log("District facilities");
+  // console.log(districtFacilities);
+  // console.log(data);
 
   const variableObject = indicatorMeta.filter(
     (i) => i.numerator.key == store.selectedVariable
@@ -67,8 +67,8 @@ const TreeMapVisualization = ({ data, loading, error }) => {
     }
   }
 
-  console.log("Printing out data from the facilities in the district only");
-  console.log(districtFacilitiesData);
+  // console.log("Printing out data from the facilities in the district only");
+  // console.log(districtFacilitiesData);
 
   // Create a dictionary for the facilities and their data
   const facilitiesDataDict = {};
@@ -79,9 +79,9 @@ const TreeMapVisualization = ({ data, loading, error }) => {
       );
     });
 
-    console.log("Printing out data for each facility");
-    console.log(facilitiesDataDict);
-    console.log(Object.keys(facilitiesDataDict));
+    // console.log("Printing out data for each facility");
+    // console.log(facilitiesDataDict);
+    // console.log(Object.keys(facilitiesDataDict));
   }
 
   // Now with the facility raw data for the facilities in the district
@@ -91,13 +91,13 @@ const TreeMapVisualization = ({ data, loading, error }) => {
     facilitiesDataTotals[key] = processOrgDataTotal(value);
   });
 
-  console.log("Printing out the totals from facilities");
-  console.log(facilitiesDataTotals);
+  // console.log("Printing out the totals from facilities");
+  // console.log(facilitiesDataTotals);
 
   console.log("Printing out data for a specific facility");
   const sortedData = sortDictionary(facilitiesDataTotals);
   const facility = sortedData.slice(0, 1).map((v) => v[0])[0];
-  console.log(facilitiesDataDict[facility]);
+  // console.log(facilitiesDataDict[facility]);
 
   return (
     <>

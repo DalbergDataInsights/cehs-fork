@@ -136,7 +136,7 @@ export function processOrgRawDataToTimeSeries(data) {
     time_dict[time_unique[i]] = x;
   }
 
-  console.log(time_dict);
+  // console.log(time_dict);
   return time_dict;
 }
 
@@ -156,8 +156,8 @@ export function processOrgDataTotal(data) {
 
 export function getDataPerOrgUnits(orgUnits, data) {
   const orgUnitIds = orgUnits.map((val) => val.id);
-  console.log("Printing organisation units");
-  console.log(orgUnitIds);
+  // console.log("Printing organisation units");
+  // console.log(orgUnitIds);
   const orgUnitData = {};
 
   if (data) {
@@ -168,9 +168,9 @@ export function getDataPerOrgUnits(orgUnits, data) {
         );
       });
     }
-    console.log("Printing out districts data");
-    console.log(orgUnitData);
-    console.log(Object.keys(orgUnitData));
+    // console.log("Printing out districts data");
+    // console.log(orgUnitData);
+    // console.log(Object.keys(orgUnitData));
   }
   return orgUnitData;
 }
@@ -182,8 +182,8 @@ export function getOrgUnitDataTotalsNoRenaming(orgUnits, data) {
     orgUnitDataTotals[key] = processOrgDataTotal(value);
   });
 
-  console.log("Printing org unit data totals");
-  console.log(orgUnitDataTotals);
+  // console.log("Printing org unit data totals");
+  // console.log(orgUnitDataTotals);
 }
 
 export function getOrgUnitDataTotals(orgUnits, data) {
@@ -193,8 +193,8 @@ export function getOrgUnitDataTotals(orgUnits, data) {
     orgUnitDataTotals[key] = processOrgDataTotal(value);
   });
 
-  console.log("Printing org unit data totals");
-  console.log(orgUnitDataTotals);
+  // console.log("Printing org unit data totals");
+  // console.log(orgUnitDataTotals);
 
   const orgUnitDataTotalsRenamed = {};
   Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
@@ -205,8 +205,8 @@ export function getOrgUnitDataTotals(orgUnits, data) {
     orgUnitDataTotalsRenamed[orgUnitName] = value;
   });
 
-  console.log("Printing org unit data totals with formatted names");
-  console.log(orgUnitDataTotalsRenamed);
+  // console.log("Printing org unit data totals with formatted names");
+  // console.log(orgUnitDataTotalsRenamed);
 
   return orgUnitDataTotalsRenamed;
 }
@@ -245,8 +245,8 @@ export function getOrgUnitDataPercentageChanges(orgUnits, data) {
   Object.entries(orgUnitData).forEach(([key, value]) => {
     orgUnitDataPercentages[key] = processOrgUnitDataPercent(value);
   });
-  console.log("Printing org unit data percentages");
-  console.log(orgUnitDataPercentages);
+  // console.log("Printing org unit data percentages");
+  // console.log(orgUnitDataPercentages);
 
   const orgUnitDataPercentagesRenamed = {};
   Object.entries(orgUnitDataPercentages).forEach(([key, value]) => {
@@ -257,8 +257,8 @@ export function getOrgUnitDataPercentageChanges(orgUnits, data) {
     orgUnitDataPercentagesRenamed[orgUnitName] = value;
   });
 
-  console.log("Printing org unit data percentages named");
-  console.log(orgUnitDataPercentagesRenamed);
+  // console.log("Printing org unit data percentages named");
+  // console.log(orgUnitDataPercentagesRenamed);
 
   return orgUnitDataPercentagesRenamed;
 }

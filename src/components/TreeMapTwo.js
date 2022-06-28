@@ -43,6 +43,7 @@ const TreeMapTwo = observer(({ data, loading, error, parent }) => {
           outsidetextfont: { size: 20, color: "#377eb8" },
           marker: { line: { width: 2 } },
           pathbar: { visible: false },
+          colorscale: "Blues",
         },
       ]}
       layout={{

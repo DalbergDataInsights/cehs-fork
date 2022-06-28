@@ -68,16 +68,32 @@ const Controlls = () => {
                       {variableGroup != "ALL"
                         ? indicatorMeta
                             .filter((i) => i.group == variableGroup)
-                            .map((i) => (
+                            .map((i) =>
+                              i.function == "single" ? (
+                                <Option key={i.id} value={i.key}>
+                                  {i.displayName}
+                                </Option>
+                              ) : (
+                                <Option
+                                  key={i.id}
+                                  value={i.key}
+                                  disabled={true}
+                                >
+                                  {i.displayName}
+                                </Option>
+                              )
+                            )
+                        : indicatorMeta.map((i) =>
+                            i.function == "single" ? (
                               <Option key={i.id} value={i.key}>
                                 {i.displayName}
                               </Option>
-                            ))
-                        : indicatorMeta.map((i) => (
-                            <Option key={i.id} value={i.key}>
-                              {i.displayName}
-                            </Option>
-                          ))}
+                            ) : (
+                              <Option key={i.id} value={i.key} disabled={true}>
+                                {i.displayName}
+                              </Option>
+                            )
+                          )}
                     </Select>
                   </Col>
                 </Row>

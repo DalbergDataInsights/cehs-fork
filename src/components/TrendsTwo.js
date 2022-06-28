@@ -68,8 +68,8 @@ const TrendsTwo = () => {
     districtLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  console.log(districtLevelData);
-  console.log(store.selectedVariable);
+  // console.log(districtLevelData);
+  // console.log(store.selectedVariable);
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
@@ -88,14 +88,14 @@ const TrendsTwo = () => {
     facilityLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  console.log(facilityLevelData);
+  // console.log(facilityLevelData);
 
   return (
     <div id="ds-paginator">
       <VisualizationHeader
         icon="analytics"
         title="Trends analysis over time, across districts and health facilities"
-        subTitle="Continuity of Essential Health Services"
+        subTitle="Health Insights and Visualization for Essential Health Services"
       />
       <LineVisualizationTwo
         data={districtLevelData}
