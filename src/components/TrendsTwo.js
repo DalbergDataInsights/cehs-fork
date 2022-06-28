@@ -95,7 +95,7 @@ const TrendsTwo = () => {
       <VisualizationHeader
         icon="analytics"
         title="Trends analysis over time, across districts and health facilities"
-        subTitle="Continuity of Essential Health Services"
+        subTitle="Health Insights and Visualization for Essential Health Services"
       />
       <LineVisualizationTwo
         data={districtLevelData}

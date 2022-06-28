@@ -11,7 +11,7 @@ const ReportsTwo = () => {
       <VisualizationHeader
         icon="center_focus_weak"
         title="Quality of the reporting of health facilities across districts"
-        subTitle="Continuity of Essential Health Services"
+        subTitle="Health Insights and Visualization for Essential Health Services"
       />
       {<div>Under development</div>}
     </div>
