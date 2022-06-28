@@ -74,7 +74,11 @@ const Controlls = () => {
                                   {i.displayName}
                                 </Option>
                               ) : (
-                                <Option key={i.id} value="disabled" disabled>
+                                <Option
+                                  key={i.id}
+                                  value={i.key}
+                                  disabled={true}
+                                >
                                   {i.displayName}
                                 </Option>
                               )
@@ -85,7 +89,7 @@ const Controlls = () => {
                                 {i.displayName}
                               </Option>
                             ) : (
-                              <Option key={i.id} value="disabled" disabled>
+                              <Option key={i.id} value={i.key} disabled={true}>
                                 {i.displayName}
                               </Option>
                             )
