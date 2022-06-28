@@ -1140,7 +1140,7 @@ const indicatorMeta = [
   {
     key: "2211",
     displayName:
-      "proportion of women who attend atleast one Postpartum check within 6 weeks ",
+      "Proportion of women who attend atleast one postpartum check within 6 weeks ",
     function: "ratio",
     numerator: { dataElementId: null, function: "nansum" },
     denominator: { dataElementId: null, function: "nansum" },
@@ -1290,7 +1290,7 @@ const indicatorMeta = [
   },
   {
     key: "2228",
-    displayName: "proportion of households with latrines ",
+    displayName: "Proportion of households with latrines",
     function: "ratio",
     numerator: { dataElementId: "vHwo9oXkDVA", function: "nansum" },
     denominator: { dataElementId: "lBNoFDQFSof", function: "nansum" },
@@ -1298,7 +1298,7 @@ const indicatorMeta = [
   },
   {
     key: "2229",
-    displayName: "proportion of households with Improved  latrines ",
+    displayName: "Proportion of households with Improved  latrines ",
     function: "ratio",
     numerator: { dataElementId: "spZ7lrYcxYZ", function: "nansum" },
     denominator: { dataElementId: "lBNoFDQFSof", function: "nansum" },
@@ -1306,7 +1306,7 @@ const indicatorMeta = [
   },
   {
     key: "2230",
-    displayName: "proportion of households with handwashing facilities ",
+    displayName: "Proportion of households with handwashing facilities ",
     function: "ratio",
     numerator: { dataElementId: "M6XkYkjhkAK", function: "nansum" },
     denominator: { dataElementId: "lBNoFDQFSof", function: "nansum" },
@@ -1314,7 +1314,7 @@ const indicatorMeta = [
   },
   {
     key: "2231",
-    displayName: "proportion of households with source safe drinking water  ",
+    displayName: "Proportion of households with source safe drinking water  ",
     function: "ratio",
     numerator: { dataElementId: "JG1RuXvH2KQ", function: "nansum" },
     denominator: { dataElementId: "lBNoFDQFSof", function: "nansum" },
@@ -1322,7 +1322,7 @@ const indicatorMeta = [
   },
   {
     key: "2232",
-    displayName: "proportion of households that are open defeacation free ",
+    displayName: "Proportion of households that are open defeacation free ",
     function: "ratio",
     numerator: { dataElementId: "V1ORAMjlUjS", function: "nansum" },
     denominator: { dataElementId: "lBNoFDQFSof", function: "nansum" },
@@ -1331,7 +1331,7 @@ const indicatorMeta = [
   {
     key: "2233",
     displayName:
-      "Proportion of sick Children 2 months – 5 years seen by VHTs with Diarrhoea in the community",
+      "Proportion of sick Children 2 months - 5 years seen by VHTs with Diarrhoea in the community",
     function: "ratio",
     numerator: { dataElementId: "GMSs1iHBP1B", function: "nansum" },
     denominator: { dataElementId: "lA61RMKevuI", function: "nansum" },
@@ -1412,7 +1412,7 @@ const indicatorMeta = [
   {
     key: "2242",
     displayName:
-      "Proportion  of Sick children 2 months – 5 years seen by VHT and treated within 24hrs for fever in the community",
+      "Proportion  of Sick children 2 months - 5 years seen by VHT and treated within 24hrs for fever in the community",
     function: "ratio",
     numerator: { dataElementId: null, function: "nansum" },
     denominator: { dataElementId: "ZPgTzBpXQtT", function: "nansum" },
@@ -1430,7 +1430,7 @@ const indicatorMeta = [
   {
     key: "2244",
     displayName:
-      "Proportion  of sick Children 2 months – 5 years with fast breathing / Pneumonia",
+      "Proportion  of sick Children 2 months - 5 years with fast breathing / Pneumonia",
     function: "ratio",
     numerator: { dataElementId: "um49t84MUlL", function: "nansum" },
     denominator: { dataElementId: "lA61RMKevuI", function: "nansum" },
@@ -1473,7 +1473,7 @@ const indicatorMeta = [
   },
   {
     key: "2249",
-    displayName: "Proportion of villages with Stock out of RDTs",
+    displayName: "Proportion of villages with stock out of RDTs",
     function: "ratio",
     numerator: { dataElementId: "xCPny2fq8Wj", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
@@ -1489,7 +1489,7 @@ const indicatorMeta = [
   },
   {
     key: "2251",
-    displayName: "Proportion of villages with Stock out of Amoxycillin",
+    displayName: "Proportion of villages with stock out of Amoxycillin",
     function: "ratio",
     numerator: { dataElementId: "crKmead9CLB", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
@@ -1513,46 +1513,46 @@ const indicatorMeta = [
   },
   {
     key: "2254",
-    displayName: "Proportion of villages with Stock out of Injectable DMPA",
+    displayName: "Proportion of villages with stock out of Injectable DMPA",
     function: "ratio",
     numerator: { dataElementId: "ONWYhq9LETF", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
-    group: "Family Planning",
+    group: "FP",
   },
   {
     key: "2255",
     displayName:
-      "Proportion of villages with stock out of Combined Oral Contraceptive",
+      "Proportion of villages with stock out of combined Oral Contraceptive",
     function: "ratio",
     numerator: { dataElementId: "hKb86qZzZQL", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
-    group: "Family Planning",
+    group: "FP",
   },
   {
     key: "2256",
-    displayName: "Proportion of villages with Stock out of Condoms",
+    displayName: "Proportion of villages with stock out of condoms",
     function: "ratio",
     numerator: { dataElementId: "FOPA1BKQx6b", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
-    group: "Family Planning",
+    group: "FP",
   },
   {
     key: "2257",
     displayName:
-      "Proportion of villages with\xa0 stock out of Progestin Only Pills",
+      "Proportion of villages with stock out of Progestin Only pills",
     function: "ratio",
     numerator: { dataElementId: "WGl14TNwoPO", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
-    group: "Family Planning",
+    group: "FP",
   },
   {
     key: "2258",
     displayName:
-      "Proportion of villages with stock out of Emergency Contraceptives",
+      "Proportion of villages with stock out of emergency contraceptives",
     function: "ratio",
     numerator: { dataElementId: "PIqQMpkfOEx", function: "nansum" },
     denominator: { dataElementId: "xCP0SCOn2ov", function: "nansum" },
-    group: "Family Planning",
+    group: "FP",
   },
   {
     key: "2259",
@@ -1566,7 +1566,7 @@ const indicatorMeta = [
   {
     key: "2260",
     displayName:
-      "Proportion of districts/     health facilities reached with messages on disability prevention and essential rehabilitation care services.",
+      "Proportion of districts/health facilities reached with messages on disability prevention and essential rehabilitation care services.",
     function: "ratio",
     numerator: { dataElementId: null, function: "nansum" },
     denominator: { dataElementId: null, function: "nansum" },
@@ -1584,7 +1584,7 @@ const indicatorMeta = [
   {
     key: "2262",
     displayName:
-      "Proportion of districts/       health facilities/workplaces  with and implementing occupational health and safety (OHS) plans.",
+      "Proportion of districts health facilities/workplaces with and implementing occupational health and safety (OHS) plans.",
     function: "ratio",
     numerator: { dataElementId: null, function: "nansum" },
     denominator: { dataElementId: null, function: "nansum" },
@@ -1593,7 +1593,7 @@ const indicatorMeta = [
   {
     key: "2263",
     displayName:
-      "Number/proportion of Health facilities/workers who have been oriented/trained on provision of services for health of older persons",
+      "Proportion of health facilities workers who have been oriented trained on provision of services for health of older persons",
     function: "ratio",
     numerator: { dataElementId: null, function: "nansum" },
     denominator: { dataElementId: null, function: "nansum" },
