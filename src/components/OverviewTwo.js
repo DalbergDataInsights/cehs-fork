@@ -118,7 +118,7 @@ const OverviewTwo = () => {
     <div id="ds-paginator">
       <VisualizationHeader
         icon="language"
-        title="Overview of WHO's 20 CEHS indicators"
+        title="Overview of WHO's CEHS indicators"
         subTitle="Continuity of Essential Health Services"
       />
       {loading && <div>Loading</div>}

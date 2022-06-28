@@ -68,8 +68,8 @@ const TrendsTwo = () => {
     districtLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  console.log(districtLevelData);
-  console.log(store.selectedVariable);
+  // console.log(districtLevelData);
+  // console.log(store.selectedVariable);
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
@@ -88,7 +88,7 @@ const TrendsTwo = () => {
     facilityLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  console.log(facilityLevelData);
+  // console.log(facilityLevelData);
 
   return (
     <div id="ds-paginator">
