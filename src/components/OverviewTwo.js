@@ -47,7 +47,7 @@ const OverviewTwo = () => {
     (i) => i.displayName
   );
 
-  console.log(overviewIndicatorsIds);
+  // console.log(overviewIndicatorsIds);
 
   const nationalQuery = useDataQuery(myQuery, {
     variables: {
@@ -77,9 +77,9 @@ const OverviewTwo = () => {
         );
       });
     }
-    console.log("Printing out indicator data");
-    console.log(indicatorData);
-    console.log(Object.keys(indicatorData));
+    // console.log("Printing out indicator data");
+    // console.log(indicatorData);
+    // console.log(Object.keys(indicatorData));
   }
 
   const indicatorDataTotals = {};
@@ -92,11 +92,11 @@ const OverviewTwo = () => {
     indicatorDataPercentages[key] = processOrgUnitDataPercent(value);
   });
 
-  console.log("Printing indicator data totals");
-  console.log(indicatorDataTotals);
+  // console.log("Printing indicator data totals");
+  // console.log(indicatorDataTotals);
 
-  console.log("Printing indicator data percentages");
-  console.log(indicatorDataPercentages);
+  // console.log("Printing indicator data percentages");
+  // console.log(indicatorDataPercentages);
 
   const overview = [];
   if (Object.entries(indicatorDataTotals)) {
@@ -111,8 +111,8 @@ const OverviewTwo = () => {
     }
   }
 
-  console.log("Printing overview");
-  console.log(overview);
+  // console.log("Printing overview");
+  // console.log(overview);
 
   return (
     <div id="ds-paginator">

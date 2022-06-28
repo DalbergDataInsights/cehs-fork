@@ -23,25 +23,25 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
   const variableObject = indicatorMeta.filter(
     (i) => i.numerator.key == store.selectedVariable
   )[0];
-  console.log("Printing the variable object");
+  // console.log("Printing the variable object");
   const displayName = "";
   if (variableObject) {
-    console.log(variableObject);
+    // console.log(variableObject);
     console.log(`Display name: ${variableObject.displayName}`);
     displayName = variableObject.displayName;
   }
 
-  console.log("Map");
-  console.log(data);
+  // console.log("Map");
+  // console.log(data);
 
   const districtDataTotals = getOrgUnitDataTotals(store.districts, data);
-  console.log(districtDataTotals);
+  // console.log(districtDataTotals);
 
   const districtDataPercentages = getOrgUnitDataPercentageChanges(
     store.districts,
     data
   );
-  console.log(districtDataPercentages);
+  // console.log(districtDataPercentages);
 
   const dataViz =
     maptype == "total"
