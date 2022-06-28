@@ -10,6 +10,7 @@ import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
+import TreeMapVisualization from "./TreeMapVisualization";
 
 const myQuery = {
   results: {
@@ -70,6 +71,25 @@ const TrendsTwo = () => {
   console.log(districtLevelData);
   console.log(store.selectedVariable);
 
+  const facilityQuery = useDataQuery(myQuery, {
+    variables: {
+      variableId: variableId,
+      period: period,
+      orgLevel: "LEVEL-5",
+    },
+  });
+
+  const facilityLevelData = facilityQuery.data;
+  const facilityLevelError = facilityQuery.error;
+  const facilityLevelLoading = facilityQuery.loading;
+  const facilityLevelRefetch = facilityQuery.refetch;
+
+  useEffect(() => {
+    facilityLevelRefetch({ variableId: variableId, period: period });
+  }, [variableId, period]);
+
+  console.log(facilityLevelData);
+
   return (
     <div id="ds-paginator">
       <VisualizationHeader
@@ -105,6 +125,11 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"district"}
+      />
+      <TreeMapVisualization
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
       />
     </div>
   );

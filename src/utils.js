@@ -175,6 +175,17 @@ export function getDataPerOrgUnits(orgUnits, data) {
   return orgUnitData;
 }
 
+export function getOrgUnitDataTotalsNoRenaming(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = processOrgDataTotal(value);
+  });
+
+  console.log("Printing org unit data totals");
+  console.log(orgUnitDataTotals);
+}
+
 export function getOrgUnitDataTotals(orgUnits, data) {
   const orgUnitData = getDataPerOrgUnits(orgUnits, data);
   const orgUnitDataTotals = {};
