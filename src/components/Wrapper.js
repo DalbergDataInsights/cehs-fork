@@ -12,6 +12,7 @@ import { ThreeLines } from "./ThreeLines";
 import Trends from "./Trends";
 import { loadDefaults } from "../Query";
 import TrendsTwo from "./TrendsTwo";
+import OverviewTwo from "./OverviewTwo";
 
 const antIcon = (
   <LoadingOutlined style={{ fontSize: 32, color: "#225E8C" }} spin />
@@ -49,7 +50,7 @@ const Wrapper = () => {
             <div style={{ flex: 1, overflow: "auto" }}>
               <Switch>
                 <Route path="/overview">
-                  <Overview />
+                  <OverviewTwo />
                 </Route>
                 <Route path="/reports">
                   <Reports />
