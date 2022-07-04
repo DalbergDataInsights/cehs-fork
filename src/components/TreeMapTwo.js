@@ -43,9 +43,12 @@ const TreeMapTwo = observer(({ data, loading, error, parent }) => {
           textinfo: "label+value+percent",
           // domain: { x: [0, 0.48] },
           outsidetextfont: { size: 20, color: "#377eb8" },
-          marker: { line: { width: 2 } },
+          marker: {
+            line: { width: 2 },
+            marker: { cmin: "rgb(184, 190, 200)", cmax: "rgb(255, 0, 0)" },
+          },
           pathbar: { visible: false },
-          colorscale: "Blues",
+          // colorscale: `[[0, 'rgb(184,190,200)'], [1, 'rgb(255,0,0)']]`,
         },
       ]}
       layout={{

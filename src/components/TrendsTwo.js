@@ -51,6 +51,9 @@ const TrendsTwo = () => {
   }
   console.log(`Variable Id: ${variableId}`);
 
+  const displayName =
+    variableObject !== undefined ? variableObject.displayName : "";
+
   const districtQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
@@ -110,6 +113,7 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"total"}
+        displayName={displayName}
       />
 
       <MapVisualizationTwo
@@ -117,6 +121,7 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"percentage"}
+        displayName={displayName}
       />
 
       <LineVisualizationTwo
