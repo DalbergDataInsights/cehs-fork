@@ -26,35 +26,13 @@ const MapVisualizationTwo = ({
   console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
   console.log(periods);
-  // const variableObject = indicatorMeta.filter(
-  //   (i) => i.numerator.key == store.selectedVariable
-  // )[0];
-  // console.log("Printing the variable object");
-  // const displayName = "";
-  // if (variableObject) {
-  //   // console.log(variableObject);
-  //   console.log(`Display name: ${variableObject.displayName}`);
-  //   displayName = variableObject.displayName;
-  // }
-
-  // console.log("Map");
-  // console.log(data);
-
-  // const districtDataTotals = getOrgUnitDataTotals(store.districts, data);
-  // // console.log(districtDataTotals);
-
-  // const districtDataPercentages = getOrgUnitDataPercentageChanges(
-  //   store.districts,
-  //   data
-  // );
-  // console.log(districtDataPercentages);
 
   const dataViz =
     maptype == "total"
       ? getOrgUnitDataTotals(store.districts, data)
       : getOrgUnitDataPercentageChanges(store.districts, data);
 
-  const colorScaleValue = maptype == "total" ? "Blues" : "Bluered";
+  const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
   return (
