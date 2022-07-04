@@ -137,6 +137,7 @@ const TrendsTwo = () => {
         data={facilityLevelData}
         loading={facilityLevelLoading}
         error={facilityLevelError}
+        displayName={displayName}
       />
 
       <LineVisualizationTwo
