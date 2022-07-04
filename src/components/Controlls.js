@@ -21,6 +21,9 @@ const Controlls = () => {
     ...new Set(indicatorMeta.map((val) => val.group)),
   ];
 
+  // add All option to the variable group list
+  variableGroupSetList.unshift("ALL") 
+
   console.log(store.period);
 
   return (
