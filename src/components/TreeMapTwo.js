@@ -40,14 +40,14 @@ const TreeMapTwo = observer(({ data, loading, error, parent }) => {
             .map((v) => v[0])
             .map((val) => facilitiesMeta[val]),
           values: sortedData.slice(0, 50).map((v) => v[1]),
-
           // textinfo: "label+value+percent parent+percent entry",
-          textinfo: "label+value+percent",
+          textinfo: "label+value+percent parent+percent",
           // domain: { x: [0, 0.48] },
           outsidetextfont: { size: 20, color: "#377eb8" },
           marker: {
             line: { width: 2 },
-            marker: { cmin: "rgb(184, 190, 200)", cmax: "rgb(255, 0, 0)" },
+            colorscale: "Blues",
+            reversescale: true,
           },
           pathbar: { visible: false },
         },
