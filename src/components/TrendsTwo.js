@@ -106,6 +106,7 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"country"}
+        displayName={displayName}
       />
 
       <MapVisualizationTwo
@@ -130,6 +131,7 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"district"}
+        displayName={displayName}
       />
       <TreeMapVisualization
         data={facilityLevelData}
@@ -143,6 +145,7 @@ const TrendsTwo = () => {
         error={facilityLevelError}
         processor={processCountryData}
         level={"facility"}
+        displayName={displayName}
       />
     </div>
   );
