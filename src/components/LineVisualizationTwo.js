@@ -12,117 +12,106 @@ import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import facilitiesMeta from "../config/Facilities";
 
-const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
+const LineVisualizationTwo = ({
+  data,
+  loading,
+  error,
+  processor,
+  level,
+  displayName,
+}) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  console.log(periods);
-  const variableObject = indicatorMeta.filter(
-    (i) => i.key == store.selectedVariable
-  )[0];
-  console.log(`Variable object: ${variableObject}`);
+  // console.log(periods);
+
   console.log(`Selected district: ${store.selectedDistrict}`);
+
+  const districts = store.districts;
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
   console.log(districtName);
 
-  let processedData = null;
+  const selectedDistrict = store.selectedDistrict;
 
-  if (data) {
-    if (data["results"]["rows"]) {
-      processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
-      // console.log(processedData);
+  let dataViz = null;
+  let processedData = null;
+  let selectedDistrictData = null;
+  let facilitiesDataDict = {};
+  let facilityName = "";
+  let facility = null;
+  let districtFacilitiesData = null;
+
+  if (level == "country") {
+    if (data) {
+      if (data["results"]["rows"]) {
+        processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
+      }
     }
   }
 
   // ================================================================================
-  const districts = store.districts;
-  const districtIds = districts.map((val) => val.id); // Getting the ids for each district
-  // console.log("Printing organisation units");
-  // console.log(districtIds);
-  const districtData = {};
-  if (data) {
-    if (data["results"]["rows"]) {
-      districtIds.map((id) => {
-        districtData[`${id}`] = data["results"]["rows"].filter(
+  if (level == "district") {
+    const districtIds = districts.map((val) => val.id);
+    const districtData = {};
+    if (data) {
+      if (data["results"]["rows"]) {
+        districtIds.map((id) => {
+          districtData[`${id}`] = data["results"]["rows"].filter(
+            (val) => val[1] == id
+          );
+        });
+      }
+    }
+    selectedDistrictData = districtData[store.selectedDistrict];
+  }
+
+  // ===========================
+
+  if (level == "facility") {
+    const districtFacilities =
+      districtFacilitiesMeta[selectedDistrict]["facility_ids"];
+
+    if (data) {
+      if (data["results"]["rows"]) {
+        districtFacilitiesData = data["results"]["rows"].filter((val) =>
+          districtFacilities.includes(val[1])
+        );
+      }
+    }
+
+    if (districtFacilitiesData) {
+      districtFacilities.map((id) => {
+        facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
           (val) => val[1] == id
         );
       });
     }
-    // console.log("Printing out districts data");
-    // console.log(districtData);
-    // console.log(Object.keys(districtData));
-  }
 
-  const selectedDistrictData = districtData[store.selectedDistrict];
-  // console.log(`Data for this district: ${store.selectedDistrict}`);
-  // console.log(selectedDistrictData);
-
-  // ===========================
-  const selectedDistrict = store.selectedDistrict;
-  const districtFacilities =
-    districtFacilitiesMeta[selectedDistrict]["facility_ids"];
-
-  // console.log("District facilities");
-  // console.log(districtFacilities);
-  // console.log(data);
-
-  let districtFacilitiesData = null;
-  if (data) {
-    if (data["results"]["rows"]) {
-      districtFacilitiesData = data["results"]["rows"].filter((val) =>
-        districtFacilities.includes(val[1])
-      );
-    }
-  }
-
-  // console.log("Printing out data from the facilities in the district only");
-  // console.log(districtFacilitiesData);
-
-  // Create a dictionary for the facilities and their data
-  const facilitiesDataDict = {};
-  if (districtFacilitiesData) {
-    districtFacilities.map((id) => {
-      facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
-        (val) => val[1] == id
-      );
+    // Now with the facility raw data for the facilities in the district
+    // Get the totals per facility
+    const facilitiesDataTotals = {};
+    Object.entries(facilitiesDataDict).forEach(([key, value]) => {
+      facilitiesDataTotals[key] = processOrgDataTotal(value);
     });
 
-    // console.log("Printing out data for each facility");
-    // console.log(facilitiesDataDict);
-    // console.log(Object.keys(facilitiesDataDict));
+    const sortedData = sortDictionary(facilitiesDataTotals);
+    facility = sortedData.slice(0, 1).map((v) => v[0])[0];
+    facilityName = facilitiesMeta[facility];
   }
 
-  // Now with the facility raw data for the facilities in the district
-  // Get the totals per facility
-  const facilitiesDataTotals = {};
-  Object.entries(facilitiesDataDict).forEach(([key, value]) => {
-    facilitiesDataTotals[key] = processOrgDataTotal(value);
-  });
-
-  // console.log("Printing out the totals from facilities");
-  // console.log(facilitiesDataTotals);
-
-  // Now to process the facility data to get things for the Line visualization
-  // Select the zeroth facility for now   TODO : Need to change this - Just gives a ZERO.
-  // Not all facilities report.
-  // console.log("Printing out data for a specific facility");
-  // console.log(facilitiesDataDict[districtFacilities[0]]);
-  const sortedData = sortDictionary(facilitiesDataTotals);
-  const facility = sortedData.slice(0, 1).map((v) => v[0])[0];
-  // console.log(facilitiesDataDict[facility]);
-
-  const facilityName = facilitiesMeta[facility];
-
   // ======================================================================
-  const dataViz =
+  dataViz =
     level == "country"
       ? processedData
       : level == "district"
-      ? processOrgRawDataToTimeSeries(selectedDistrictData)
-      : processOrgRawDataToTimeSeries(facilitiesDataDict[facility]);
+      ? selectedDistrictData !== undefined &&
+        processOrgRawDataToTimeSeries(selectedDistrictData)
+      : facilitiesDataDict !== {} &&
+        facility !== null &&
+        processOrgRawDataToTimeSeries(facilitiesDataDict[facility]);
 
   return (
     <>
@@ -140,12 +129,12 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
                     ""
                   )}
                   what="Overview:"
-                  indicatorDescription={variableObject.displayName}
+                  indicatorDescription={displayName}
                   level="Across the country"
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Total number of ${variableObject.displayName} across the country`}</h5>
+                    <h5>{`Total number of ${displayName} across the country`}</h5>
                   </Col>
                 </Row>
               </>
@@ -160,12 +149,12 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
                     ""
                   )}
                   what={`Deep-dive in ${districtName}`}
-                  indicatorDescription={variableObject.displayName}
+                  indicatorDescription={displayName}
                   level=""
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Total number of ${variableObject.displayName} in ${districtName}`}</h5>
+                    <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
                   </Col>
                 </Row>
               </>
@@ -174,7 +163,7 @@ const LineVisualizationTwo = ({ data, loading, error, processor, level }) => {
             {level == "facility" && (
               <Row style={{ marginBottom: 20 }}>
                 <Col className="graph">
-                  <h5>{`Evolution of number of ${variableObject.displayName} in ${facilityName}`}</h5>
+                  <h5>{`Evolution of number of ${displayName} in ${facilityName}`}</h5>
                 </Col>
               </Row>
             )}

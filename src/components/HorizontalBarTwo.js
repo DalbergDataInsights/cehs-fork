@@ -5,7 +5,8 @@ import { sortDictionary } from "../utils";
 const HorizontalBarTwo = ({ data, type }) => {
   const sorted = sortDictionary(data);
   const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
-  const colorScaleValue = "rgb(0,0,255)";
+  // const colorScaleValue = "rgb(0,0,255)";
+  const colorScaleValue = "rgb(33,102,172)";
 
   return (
     <Plot

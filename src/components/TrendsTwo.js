@@ -51,6 +51,9 @@ const TrendsTwo = () => {
   }
   console.log(`Variable Id: ${variableId}`);
 
+  const displayName =
+    variableObject !== undefined ? variableObject.displayName : "";
+
   const districtQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
@@ -103,6 +106,7 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"country"}
+        displayName={displayName}
       />
 
       <MapVisualizationTwo
@@ -110,6 +114,7 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"total"}
+        displayName={displayName}
       />
 
       <MapVisualizationTwo
@@ -117,6 +122,7 @@ const TrendsTwo = () => {
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"percentage"}
+        displayName={displayName}
       />
 
       <LineVisualizationTwo
@@ -125,11 +131,13 @@ const TrendsTwo = () => {
         error={districtLevelError}
         processor={processCountryData}
         level={"district"}
+        displayName={displayName}
       />
       <TreeMapVisualization
         data={facilityLevelData}
         loading={facilityLevelLoading}
         error={facilityLevelError}
+        displayName={displayName}
       />
 
       <LineVisualizationTwo
@@ -138,6 +146,7 @@ const TrendsTwo = () => {
         error={facilityLevelError}
         processor={processCountryData}
         level={"facility"}
+        displayName={displayName}
       />
     </div>
   );

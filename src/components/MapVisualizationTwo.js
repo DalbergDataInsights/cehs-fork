@@ -15,40 +15,24 @@ import { Select } from "antd";
 import { onPercentageOptionChange } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 
-const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
+const MapVisualizationTwo = ({
+  data,
+  loading,
+  error,
+  maptype,
+  displayName,
+}) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  console.log(periods);
-  const variableObject = indicatorMeta.filter(
-    (i) => i.numerator.key == store.selectedVariable
-  )[0];
-  // console.log("Printing the variable object");
-  const displayName = "";
-  if (variableObject) {
-    // console.log(variableObject);
-    console.log(`Display name: ${variableObject.displayName}`);
-    displayName = variableObject.displayName;
-  }
-
-  // console.log("Map");
-  // console.log(data);
-
-  const districtDataTotals = getOrgUnitDataTotals(store.districts, data);
-  // console.log(districtDataTotals);
-
-  const districtDataPercentages = getOrgUnitDataPercentageChanges(
-    store.districts,
-    data
-  );
-  // console.log(districtDataPercentages);
+  // console.log(periods);
 
   const dataViz =
     maptype == "total"
       ? getOrgUnitDataTotals(store.districts, data)
       : getOrgUnitDataPercentageChanges(store.districts, data);
 
-  const colorScaleValue = maptype == "total" ? "Blues" : "Bluered";
+  const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
   return (
@@ -116,7 +100,8 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                       layout={{
                         mapbox: {
                           style: "open-street-map",
-                          center: { lon: 32.8, lat: 1.5 },
+                          // center: { lon: 32.8, lat: 1.5 },
+                          center: { lon: 32.3, lat: 1.3 },
                           zoom: 5.8,
                         },
                         autosize: true,
@@ -127,10 +112,11 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                           l: 0,
                           b: 0,
                         },
+                        dragMode: false,
                       }}
                       useResizeHandler={true}
                       style={{ width: "100%", height: "100%" }}
-                      config={{ displayModeBar: false }}
+                      config={{ displayModeBar: false, scrollZoom: false }}
                     />
                   </Col>
                 </Row>

@@ -24,7 +24,7 @@ import districtFacilitiesMeta from "../config/DistrictFacilities";
 import { sortDictionary } from "../utils";
 import TreeMapTwo from "./TreeMapTwo";
 
-const TreeMapVisualization = ({ data, loading, error }) => {
+const TreeMapVisualization = ({ data, loading, error, displayName }) => {
   const store = useStore($store);
   const variableId = store.selectedVariable;
   const period = store.period;
@@ -44,16 +44,16 @@ const TreeMapVisualization = ({ data, loading, error }) => {
   // console.log(districtFacilities);
   // console.log(data);
 
-  const variableObject = indicatorMeta.filter(
-    (i) => i.numerator.key == store.selectedVariable
-  )[0];
-  console.log("Printing the variable object");
-  const displayName = "";
-  if (variableObject) {
-    console.log(variableObject);
-    console.log(`Display name: ${variableObject.displayName}`);
-    displayName = variableObject.displayName;
-  }
+  // const variableObject = indicatorMeta.filter(
+  //   (i) => i.numerator.key == store.selectedVariable
+  // )[0];
+  // console.log("Printing the variable object");
+  // const displayName = "";
+  // if (variableObject) {
+  //   console.log(variableObject);
+  //   console.log(`Display name: ${variableObject.displayName}`);
+  //   displayName = variableObject.displayName;
+  // }
 
   // Filter to get data for only facilities in the district
   // If the id in the raw data is in the list of ids for the facilities
@@ -109,9 +109,9 @@ const TreeMapVisualization = ({ data, loading, error }) => {
           <Col className="m-bot-24">
             <Row style={{ marginBottom: 20 }}>
               <Col className="graph">
-                <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} in ${store.period[0].format(
+                <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
-                )}`}</h5>
+                )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
               </Col>
             </Row>
             <Row style={{ marginBottom: 20 }}>

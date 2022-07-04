@@ -21,29 +21,35 @@ const TreeMapTwo = observer(({ data, loading, error, parent }) => {
     return <div>No Data</div>;
   }
 
-  console.log("Printing out the data to plot in tree map");
-  console.log(sortedData.slice(0, 10).map((v) => v[0]));
-  console.log(sortedData.slice(0, 10).map((v) => v[1]));
-  console.log(Array(10).fill(parent));
+  // console.log("Printing out the data to plot in tree map");
+  // console.log(sortedData.slice(0, 10).map((v) => v[0]));
+  // console.log(sortedData.slice(0, 10).map((v) => v[1]));
+  // console.log(Array(10).fill(parent));
 
   return (
     <Plot
       data={[
         {
           type: "treemap",
-          parents: Array(10).fill(parent),
+          // parents: Array(Object.keys(sortedData).length).fill(parent),
+          // labels: sortedData.map((v) => v[0]).map((val) => facilitiesMeta[val]),
+          // values: sortedData.map((v) => v[1]),
+          parents: Array(50).fill(parent),
           labels: sortedData
-            .slice(0, 10)
+            .slice(0, 50)
             .map((v) => v[0])
             .map((val) => facilitiesMeta[val]),
-          values: sortedData.slice(0, 10).map((v) => v[1]),
+          values: sortedData.slice(0, 50).map((v) => v[1]),
           // textinfo: "label+value+percent parent+percent entry",
-          textinfo: "label+value+percent",
+          textinfo: "label+value+percent parent+percent",
           // domain: { x: [0, 0.48] },
           outsidetextfont: { size: 20, color: "#377eb8" },
-          marker: { line: { width: 2 } },
+          marker: {
+            line: { width: 2 },
+            colorscale: "Blues",
+            reversescale: true,
+          },
           pathbar: { visible: false },
-          colorscale: "Blues",
         },
       ]}
       layout={{
