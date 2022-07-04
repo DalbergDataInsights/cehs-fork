@@ -116,7 +116,8 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                       layout={{
                         mapbox: {
                           style: "open-street-map",
-                          center: { lon: 32.8, lat: 1.5 },
+                          // center: { lon: 32.8, lat: 1.5 },
+                          center: { lon: 32.3, lat: 1.3 },
                           zoom: 5.8,
                         },
                         autosize: true,
@@ -127,10 +128,11 @@ const MapVisualizationTwo = ({ data, loading, error, maptype }) => {
                           l: 0,
                           b: 0,
                         },
+                        dragMode: false,
                       }}
                       useResizeHandler={true}
                       style={{ width: "100%", height: "100%" }}
-                      config={{ displayModeBar: false }}
+                      config={{ displayModeBar: false, scrollZoom: false }}
                     />
                   </Col>
                 </Row>
