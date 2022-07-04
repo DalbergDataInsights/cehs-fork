@@ -31,12 +31,14 @@ const TreeMapTwo = observer(({ data, loading, error, parent }) => {
       data={[
         {
           type: "treemap",
-          parents: Array(10).fill(parent),
-          labels: sortedData
-            .slice(0, 10)
-            .map((v) => v[0])
-            .map((val) => facilitiesMeta[val]),
-          values: sortedData.slice(0, 10).map((v) => v[1]),
+          parents: Array(Object.keys(sortedData).length).fill(parent),
+          // labels: sortedData
+          //   .slice(0, 10)
+          //   .map((v) => v[0])
+          //   .map((val) => facilitiesMeta[val]),
+          // values: sortedData.slice(0, 10).map((v) => v[1]),
+          labels: sortedData.map((v) => v[0]).map((val) => facilitiesMeta[val]),
+          values: sortedData.map((v) => v[1]),
           // textinfo: "label+value+percent parent+percent entry",
           textinfo: "label+value+percent",
           // domain: { x: [0, 0.48] },
