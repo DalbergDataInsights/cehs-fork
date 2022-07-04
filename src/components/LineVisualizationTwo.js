@@ -21,13 +21,10 @@ const LineVisualizationTwo = ({
   displayName,
 }) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  console.log(periods);
-  // const variableObject = indicatorMeta.filter(
-  //   (i) => i.key == store.selectedVariable
-  // )[0];
-  // console.log(`Variable object: ${variableObject}`);
+  // console.log(periods);
+
   console.log(`Selected district: ${store.selectedDistrict}`);
 
   const districts = store.districts;
@@ -45,6 +42,7 @@ const LineVisualizationTwo = ({
   let facilitiesDataDict = {};
   let facilityName = "";
   let facility = null;
+  let districtFacilitiesData = null;
 
   if (level == "country") {
     if (data) {
@@ -56,9 +54,7 @@ const LineVisualizationTwo = ({
 
   // ================================================================================
   if (level == "district") {
-    const districtIds = districts.map((val) => val.id); // Getting the ids for each district
-    // console.log("Printing organisation units");
-    // console.log(districtIds);
+    const districtIds = districts.map((val) => val.id);
     const districtData = {};
     if (data) {
       if (data["results"]["rows"]) {
@@ -68,14 +64,8 @@ const LineVisualizationTwo = ({
           );
         });
       }
-      // console.log("Printing out districts data");
-      // console.log(districtData);
-      // console.log(Object.keys(districtData));
     }
-
     selectedDistrictData = districtData[store.selectedDistrict];
-    // console.log(`Data for this district: ${store.selectedDistrict}`);
-    // console.log(selectedDistrictData);
   }
 
   // ===========================
@@ -84,11 +74,6 @@ const LineVisualizationTwo = ({
     const districtFacilities =
       districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
-    // console.log("District facilities");
-    // console.log(districtFacilities);
-    // console.log(data);
-
-    let districtFacilitiesData = null;
     if (data) {
       if (data["results"]["rows"]) {
         districtFacilitiesData = data["results"]["rows"].filter((val) =>
@@ -97,21 +82,12 @@ const LineVisualizationTwo = ({
       }
     }
 
-    // console.log("Printing out data from the facilities in the district only");
-    // console.log(districtFacilitiesData);
-
-    // Create a dictionary for the facilities and their data
-
     if (districtFacilitiesData) {
       districtFacilities.map((id) => {
         facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
           (val) => val[1] == id
         );
       });
-
-      // console.log("Printing out data for each facility");
-      // console.log(facilitiesDataDict);
-      // console.log(Object.keys(facilitiesDataDict));
     }
 
     // Now with the facility raw data for the facilities in the district
@@ -121,18 +97,8 @@ const LineVisualizationTwo = ({
       facilitiesDataTotals[key] = processOrgDataTotal(value);
     });
 
-    // console.log("Printing out the totals from facilities");
-    // console.log(facilitiesDataTotals);
-
-    // Now to process the facility data to get things for the Line visualization
-    // Select the zeroth facility for now   TODO : Need to change this - Just gives a ZERO.
-    // Not all facilities report.
-    // console.log("Printing out data for a specific facility");
-    // console.log(facilitiesDataDict[districtFacilities[0]]);
     const sortedData = sortDictionary(facilitiesDataTotals);
     facility = sortedData.slice(0, 1).map((v) => v[0])[0];
-    // console.log(facilitiesDataDict[facility]);
-
     facilityName = facilitiesMeta[facility];
   }
 
