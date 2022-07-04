@@ -23,9 +23,9 @@ const MapVisualizationTwo = ({
   displayName,
 }) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  console.log(periods);
+  // console.log(periods);
 
   const dataViz =
     maptype == "total"
