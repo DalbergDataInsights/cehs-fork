@@ -11,6 +11,8 @@ import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
 import TreeMapVisualization from "./TreeMapVisualization";
+import LineVisualizationTwoDistrict from "./LineVisualizationTwoDistrict";
+import LineVisualizationTwoFacility from "./LineVisualizationTwoFacility";
 
 const myQuery = {
   results: {
@@ -71,9 +73,6 @@ const TrendsTwo = () => {
     districtLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  // console.log(districtLevelData);
-  // console.log(store.selectedVariable);
-
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
@@ -91,8 +90,6 @@ const TrendsTwo = () => {
     facilityLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
-  // console.log(facilityLevelData);
-
   return (
     <div id="ds-paginator">
       <VisualizationHeader
@@ -108,7 +105,6 @@ const TrendsTwo = () => {
         level={"country"}
         displayName={displayName}
       />
-
       <MapVisualizationTwo
         data={districtLevelData}
         loading={districtLevelLoading}
@@ -125,7 +121,7 @@ const TrendsTwo = () => {
         displayName={displayName}
       />
 
-      <LineVisualizationTwo
+      <LineVisualizationTwoDistrict
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
@@ -140,7 +136,7 @@ const TrendsTwo = () => {
         displayName={displayName}
       />
 
-      <LineVisualizationTwo
+      <LineVisualizationTwoFacility
         data={facilityLevelData}
         loading={facilityLevelLoading}
         error={facilityLevelError}
