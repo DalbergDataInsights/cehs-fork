@@ -121,7 +121,7 @@ const LineVisualizationTwoFacility = ({
                 />
               </Col>
             </Row>
-            <Download />
+            <Download data={dataViz} />
           </Col>
         </Row>
       )}

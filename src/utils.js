@@ -79,7 +79,7 @@ export function processTitle(startDate, endDate, data, periodDescription = "") {
   const current = data[endDate] || 0;
   const previous = data[startDate] || 0;
   if (current !== 0) {
-    const change = Number((((current - previous) * 100) / current).toFixed(0));
+    const change = Number((((current - previous) * 100) / previous).toFixed(0));
 
     if (change < 0) {
       return `decreased by ${change * -1}% ${periodDescription}`;
@@ -109,13 +109,13 @@ export function monthsBetween(...args) {
 }
 
 export function transpose(data) {
-  if (data) {
+  if (data !== undefined && data.length > 0) {
     return data[0].map((x, i) => data.map((x) => x[i]));
   }
 }
 
 export function processOrgRawDataToTimeSeries(data) {
-  if (!data) {
+  if (!data || data === undefined) {
     return {};
   }
   let data_tranposed = transpose(data); // tranpose the data

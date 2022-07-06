@@ -123,7 +123,7 @@ const MapVisualizationTwo = ({
                     />
                   </Col>
                 </Row>
-                <Download data={dataViz}/>
+                <Download data={dataViz} />
               </Col>
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
@@ -131,7 +131,7 @@ const MapVisualizationTwo = ({
                     <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
-                <Download data={dataViz}/>
+                <Download data={dataViz} />
               </Col>
             </Row>
           )}

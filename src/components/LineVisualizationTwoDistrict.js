@@ -104,7 +104,7 @@ const LineVisualizationTwoDistrict = ({
                 />
               </Col>
             </Row>
-            <Download />
+            <Download data={dataViz} />
           </Col>
         </Row>
       )}
