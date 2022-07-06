@@ -130,7 +130,7 @@ const LineVisualizationTwo = ({
   //       facility !== null &&
   //       processOrgRawDataToTimeSeries(facilitiesDataDict[facility]);
 
-        return (
+  return (
     <>
       {loading && <Loading />}
       {!loading && dataViz && (
@@ -188,7 +188,7 @@ const LineVisualizationTwo = ({
                 />
               </Col>
             </Row>
-            <Download data={dataViz}/>
+            <Download data={dataViz} />
           </Col>
         </Row>
       )}
