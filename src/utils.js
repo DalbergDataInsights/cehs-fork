@@ -109,7 +109,7 @@ export function monthsBetween(...args) {
 }
 
 export function transpose(data) {
-  if (data !== undefined) {
+  if (data !== undefined && data.length > 0) {
     return data[0].map((x, i) => data.map((x) => x[i]));
   }
 }
