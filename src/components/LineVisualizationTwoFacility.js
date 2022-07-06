@@ -9,6 +9,7 @@ import {
   computeFacilityTimeSeries,
   processOrgDataTotal,
   processTitle,
+  getKeyByValue,
 } from "../utils";
 import Download from "./Download";
 import Loading from "./Loading";
@@ -38,7 +39,11 @@ const LineVisualizationTwoFacility = ({
     .map((ou) => ou.name)[0];
   console.log(districtName);
 
-  let facilityName = "";
+  let facilityName = store.currentFacility != "" ? store.currentFacility : "";
+  let facility =
+    store.currentFacility != ""
+      ? getKeyByValue(facilitiesMeta, store.currentFacility)
+      : "";
 
   const dataViz = useMemo(() => {
     if (level == "facility") {
@@ -55,13 +60,16 @@ const LineVisualizationTwoFacility = ({
       });
 
       const sortedData = sortDictionary(facilitiesDataTotals);
-      const facility = sortedData.slice(0, 1).map((v) => v[0])[0];
+      const myFacility =
+        facilityName == ""
+          ? sortedData.slice(0, 1).map((v) => v[0])[0]
+          : facility;
 
-      facilityName = facilitiesMeta[facility];
+      facilityName = facilitiesMeta[myFacility];
 
-      return processOrgRawDataToTimeSeries(facilitiesDataDict[facility]);
+      return processOrgRawDataToTimeSeries(facilitiesDataDict[myFacility]);
     }
-  }, [data, store.selectedDistrict]);
+  }, [data, store.selectedDistrict, facility]);
 
   return (
     <>

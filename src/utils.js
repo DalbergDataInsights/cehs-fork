@@ -359,3 +359,7 @@ export function computeFacilityTimeSeries(
 
   return facilitiesDataDict;
 }
+
+export function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value);
+}
