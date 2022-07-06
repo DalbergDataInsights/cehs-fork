@@ -72,10 +72,10 @@ const MapVisualizationTwo = ({
                   <Option value="1">
                     Compare month of interest and month of reference
                   </Option>
-                  <Option value="2">
+                  {/* <Option value="2">
                     Compare quarters averages, using the three months periods
                     ending on month of interest and month of reference
-                  </Option>
+                  </Option> */}
                 </Select>
               </Col>
             </Row>

@@ -98,11 +98,11 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
                     Show sum between month of reference and month of interest
                     period
                   </Option>
-                  <Option value="2">Show month of interest</Option>
+                  {/* <Option value="2">Show month of interest</Option>
                   <Option value="3">
                     Show average between month of reference and month of
                     interest period
-                  </Option>
+                  </Option> */}
                 </Select>
               </Col>
             </Row>
