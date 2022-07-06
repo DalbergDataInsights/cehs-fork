@@ -144,7 +144,7 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
                 />
               </Col>
             </Row>
-            <Download />
+            <Download data={facilitiesDataTotals}/>
           </Col>
         </Row>
       )}
