@@ -3,12 +3,21 @@ import { useStore } from "effector-react";
 import { $store } from "../models/Store";
 import Plot from "react-plotly.js";
 import Loading from "./Loading";
-import { sortDictionary } from "../utils";
+import { sortDictionary, getKeyByValue } from "../utils";
 import facilitiesMeta from "../config/Facilities";
+import { setCurrentFacility } from "../models/Events";
 
 const TreeMapTwo = ({ data, loading, error, parent }) => {
   const store = useStore($store);
   const sortedData = sortDictionary(data);
+
+  console.log(`Current facility: ${store.currentFacility}`);
+  const facilityId =
+    store.currentFacility !== ""
+      ? getKeyByValue(facilitiesMeta, store.currentFacility)
+      : "";
+
+  console.log(`Facility ID: ${facilityId}`);
 
   return (
     <>
@@ -53,7 +62,11 @@ const TreeMapTwo = ({ data, loading, error, parent }) => {
           useResizeHandler={true}
           style={{ width: "100%", height: "100%" }}
           config={{ displayModeBar: false }}
-          onClick={(val) => console.log(val)}
+          onClick={({ event, points }) => {
+            points !== undefined
+              ? setCurrentFacility(points[0]["label"])
+              : "point is undefined";
+          }}
         />
       )}
       {error && <div>{error.message}</div>}
