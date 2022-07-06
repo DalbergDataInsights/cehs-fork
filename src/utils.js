@@ -277,3 +277,85 @@ export function sortDictionary(data) {
     return [];
   }
 }
+
+export function computeCountryTimeSeries(data, level) {
+  let processedData = null;
+  if (level == "country") {
+    if (data) {
+      if (data["results"]["rows"]) {
+        processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
+      }
+    }
+  }
+  return processedData;
+}
+
+export function computeDistrictTimeSeries(
+  data,
+  districts,
+  level,
+  selectedDistrict
+) {
+  let selectedDistrictData = null;
+  let processedData = null;
+  if (level == "district") {
+    const districtIds = districts.map((val) => val.id);
+    let districtData = {};
+    if (data) {
+      if (data["results"]["rows"]) {
+        districtIds.map((id) => {
+          districtData[`${id}`] = data["results"]["rows"].filter(
+            (val) => val[1] == id
+          );
+        });
+      }
+    }
+    selectedDistrictData = districtData[selectedDistrict];
+    processedData = processOrgRawDataToTimeSeries(selectedDistrictData);
+  }
+
+  return processedData;
+}
+
+export function computeFacilityTimeSeries(
+  data,
+  level,
+  districtFacilitiesMeta,
+  selectedDistrict
+) {
+  let facilitiesDataDict = {};
+  let facility = null;
+  let districtFacilitiesData = null;
+  let processedData = null;
+  if (level == "facility") {
+    const districtFacilities =
+      districtFacilitiesMeta[selectedDistrict]["facility_ids"];
+
+    if (data) {
+      if (data["results"]["rows"]) {
+        districtFacilitiesData = data["results"]["rows"].filter((val) =>
+          districtFacilities.includes(val[1])
+        );
+      }
+    }
+
+    if (districtFacilitiesData) {
+      districtFacilities.map((id) => {
+        facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+
+    // // Now with the facility raw data for the facilities in the district
+    // // Get the totals per facility
+    // const facilitiesDataTotals = {};
+    // Object.entries(facilitiesDataDict).forEach(([key, value]) => {
+    //   facilitiesDataTotals[key] = processOrgDataTotal(value);
+    // });
+
+    // const processedData = sortDictionary(facilitiesDataTotals);
+  }
+
+  return facilitiesDataDict;
+}

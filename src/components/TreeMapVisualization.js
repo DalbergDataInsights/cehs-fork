@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Select } from "antd";
 // import { useStore } from "../Context";
@@ -13,6 +13,7 @@ import { useStore } from "effector-react";
 import { $store } from "../models/Store";
 import { useDataQuery } from "@dhis2/app-runtime";
 import {
+  computeFacilityTimeSeries,
   monthsBetween,
   processCountryData,
   processDistrictData,
@@ -29,9 +30,6 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
   const variableId = store.selectedVariable;
   const period = store.period;
 
-  // console.log("Printing inside treemap visualization");
-  // console.log(data);
-
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
@@ -40,64 +38,38 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
   const districtFacilities =
     districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
-  // console.log("District facilities");
-  // console.log(districtFacilities);
-  // console.log(data);
-
-  // const variableObject = indicatorMeta.filter(
-  //   (i) => i.numerator.key == store.selectedVariable
-  // )[0];
-  // console.log("Printing the variable object");
-  // const displayName = "";
-  // if (variableObject) {
-  //   console.log(variableObject);
-  //   console.log(`Display name: ${variableObject.displayName}`);
-  //   displayName = variableObject.displayName;
-  // }
-
-  // Filter to get data for only facilities in the district
-  // If the id in the raw data is in the list of ids for the facilities
-  // include
-  let districtFacilitiesData = null;
-  if (data) {
-    if (data["results"]["rows"]) {
-      districtFacilitiesData = data["results"]["rows"].filter((val) =>
-        districtFacilities.includes(val[1])
-      );
+  const dataViz = useMemo(() => {
+    let districtFacilitiesData = null;
+    if (data) {
+      if (data["results"]["rows"]) {
+        districtFacilitiesData = data["results"]["rows"].filter((val) =>
+          districtFacilities.includes(val[1])
+        );
+      }
     }
-  }
 
-  // console.log("Printing out data from the facilities in the district only");
-  // console.log(districtFacilitiesData);
+    const facilitiesDataDict = computeFacilityTimeSeries(
+      data,
+      "facility",
+      districtFacilitiesMeta,
+      store.selectedDistrict
+    );
 
-  // Create a dictionary for the facilities and their data
-  const facilitiesDataDict = {};
-  if (districtFacilitiesData) {
-    districtFacilities.map((id) => {
-      facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
-        (val) => val[1] == id
-      );
+    if (districtFacilitiesData) {
+      districtFacilities.map((id) => {
+        facilitiesDataDict[`${id}`] = districtFacilitiesData.filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+
+    const facilitiesDataTotals = {};
+    Object.entries(facilitiesDataDict).forEach(([key, value]) => {
+      facilitiesDataTotals[key] = processOrgDataTotal(value);
     });
 
-    // console.log("Printing out data for each facility");
-    // console.log(facilitiesDataDict);
-    // console.log(Object.keys(facilitiesDataDict));
-  }
-
-  // Now with the facility raw data for the facilities in the district
-  // Get the totals per facility
-  const facilitiesDataTotals = {};
-  Object.entries(facilitiesDataDict).forEach(([key, value]) => {
-    facilitiesDataTotals[key] = processOrgDataTotal(value);
-  });
-
-  // console.log("Printing out the totals from facilities");
-  // console.log(facilitiesDataTotals);
-
-  console.log("Printing out data for a specific facility");
-  const sortedData = sortDictionary(facilitiesDataTotals);
-  const facility = sortedData.slice(0, 1).map((v) => v[0])[0];
-  // console.log(facilitiesDataDict[facility]);
+    return facilitiesDataTotals;
+  }, [data, store.selectedDistrict]);
 
   return (
     <>
@@ -137,7 +109,7 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <TreeMapTwo
-                  data={facilitiesDataTotals}
+                  data={dataViz}
                   loading={loading}
                   error={error}
                   parent={districtName}

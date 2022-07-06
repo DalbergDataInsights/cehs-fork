@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useStore } from "effector-react";
 import Plot from "react-plotly.js";
 import { Col, Row } from "react-bootstrap";
@@ -27,10 +27,13 @@ const MapVisualizationTwo = ({
   const periods = store.period.map((p) => p.format("YYYYMM"));
   // console.log(periods);
 
-  const dataViz =
-    maptype == "total"
-      ? getOrgUnitDataTotals(store.districts, data)
-      : getOrgUnitDataPercentageChanges(store.districts, data);
+  const dataViz = useMemo(() => {
+    if (maptype == "total") {
+      return getOrgUnitDataTotals(store.districts, data);
+    } else {
+      return getOrgUnitDataPercentageChanges(store.districts, data);
+    }
+  }, [data]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
