@@ -9,13 +9,6 @@ import facilitiesMeta from "../config/Facilities";
 const TreeMapTwo = ({ data, loading, error, parent }) => {
   const store = useStore($store);
   const sortedData = sortDictionary(data);
-  // const [figure, setFigure] = useState({
-  //   data: [],
-  //   layout: {},
-  //   frames: [],
-  //   config: {},
-  // });
-  console.log(this);
 
   return (
     <>
@@ -60,7 +53,7 @@ const TreeMapTwo = ({ data, loading, error, parent }) => {
           useResizeHandler={true}
           style={{ width: "100%", height: "100%" }}
           config={{ displayModeBar: false }}
-          // onUpdate={(val) => console.log(val)}
+          onClick={(val) => console.log(val)}
         />
       )}
       {error && <div>{error.message}</div>}
