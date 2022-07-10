@@ -363,3 +363,69 @@ export function computeFacilityTimeSeries(
 export function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
+
+export function objectToArray(obj) {
+  const res = [];
+  const keys = Object.keys(obj);
+  for (const key of keys) {
+    res.push([key, obj[key]]);
+  }
+  return res;
+}
+
+export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
+  // const orgUnitIds = orgUnits.map((val) => val.id);
+  // console.log("Printing organisation units");
+  // console.log(orgUnitIds);
+  const orgUnitData = {};
+
+  if (data) {
+    if (data["results"]["rows"]) {
+      orgUnitIds.map((id) => {
+        orgUnitData[`${id}`] = data["results"]["rows"].filter(
+          (val) => val[1] == id
+        );
+      });
+    }
+    // console.log("Printing out districts data");
+    // console.log(orgUnitData);
+    // console.log(Object.keys(orgUnitData));
+  }
+  return orgUnitData;
+}
+
+export function getOrgUnitDataTotalsTwo(orgUnitIds, data) {
+  const orgUnitData = getDataPerOrgUnitsTwo(orgUnitIds, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = processOrgDataTotal(value);
+  });
+
+  return orgUnitDataTotals;
+}
+
+export function computeReportingTotals(
+  facilitiesIdsList,
+  data,
+  districtFacilitiesMeta
+) {
+  const facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
+
+  console.log("Printing the data totals per facility");
+  console.log(facilitiesDataTotals);
+
+  const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
+  console.log(facilitiesDataTotalsArray);
+
+  const districtFacilitiesReportingTotals = {};
+  Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
+    districtFacilitiesReportingTotals[item] = facilitiesDataTotalsArray.filter(
+      (val) => districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
+    ).length;
+  });
+
+  console.log("Printing the proportions");
+  console.log(districtFacilitiesReportingTotals);
+
+  return districtFacilitiesReportingTotals;
+}
