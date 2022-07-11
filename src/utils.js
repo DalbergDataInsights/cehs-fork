@@ -1,4 +1,5 @@
 import { fromPairs } from "lodash";
+import { useMemo } from "react";
 const fig = {
   2018: "rgb(185, 221, 241)",
   2019: "rgb(106, 155, 195)",
@@ -508,4 +509,90 @@ export function computeReportingProportions(
     // dataViz = districtFacilitiesReportingTotalsRenamed;
     return districtFacilitiesReportingTotalsRenamed;
   }
+}
+
+export function filterStartPeriodEndPeriodData(data, periods) {
+  if (data && data["results"]["rows"]) {
+    const startPeriodData = data["results"]["rows"].filter(
+      (val) => val[2] == periods[0]
+    );
+
+    const startData = { results: { rows: startPeriodData } };
+
+    const endPeriodData = data["results"]["rows"].filter(
+      (val) => val[2] == periods[1]
+    );
+
+    const endData = { results: { rows: endPeriodData } };
+
+    return [startData, endData];
+  }
+}
+
+export function computeReportingPercentages(
+  data,
+  periods,
+  districtFacilitiesMeta,
+  districts
+) {
+  // Filter the out the data for periods
+  const filteredData = filterStartPeriodEndPeriodData(data, periods);
+
+  if (filteredData) {
+    console.log("Printing out the start period data");
+    console.log(filteredData[0]);
+
+    console.log("Printing out the end period data");
+    console.log(filteredData[1]);
+
+    const startReporting = computeReportingProportions(
+      filteredData[0],
+      "total",
+      districtFacilitiesMeta,
+      districts
+    );
+
+    // const startReporting = useMemo(() => {
+    //   return computeReportingProportions(
+    //     filteredData[0],
+    //     "total",
+    //     districtFacilitiesMeta,
+    //     districts
+    //   );
+    // }, [filteredData]);
+
+    const endReporting = computeReportingProportions(
+      filteredData[1],
+      "total",
+      districtFacilitiesMeta,
+      districts
+    );
+
+    // const endReporting = useMemo(() => {
+    //   return computeReportingProportions(
+    //     filteredData[1],
+    //     "total",
+    //     districtFacilitiesMeta,
+    //     districts
+    //   );
+    // }, [filteredData]);
+
+    console.log("Printing out the start reporting");
+    console.log(startReporting);
+
+    console.log("Printing out the end reporting");
+    console.log(endReporting);
+
+    const reportingPercentages = {};
+    Object.entries(startReporting).forEach(([key, value]) => {
+      reportingPercentages[key] =
+        ((endReporting[key] - startReporting[key]) / startReporting[key]) * 100;
+    });
+
+    console.log("Printing out reporting percetange changes");
+    console.log(reportingPercentages);
+    return reportingPercentages;
+  }
+
+  return;
 }

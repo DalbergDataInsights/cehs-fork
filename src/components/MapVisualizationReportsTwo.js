@@ -12,6 +12,8 @@ import {
   objectToArray,
   computeReportingTotals,
   computeReportingProportions,
+  computeReportingPercentages,
+  filterStartPeriodEndPeriodData,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBarTwo from "./HorizontalBarTwo";
@@ -82,8 +84,56 @@ const MapVisualizationReportsTwo = ({
         districtFacilitiesMeta,
         store.districts
       );
+    } else if (maptype == "percentage") {
+      // return computeReportingPercentages(
+      //   data,
+      //   periods,
+      //   districtFacilitiesMeta,
+      //   store.districts
+      // );
+      // Filter the out the data for periods
+      const filteredData = filterStartPeriodEndPeriodData(data, periods);
+      if (filteredData) {
+        console.log("Printing out the start period data");
+        console.log(filteredData[0]);
+
+        console.log("Printing out the end period data");
+        console.log(filteredData[1]);
+
+        const startReporting = computeReportingProportions(
+          filteredData[0],
+          "total",
+          districtFacilitiesMeta,
+          store.districts
+        );
+
+        const endReporting = computeReportingProportions(
+          filteredData[1],
+          "total",
+          districtFacilitiesMeta,
+          store.districts
+        );
+
+        console.log("Printing out the start reporting");
+        console.log(startReporting);
+
+        console.log("Printing out the end reporting");
+        console.log(endReporting);
+
+        const reportingPercentages = {};
+        Object.entries(startReporting).forEach(([key, value]) => {
+          reportingPercentages[key] = parseFloat(
+            ((endReporting[key] - startReporting[key]) / startReporting[key]) *
+              100
+          ).toFixed(2);
+        });
+
+        console.log("Printing out reporting percetange changes");
+        console.log(reportingPercentages);
+        return reportingPercentages;
+      }
     }
-  }, [data]);
+  }, [data, store.period]);
 
   // let facilitiesDataTotals = null;
 
@@ -164,7 +214,7 @@ const MapVisualizationReportsTwo = ({
   console.log("Printing data Viz");
   console.log(dataViz);
 
-  const colorScaleValue = maptype == "total" ? "Blues" : "Bluered";
+  const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
   return (
@@ -174,19 +224,19 @@ const MapVisualizationReportsTwo = ({
           <Row style={{ marginBottom: 20 }}>
             {maptype == "total" && (
               <Col className="graph">
-                <h5>{`Average proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
-                  "MMM-YYYY"
-                )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
-              </Col>
-            )}
-
-            {/* {maptype == "percentage" && (
-              <Col className="graph">
-                <h5>{`Percentage change in ${displayName} between ${store.period[0].format(
+                <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
-            )} */}
+            )}
+
+            {maptype == "percentage" && (
+              <Col className="graph">
+                <h5>{`Percentage change in proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                  "MMM-YYYY"
+                )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
+              </Col>
+            )}
           </Row>
 
           {/* {maptype == "percentage" && (
@@ -214,7 +264,7 @@ const MapVisualizationReportsTwo = ({
 
           {data && dataViz && (
             <Row>
-              <Col className="m-bot-24 p-3" xs={12}>
+              <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
                     <Plot
@@ -232,7 +282,7 @@ const MapVisualizationReportsTwo = ({
                       layout={{
                         mapbox: {
                           style: "open-street-map",
-                          center: { lon: 32.8, lat: 1.5 },
+                          center: { lon: 32.3, lat: 1.3 },
                           zoom: 5.8,
                         },
                         autosize: true,
@@ -243,6 +293,7 @@ const MapVisualizationReportsTwo = ({
                           l: 0,
                           b: 0,
                         },
+                        dragMode: false,
                       }}
                       useResizeHandler={true}
                       style={{ width: "100%", height: "100%" }}
@@ -252,14 +303,14 @@ const MapVisualizationReportsTwo = ({
                 </Row>
                 <Download />
               </Col>
-              {/* <Col className="m-bot-24 p-3" xs={6}>
+              <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
                     <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
                 <Download />
-              </Col> */}
+              </Col>
             </Row>
           )}
         </Col>
