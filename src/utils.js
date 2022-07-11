@@ -429,3 +429,83 @@ export function computeReportingTotals(
 
   return districtFacilitiesReportingTotals;
 }
+
+export function computeReportingProportions(
+  data,
+  maptype,
+  districtFacilitiesMeta,
+  districts
+) {
+  let facilitiesDataTotals = null;
+
+  const facilitiesIdsList =
+    data && data["results"]["rows"] !== undefined
+      ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
+      : [];
+
+  console.log("Printing the facilities ID list from raw data");
+  console.log(facilitiesIdsList);
+
+  // 1. Partition the raw data into a dict of facility id => raw data for facility.
+  // const facilitiesDataDict = {};
+  // if (data && data["results"]["rows"]) {
+  //   facilitiesIdsList.forEach(function (item, index) {
+  //     facilitiesDataDict[item] = data["results"]["rows"].filter(
+  //       (val) => val[1] == item
+  //     );
+  //   });
+  // }
+
+  // console.log("Printing the facilities per data dict");
+  // console.log(facilitiesDataDict);
+
+  const districtNumFacilities = {};
+  for (const [key, value] of Object.entries(districtFacilitiesMeta)) {
+    districtNumFacilities[key] = value["facility_ids"].length;
+  }
+
+  console.log("Printing the number of reporting facilities per district");
+  console.log(districtNumFacilities);
+
+  if (data && data["results"]["rows"] && maptype == "total") {
+    // if (data && maptype == "total") {
+    facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
+
+    console.log("Printing the data totals per facility");
+    console.log(facilitiesDataTotals);
+
+    const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
+    console.log("Printing facilities data totals array");
+    console.log(facilitiesDataTotalsArray);
+
+    const districtFacilitiesReportingTotals = {};
+    Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
+      districtFacilitiesReportingTotals[item] =
+        facilitiesDataTotalsArray.filter((val) =>
+          districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
+        ).length / districtNumFacilities[item];
+    });
+
+    console.log("Printing the proportions");
+    console.log(districtFacilitiesReportingTotals);
+
+    const districtFacilitiesReportingTotalsRenamed = {};
+    Object.entries(districtFacilitiesReportingTotals).forEach(
+      ([key, value]) => {
+        const districtName = districts
+          .filter((i) => i.id == key)
+          .map((ou) => ou.name)[0];
+
+        districtFacilitiesReportingTotalsRenamed[districtName] = parseFloat(
+          value.toFixed(2)
+        );
+      }
+    );
+
+    console.log("Printing the proportion of reporting facilites");
+    console.log(districtFacilitiesReportingTotalsRenamed);
+
+    // dataViz = districtFacilitiesReportingTotalsRenamed;
+    return districtFacilitiesReportingTotalsRenamed;
+  }
+}
