@@ -1,5 +1,6 @@
 import { fromPairs } from "lodash";
 import { useMemo } from "react";
+import facilitiesMeta from "./config/Facilities";
 const fig = {
   2018: "rgb(185, 221, 241)",
   2019: "rgb(106, 155, 195)",
@@ -58,6 +59,58 @@ export function processCountryData(data) {
 
   return years.map((year) => {
     const y = months.map((m) => parseInt(data[`${year}${m}`]));
+    return {
+      name: year,
+      x,
+      y,
+      hoverinfo: "x+y",
+      type: "scatter",
+      marker: {
+        color: fig[year],
+        size: 10,
+        symbol: "square",
+      },
+      line: {
+        width: 2,
+      },
+    };
+  });
+}
+
+export function processTimeSeriesDataDict(data) {
+  const years = ["2018", "2019", "2020", "2021"];
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+
+  const x = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return years.map((year) => {
+    const y = months.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
     return {
       name: year,
       x,
@@ -595,4 +648,27 @@ export function computeReportingPercentages(
   }
 
   return;
+}
+
+export function filterMonthlyYearlyData(data) {
+  if (data && data["results"]["rows"]) {
+    const yearsMonths = [
+      ...new Set(data["results"]["rows"].map((val) => val[2])),
+    ];
+
+    console.log(yearsMonths);
+
+    const yearsMonthsProportionsDict = {};
+    yearsMonths.map(
+      (val) =>
+        (yearsMonthsProportionsDict[val] =
+          data["results"]["rows"].filter((res) => res[2] == val).length /
+          Object.keys(facilitiesMeta).length)
+    );
+
+    console.log("Printing the proportion of reporting facilities");
+    console.log(yearsMonthsProportionsDict);
+
+    return yearsMonthsProportionsDict;
+  }
 }
