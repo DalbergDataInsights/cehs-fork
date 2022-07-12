@@ -174,7 +174,7 @@ const MapVisualizationReportsTwo = ({
           <Row style={{ marginBottom: 20 }}>
             {maptype == "total" && (
               <Col className="graph">
-                <h5>{`Average proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
               </Col>
@@ -214,7 +214,7 @@ const MapVisualizationReportsTwo = ({
 
           {data && dataViz && (
             <Row>
-              <Col className="m-bot-24 p-3" xs={12}>
+              <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
                     <Plot
@@ -232,7 +232,7 @@ const MapVisualizationReportsTwo = ({
                       layout={{
                         mapbox: {
                           style: "open-street-map",
-                          center: { lon: 32.8, lat: 1.5 },
+                          center: { lon: 32.3, lat: 1.3 },
                           zoom: 5.8,
                         },
                         autosize: true,
@@ -243,23 +243,24 @@ const MapVisualizationReportsTwo = ({
                           l: 0,
                           b: 0,
                         },
+                        dragMode: false,
                       }}
                       useResizeHandler={true}
                       style={{ width: "100%", height: "100%" }}
-                      config={{ displayModeBar: false }}
+                      config={{ displayModeBar: false, scrollZoom: false }}
                     />
                   </Col>
                 </Row>
                 <Download />
               </Col>
-              {/* <Col className="m-bot-24 p-3" xs={6}>
+              <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
                     <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
                 <Download />
-              </Col> */}
+              </Col>
             </Row>
           )}
         </Col>
