@@ -26,7 +26,14 @@ export function processMapData(data, districts, startMonth, endMonth) {
 }
 
 export function processCountryData(data) {
-  const years = ["2018", "2019", "2020", "2021"];
+  const yearList = Object.keys(data).map((val) => val.substr(0, 4));
+  console.log("Printing the list of years");
+  console.log(yearList);
+  const yearSet = new Set(yearList);
+  // const years = ["2018", "2019", "2020", "2021"];
+  const years = Array.from(yearSet);
+  console.log("Printing the years");
+  console.log(years);
   const months = [
     "01",
     "02",
@@ -59,6 +66,7 @@ export function processCountryData(data) {
 
   return years.map((year) => {
     const y = months.map((m) => parseInt(data[`${year}${m}`]));
+    // const yearColor = ? fig[year]:
     return {
       name: year,
       x,
@@ -66,7 +74,7 @@ export function processCountryData(data) {
       hoverinfo: "x+y",
       type: "scatter",
       marker: {
-        color: fig[year],
+        // color: fig[year],
         size: 10,
         symbol: "square",
       },
@@ -78,7 +86,15 @@ export function processCountryData(data) {
 }
 
 export function processTimeSeriesDataDict(data) {
-  const years = ["2018", "2019", "2020", "2021"];
+  const yearList = Object.keys(data).map((val) => val.substr(0, 4));
+  console.log("Printing the list of years");
+  console.log(yearList);
+  const yearSet = new Set(yearList);
+  // const years = ["2018", "2019", "2020", "2021"];
+  const years = Array.from(yearSet);
+  console.log("Printing the years");
+  console.log(years);
+  // const years = ["2018", "2019", "2020", "2021"];
   const months = [
     "01",
     "02",
@@ -118,7 +134,7 @@ export function processTimeSeriesDataDict(data) {
       hoverinfo: "x+y",
       type: "scatter",
       marker: {
-        color: fig[year],
+        // color: fig[year],
         size: 10,
         symbol: "square",
       },
