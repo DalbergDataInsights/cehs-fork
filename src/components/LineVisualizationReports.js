@@ -45,7 +45,7 @@ const LineVisualizationReports = ({
 
   const dataViz = useMemo(() => {
     if (level == "country") {
-      return filterMonthlyYearlyData(data);
+      return filterMonthlyYearlyData(data, "country", null, null);
     } else if (level == "district") {
       const districtData = extractDistrictData(
         data,
@@ -55,7 +55,12 @@ const LineVisualizationReports = ({
       console.log("Printing out district data");
       console.log(districtData);
 
-      return filterMonthlyYearlyData(districtData);
+      return filterMonthlyYearlyData(
+        districtData,
+        "district",
+        store.selectedDistrict,
+        districtFacilitiesMeta
+      );
     }
   }, [data, store.selectedDistrict]);
 
@@ -95,7 +100,7 @@ const LineVisualizationReports = ({
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                    <h5>{`Proportion of reporting facilities in ${districtName} that reported a non-zero number for ${displayName} between ${store.period[0].format(
                       "MMM-YYYY"
                     )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
                   </Col>
