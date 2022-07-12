@@ -11,6 +11,7 @@ import {
   processCountryData,
   processOrgDataTotal,
   processTitle,
+  extractDistrictData,
 } from "../utils";
 import Download from "./Download";
 import Loading from "./Loading";
@@ -45,8 +46,18 @@ const LineVisualizationReports = ({
   const dataViz = useMemo(() => {
     if (level == "country") {
       return filterMonthlyYearlyData(data);
+    } else if (level == "district") {
+      const districtData = extractDistrictData(
+        data,
+        store.selectedDistrict,
+        districtFacilitiesMeta
+      );
+      console.log("Printing out district data");
+      console.log(districtData);
+
+      return filterMonthlyYearlyData(districtData);
     }
-  }, [data]);
+  }, [data, store.selectedDistrict]);
 
   console.log(dataViz);
 
@@ -63,6 +74,24 @@ const LineVisualizationReports = ({
                   what="Overview:"
                   indicatorDescription={displayName}
                   level="Across the country, the proportion of facilities reporting"
+                />
+                <Row style={{ marginBottom: 20 }}>
+                  <Col className="graph">
+                    <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                      "MMM-YYYY"
+                    )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
+                  </Col>
+                </Row>
+              </>
+            )}
+
+            {level == "district" && (
+              <>
+                <VisualizationTitle
+                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
+                  what={`Deep-dive in ${districtName}:`}
+                  indicatorDescription={displayName}
+                  level="The proportion of facilities reporting"
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
