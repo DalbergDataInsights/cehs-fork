@@ -654,7 +654,12 @@ export function computeReportingPercentages(
   return;
 }
 
-export function filterMonthlyYearlyData(data) {
+export function filterMonthlyYearlyData(
+  data,
+  level,
+  district,
+  districtFacilitiesMeta
+) {
   if (data && data["results"]["rows"]) {
     const yearsMonths = [
       ...new Set(data["results"]["rows"].map((val) => val[2])),
@@ -663,16 +668,52 @@ export function filterMonthlyYearlyData(data) {
     console.log(yearsMonths);
 
     const yearsMonthsProportionsDict = {};
-    yearsMonths.map((val) => {
-      const facilityDataList = data["results"]["rows"].filter(
-        (res) => res[2] == val
-      );
-      const facilityList = facilityDataList.map((val) => val[1]);
-      const facilitySet = new Set(facilityList);
+    // yearsMonths.map((val) => {
+    //   const facilityDataList = data["results"]["rows"].filter(
+    //     (res) => res[2] == val
+    //   );
+    //   const facilityList = facilityDataList.map((val) => val[1]);
+    //   const facilitySet = new Set(facilityList);
 
-      yearsMonthsProportionsDict[val] =
-        facilitySet.size / Object.keys(facilitiesMeta).length;
-    });
+    //   yearsMonthsProportionsDict[val] =
+    //     facilitySet.size / Object.keys(facilitiesMeta).length;
+    // });
+    if (level == "country") {
+      // yearsMonths.map(
+      //   (val) =>
+      //     (yearsMonthsProportionsDict[val] =
+      //       data["results"]["rows"].filter((res) => res[2] == val).length /
+      //       Object.keys(facilitiesMeta).length)
+      // );
+      yearsMonths.map((val) => {
+        const facilityDataList = data["results"]["rows"].filter(
+          (res) => res[2] == val
+        );
+        const facilityList = facilityDataList.map((val) => val[1]);
+        const facilitySet = new Set(facilityList);
+
+        yearsMonthsProportionsDict[val] =
+          facilitySet.size / Object.keys(facilitiesMeta).length;
+      });
+    } else if (level == "district") {
+      // yearsMonths.map(
+      //   (val) =>
+      //     (yearsMonthsProportionsDict[val] =
+      //       data["results"]["rows"].filter((res) => res[2] == val).length /
+      //       districtFacilitiesMeta[district]["facility_ids"].length)
+      // );
+      yearsMonths.map((val) => {
+        const facilityDataList = data["results"]["rows"].filter(
+          (res) => res[2] == val
+        );
+        const facilityList = facilityDataList.map((val) => val[1]);
+        const facilitySet = new Set(facilityList);
+
+        yearsMonthsProportionsDict[val] =
+          facilitySet.size /
+          districtFacilitiesMeta[district]["facility_ids"].length;
+      });
+    }
 
     console.log("Printing the proportion of reporting facilities");
     console.log(yearsMonthsProportionsDict);
