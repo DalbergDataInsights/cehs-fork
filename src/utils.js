@@ -659,16 +659,32 @@ export function filterMonthlyYearlyData(data) {
     console.log(yearsMonths);
 
     const yearsMonthsProportionsDict = {};
-    yearsMonths.map(
-      (val) =>
-        (yearsMonthsProportionsDict[val] =
-          data["results"]["rows"].filter((res) => res[2] == val).length /
-          Object.keys(facilitiesMeta).length)
-    );
+    yearsMonths.map((val) => {
+      const facilityDataList = data["results"]["rows"].filter(
+        (res) => res[2] == val
+      );
+      const facilityList = facilityDataList.map((val) => val[1]);
+      const facilitySet = new Set(facilityList);
+
+      yearsMonthsProportionsDict[val] =
+        facilitySet.size / Object.keys(facilitiesMeta).length;
+    });
 
     console.log("Printing the proportion of reporting facilities");
     console.log(yearsMonthsProportionsDict);
 
     return yearsMonthsProportionsDict;
+  }
+}
+
+export function extractDistrictData(data, district, districtFacilitiesMeta) {
+  let districtData = null;
+  const districtFacilities = districtFacilitiesMeta[district]["facility_ids"];
+  if (data && data["results"]["rows"]) {
+    districtData = data["results"]["rows"].filter((val) =>
+      districtFacilities.includes(val[1])
+    );
+
+    return { results: { rows: districtData } };
   }
 }
