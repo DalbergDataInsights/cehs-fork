@@ -133,7 +133,9 @@ export function processTitle(startDate, endDate, data, periodDescription = "") {
   const current = data[endDate] || 0;
   const previous = data[startDate] || 0;
   if (current !== 0) {
-    const change = Number((((current - previous) * 100) / previous).toFixed(0));
+    const change = Number(
+      (((current - previous) * 100) / (previous + 0.0001)).toFixed(0)
+    );
 
     if (change < 0) {
       return `decreased by ${change * -1}% ${periodDescription}`;
@@ -288,7 +290,7 @@ export function processOrgUnitDataPercent(data) {
   const valuesNumeric = values.map((val) => parseInt(val));
   const percentChange =
     ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
-      valuesNumeric[0]) *
+      (valuesNumeric[0] + 0.0001)) *
     100;
   return parseFloat(percentChange.toFixed(2));
 }
@@ -639,7 +641,9 @@ export function computeReportingPercentages(
     const reportingPercentages = {};
     Object.entries(startReporting).forEach(([key, value]) => {
       reportingPercentages[key] =
-        ((endReporting[key] - startReporting[key]) / startReporting[key]) * 100;
+        ((endReporting[key] - startReporting[key]) /
+          (startReporting[key] + 0.0001)) *
+        100;
     });
 
     console.log("Printing out reporting percetange changes");
