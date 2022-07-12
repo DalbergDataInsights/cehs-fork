@@ -12,6 +12,8 @@ import {
   objectToArray,
   computeReportingTotals,
   computeReportingProportions,
+  computeReportingPercentages,
+  filterStartPeriodEndPeriodData,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBarTwo from "./HorizontalBarTwo";
@@ -82,8 +84,56 @@ const MapVisualizationReportsTwo = ({
         districtFacilitiesMeta,
         store.districts
       );
+    } else if (maptype == "percentage") {
+      // return computeReportingPercentages(
+      //   data,
+      //   periods,
+      //   districtFacilitiesMeta,
+      //   store.districts
+      // );
+      // Filter the out the data for periods
+      const filteredData = filterStartPeriodEndPeriodData(data, periods);
+      if (filteredData) {
+        console.log("Printing out the start period data");
+        console.log(filteredData[0]);
+
+        console.log("Printing out the end period data");
+        console.log(filteredData[1]);
+
+        const startReporting = computeReportingProportions(
+          filteredData[0],
+          "total",
+          districtFacilitiesMeta,
+          store.districts
+        );
+
+        const endReporting = computeReportingProportions(
+          filteredData[1],
+          "total",
+          districtFacilitiesMeta,
+          store.districts
+        );
+
+        console.log("Printing out the start reporting");
+        console.log(startReporting);
+
+        console.log("Printing out the end reporting");
+        console.log(endReporting);
+
+        const reportingPercentages = {};
+        Object.entries(startReporting).forEach(([key, value]) => {
+          reportingPercentages[key] = parseFloat(
+            ((endReporting[key] - startReporting[key]) / startReporting[key]) *
+              100
+          ).toFixed(2);
+        });
+
+        console.log("Printing out reporting percetange changes");
+        console.log(reportingPercentages);
+        return reportingPercentages;
+      }
     }
-  }, [data]);
+  }, [data, store.period]);
 
   // let facilitiesDataTotals = null;
 
@@ -164,7 +214,7 @@ const MapVisualizationReportsTwo = ({
   console.log("Printing data Viz");
   console.log(dataViz);
 
-  const colorScaleValue = maptype == "total" ? "Blues" : "Bluered";
+  const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
   return (
@@ -176,17 +226,17 @@ const MapVisualizationReportsTwo = ({
               <Col className="graph">
                 <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
-                )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
+                )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
             )}
 
-            {/* {maptype == "percentage" && (
+            {maptype == "percentage" && (
               <Col className="graph">
-                <h5>{`Percentage change in ${displayName} between ${store.period[0].format(
+                <h5>{`Percentage change in proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
-            )} */}
+            )}
           </Row>
 
           {/* {maptype == "percentage" && (

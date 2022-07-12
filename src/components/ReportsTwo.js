@@ -92,6 +92,13 @@ const ReportsTwo = () => {
         maptype={"total"}
         displayName={displayName}
       />
+      <MapVisualizationReportsTwo
+        data={facilityLevelData}
+        error={facilityLevelError}
+        loading={facilityLevelLoading}
+        maptype={"percentage"}
+        displayName={displayName}
+      />
     </div>
   );
 };
