@@ -3,13 +3,14 @@ import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
-import { processCountryData } from "../utils";
+import { processCountryData, processTimeSeriesDataDict } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationReportsTwo from "./MapVisualizationReportsTwo";
+import LineVisualizationReports from "./LineVisualizationReports";
 
 const myQuery = {
   results: {
@@ -84,6 +85,14 @@ const ReportsTwo = () => {
         icon="center_focus_weak"
         title="Quality of the reporting of health facilities across districts"
         subTitle="Health Insights and Visualization for Essential Health Services"
+      />
+      <LineVisualizationReports
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processTimeSeriesDataDict}
+        level={"country"}
+        displayName={displayName}
       />
       <MapVisualizationReportsTwo
         data={facilityLevelData}
