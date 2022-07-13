@@ -150,7 +150,7 @@ export function processTitle(startDate, endDate, data, periodDescription = "") {
   const previous = data[startDate] || 0;
   if (current !== 0) {
     const change = Number(
-      (((current - previous) * 100) / (previous + 0.0001)).toFixed(0)
+      (((current - previous) * 100) / (previous + 1)).toFixed(0)
     );
 
     if (change < 0) {
@@ -306,7 +306,7 @@ export function processOrgUnitDataPercent(data) {
   const valuesNumeric = values.map((val) => parseInt(val));
   const percentChange =
     ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
-      (valuesNumeric[0] + 0.0001)) *
+      (valuesNumeric[0] + 1)) *
     100;
   return parseFloat(percentChange.toFixed(2));
 }
@@ -658,7 +658,7 @@ export function computeReportingPercentages(
     Object.entries(startReporting).forEach(([key, value]) => {
       reportingPercentages[key] =
         ((endReporting[key] - startReporting[key]) /
-          (startReporting[key] + 0.0001)) *
+          (startReporting[key] + 1)) *
         100;
     });
 

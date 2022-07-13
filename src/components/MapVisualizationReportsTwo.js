@@ -124,7 +124,7 @@ const MapVisualizationReportsTwo = ({
         Object.entries(startReporting).forEach(([key, value]) => {
           reportingPercentages[key] = parseFloat(
             ((endReporting[key] - startReporting[key]) /
-              (startReporting[key] + 0.0001)) *
+              (startReporting[key] + 1)) *
               100
           ).toFixed(2);
         });
