@@ -421,7 +421,6 @@ const indicatorMeta = [
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
   },
-
   {
     key: "contraceptives_oral_microgynon",
     displayName: "Women using oral microgynon contraceptives",
@@ -446,6 +445,17 @@ const indicatorMeta = [
     numerator: { dataElementId: "NXCJqj7Edfo", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+  },
+  {
+    key: "opd_attendance",
+    displayName: "OPD attendance",
+    function: "single",
+    numerator: {
+      dataElementId: "sv6SeKroHPV",
+      function: "single",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "GENERAL",
   },
 
   {
@@ -855,6 +865,301 @@ const indicatorMeta = [
     numerator: { dataElementId: "R1juTYAlQcq", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+  },
+
+  {
+    key: "11109",
+    displayName: "1st & 2nd doses of vitamin A to female U5",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vI52cxgsBNv", "A2ZOozUNmDz"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11110",
+    displayName: "1st & 2nd doses of vitamin A to male U5",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vI52cxgsBNv", "A2ZOozUNmDz"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11111",
+    displayName: "1st & 2nd doses of vitamin A to U5",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vI52cxgsBNv", "A2ZOozUNmDz"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11112",
+    displayName: "Low weight births",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["MzqiroyuhJh", "bl6lQqygEK1", "P1MyPWVxi5T"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11113",
+    displayName: "Malaria cases treated",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        [
+          "PV8F3aPDKCu",
+          "YBXFadujBCQ",
+          "qR6OsOxADKt",
+          "sDDBGMsrw6z",
+          "S97lGebltuo",
+        ],
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "MAL",
+  },
+  {
+    key: "11114",
+    displayName: "Malaria tests",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["lQXr10kZXrB", "RGDv14C4Cdw"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "MAL",
+  },
+  {
+    key: "11115",
+    displayName: "MAM cases identified",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["zm2QCkywpqX", "zm2QCkywpqX"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11116",
+    displayName: "Mat tested HIV",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["SPctnmpC7W6", "lqlyPEh4beG"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "HIV",
+  },
+  {
+    key: "11117",
+    displayName: "Mat tested HIV positive",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["AUfFbS7cWFd", "jHqJsOlZWZG"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "HIV",
+  },
+  {
+    key: "11118",
+    displayName: "Mothers initiated on ART",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["L4pwIgSDdG6", "KDoEmOjpYnL", "kGC9MVJppnk"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "HIV",
+  },
+  {
+    key: "11119",
+    displayName: "Mothers tested for HIV",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        "uALBQG7TFhq",
+        ["SPctnmpC7W6", "lqlyPEh4beG"],
+        "L0kzvUuDu0M",
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "HIV",
+  },
+  {
+    key: "11120",
+    displayName: "Mothers tested HIV-positive",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        "uzlQdD84jNj",
+        ["AUfFbS7cWFd", "jHqJsOlZWZG"],
+        "eerKMtKyYZt",
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "HIV",
+  },
+  {
+    key: "11122",
+    displayName: "SAM cases identified",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["dgnUFBzt87d", "LX6uCvQ7a7W", "zvJyAAeman2"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "NUT",
+  },
+  {
+    key: "11123",
+    displayName: "TB cases registered in treatment unit (females)",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vSaFiVhebVQ", "vSaFiVhebVQ"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "TB",
+  },
+  {
+    key: "11124",
+    displayName: "TB cases registered in treatment unit (males)",
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vSaFiVhebVQ", "vSaFiVhebVQ"],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "TB",
+  },
+  {
+    key: "11125",
+    displayName: "TD4-5 doses (nonpregnant)",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["Jd24EcGuIvS", "fyTVWlH6jqm"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "EPI",
+  },
+  {
+    key: "11126",
+    displayName: "TD4-5 doses (pregnant)",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["Jd24EcGuIvS", "fyTVWlH6jqm"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "EPI",
+  },
+  {
+    key: "11127",
+    displayName: "Women using injectable contraceptives",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        ["ZVKD2XRg6Ab", " Fat3y7a43qY", "iodD0RgSRoD", "O3dDxoUjSqo"],
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11128",
+    displayName: "Women using injectable contraceptives (under 20)",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        ["ZVKD2XRg6Ab", "Fat3y7a43qY", "iodD0RgSRoD", "O3dDxoUjSqo"],
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11129",
+    displayName: "Women using iuds",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["jSQRBvez5Pq", "zhTC6HT9No1"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11131",
+    displayName: "Women using natural contraception methods",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["VHi82Mcd77w", "ibfLXaygcNS", "HnSiI2XX2Sy"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11132",
+    displayName: "Women using natural contraception methods (under 20)",
+    function: "nansum",
+    numerator: {
+      dataElementId: [["VHi82Mcd77w", "ibfLXaygcNS", "HnSiI2XX2Sy"]],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11133",
+    displayName: "Women using oral contraceptives - excl. Levono",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        "NXCJqj7Edfo",
+        "A3r248imZ1L",
+        "dt0srLW7MmK",
+        "dyfJZ2Llr6F",
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
+  },
+  {
+    key: "11134",
+    displayName: "Women using oral contraceptives - excl. Levono (under 20)",
+    function: "nansum",
+    numerator: {
+      dataElementId: [
+        "NXCJqj7Edfo",
+        "A3r248imZ1L",
+        "dt0srLW7MmK",
+        "dyfJZ2Llr6F",
+      ],
+      function: "nansum",
+    },
+    denominator: { dataElementId: 1, function: "single" },
+    group: "FP",
   },
 ];
 
