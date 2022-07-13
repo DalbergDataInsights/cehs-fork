@@ -27,13 +27,13 @@ export function processMapData(data, districts, startMonth, endMonth) {
 
 export function processCountryData(data) {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  console.log("Printing the list of years");
-  console.log(yearList);
+  // console.log("Printing the list of years");
+  // console.log(yearList);
   const yearSet = new Set(yearList);
   // const years = ["2018", "2019", "2020", "2021"];
   const years = Array.from(yearSet);
-  console.log("Printing the years");
-  console.log(years);
+  // console.log("Printing the years");
+  // console.log(years);
   const months = [
     "01",
     "02",
@@ -87,13 +87,13 @@ export function processCountryData(data) {
 
 export function processTimeSeriesDataDict(data) {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  console.log("Printing the list of years");
-  console.log(yearList);
+  // console.log("Printing the list of years");
+  // console.log(yearList);
   const yearSet = new Set(yearList);
   // const years = ["2018", "2019", "2020", "2021"];
   const years = Array.from(yearSet);
-  console.log("Printing the years");
-  console.log(years);
+  // console.log("Printing the years");
+  // console.log(years);
   // const years = ["2018", "2019", "2020", "2021"];
   const months = [
     "01",
@@ -483,11 +483,11 @@ export function computeReportingTotals(
 ) {
   const facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-  console.log("Printing the data totals per facility");
-  console.log(facilitiesDataTotals);
+  // console.log("Printing the data totals per facility");
+  // console.log(facilitiesDataTotals);
 
   const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-  console.log(facilitiesDataTotalsArray);
+  // console.log(facilitiesDataTotalsArray);
 
   const districtFacilitiesReportingTotals = {};
   Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
@@ -496,8 +496,8 @@ export function computeReportingTotals(
     ).length;
   });
 
-  console.log("Printing the proportions");
-  console.log(districtFacilitiesReportingTotals);
+  // console.log("Printing the proportions");
+  // console.log(districtFacilitiesReportingTotals);
 
   return districtFacilitiesReportingTotals;
 }
@@ -515,8 +515,8 @@ export function computeReportingProportions(
       ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
       : [];
 
-  console.log("Printing the facilities ID list from raw data");
-  console.log(facilitiesIdsList);
+  // console.log("Printing the facilities ID list from raw data");
+  // console.log(facilitiesIdsList);
 
   // 1. Partition the raw data into a dict of facility id => raw data for facility.
   // const facilitiesDataDict = {};
@@ -536,19 +536,19 @@ export function computeReportingProportions(
     districtNumFacilities[key] = value["facility_ids"].length;
   }
 
-  console.log("Printing the number of reporting facilities per district");
-  console.log(districtNumFacilities);
+  // console.log("Printing the number of reporting facilities per district");
+  // console.log(districtNumFacilities);
 
   if (data && data["results"]["rows"] && maptype == "total") {
     // if (data && maptype == "total") {
     facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-    console.log("Printing the data totals per facility");
-    console.log(facilitiesDataTotals);
+    // console.log("Printing the data totals per facility");
+    // console.log(facilitiesDataTotals);
 
     const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-    console.log("Printing facilities data totals array");
-    console.log(facilitiesDataTotalsArray);
+    // console.log("Printing facilities data totals array");
+    // console.log(facilitiesDataTotalsArray);
 
     const districtFacilitiesReportingTotals = {};
     Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
@@ -558,8 +558,8 @@ export function computeReportingProportions(
         ).length / districtNumFacilities[item];
     });
 
-    console.log("Printing the proportions");
-    console.log(districtFacilitiesReportingTotals);
+    // console.log("Printing the proportions");
+    // console.log(districtFacilitiesReportingTotals);
 
     const districtFacilitiesReportingTotalsRenamed = {};
     Object.entries(districtFacilitiesReportingTotals).forEach(
@@ -574,8 +574,8 @@ export function computeReportingProportions(
       }
     );
 
-    console.log("Printing the proportion of reporting facilites");
-    console.log(districtFacilitiesReportingTotalsRenamed);
+    // console.log("Printing the proportion of reporting facilites");
+    // console.log(districtFacilitiesReportingTotalsRenamed);
 
     // dataViz = districtFacilitiesReportingTotalsRenamed;
     return districtFacilitiesReportingTotalsRenamed;
@@ -610,11 +610,11 @@ export function computeReportingPercentages(
   const filteredData = filterStartPeriodEndPeriodData(data, periods);
 
   if (filteredData) {
-    console.log("Printing out the start period data");
-    console.log(filteredData[0]);
+    // console.log("Printing out the start period data");
+    // console.log(filteredData[0]);
 
-    console.log("Printing out the end period data");
-    console.log(filteredData[1]);
+    // console.log("Printing out the end period data");
+    // console.log(filteredData[1]);
 
     const startReporting = computeReportingProportions(
       filteredData[0],
@@ -648,11 +648,11 @@ export function computeReportingPercentages(
     //   );
     // }, [filteredData]);
 
-    console.log("Printing out the start reporting");
-    console.log(startReporting);
+    // console.log("Printing out the start reporting");
+    // console.log(startReporting);
 
-    console.log("Printing out the end reporting");
-    console.log(endReporting);
+    // console.log("Printing out the end reporting");
+    // console.log(endReporting);
 
     const reportingPercentages = {};
     Object.entries(startReporting).forEach(([key, value]) => {
@@ -662,8 +662,8 @@ export function computeReportingPercentages(
         100;
     });
 
-    console.log("Printing out reporting percetange changes");
-    console.log(reportingPercentages);
+    // console.log("Printing out reporting percetange changes");
+    // console.log(reportingPercentages);
     return reportingPercentages;
   }
 
@@ -731,8 +731,8 @@ export function filterMonthlyYearlyData(
       });
     }
 
-    console.log("Printing the proportion of reporting facilities");
-    console.log(yearsMonthsProportionsDict);
+    // console.log("Printing the proportion of reporting facilities");
+    // console.log(yearsMonthsProportionsDict);
 
     return yearsMonthsProportionsDict;
   }
