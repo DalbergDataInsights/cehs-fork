@@ -332,15 +332,6 @@ const indicatorMeta = [
     denominator: { dataElementId: 1, function: "single" },
     group: "TB",
   },
-
-  {
-    key: "td1__nonpregnant",
-    displayName: "TD1 doses (nonpregnant)",
-    function: "single",
-    numerator: { dataElementId: "oj4ttY118Fg", function: "single" },
-    denominator: { dataElementId: 1, function: "single" },
-    group: "EPI",
-  },
   {
     key: "td1__pregnant",
     displayName: "TD1 doses (pregnant)",
@@ -350,26 +341,10 @@ const indicatorMeta = [
     group: "EPI",
   },
   {
-    key: "td2__nonpregnant",
-    displayName: "TD2 doses (nonpregnant)",
-    function: "single",
-    numerator: { dataElementId: "OrKSwpDxQaJ", function: "single" },
-    denominator: { dataElementId: 1, function: "single" },
-    group: "EPI",
-  },
-  {
     key: "td2__pregnant",
     displayName: "TD2 doses (pregnant)",
     function: "single",
     numerator: { dataElementId: "OrKSwpDxQaJ", function: "single" },
-    denominator: { dataElementId: 1, function: "single" },
-    group: "EPI",
-  },
-  {
-    key: "td3__nonpregnant",
-    displayName: "TD3 doses (nonpregnant)",
-    function: "single",
-    numerator: { dataElementId: "vMZQxa2plDI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
   },

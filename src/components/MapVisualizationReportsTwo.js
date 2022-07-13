@@ -94,11 +94,11 @@ const MapVisualizationReportsTwo = ({
       // Filter the out the data for periods
       const filteredData = filterStartPeriodEndPeriodData(data, periods);
       if (filteredData) {
-        console.log("Printing out the start period data");
-        console.log(filteredData[0]);
+        // console.log("Printing out the start period data");
+        // console.log(filteredData[0]);
 
-        console.log("Printing out the end period data");
-        console.log(filteredData[1]);
+        // console.log("Printing out the end period data");
+        // console.log(filteredData[1]);
 
         const startReporting = computeReportingProportions(
           filteredData[0],
@@ -114,11 +114,11 @@ const MapVisualizationReportsTwo = ({
           store.districts
         );
 
-        console.log("Printing out the start reporting");
-        console.log(startReporting);
+        // console.log("Printing out the start reporting");
+        // console.log(startReporting);
 
-        console.log("Printing out the end reporting");
-        console.log(endReporting);
+        // console.log("Printing out the end reporting");
+        // console.log(endReporting);
 
         const reportingPercentages = {};
         Object.entries(startReporting).forEach(([key, value]) => {
@@ -129,8 +129,8 @@ const MapVisualizationReportsTwo = ({
           ).toFixed(2);
         });
 
-        console.log("Printing out reporting percetange changes");
-        console.log(reportingPercentages);
+        // console.log("Printing out reporting percetange changes");
+        // console.log(reportingPercentages);
         return reportingPercentages;
       }
     }
@@ -212,8 +212,8 @@ const MapVisualizationReportsTwo = ({
   //   // console.log(endReportingTotals);
   // }
 
-  console.log("Printing data Viz");
-  console.log(dataViz);
+  // console.log("Printing data Viz");
+  // console.log(dataViz);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
