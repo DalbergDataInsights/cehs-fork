@@ -52,8 +52,8 @@ const LineVisualizationReports = ({
         store.selectedDistrict,
         districtFacilitiesMeta
       );
-      console.log("Printing out district data");
-      console.log(districtData);
+      // console.log("Printing out district data");
+      // console.log(districtData);
 
       return filterMonthlyYearlyData(
         districtData,
@@ -64,7 +64,7 @@ const LineVisualizationReports = ({
     }
   }, [data, store.selectedDistrict]);
 
-  console.log(dataViz);
+  // console.log(dataViz);
 
   return (
     <>

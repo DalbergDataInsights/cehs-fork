@@ -108,6 +108,14 @@ const ReportsTwo = () => {
         maptype={"percentage"}
         displayName={displayName}
       />
+      <LineVisualizationReports
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processTimeSeriesDataDict}
+        level={"district"}
+        displayName={displayName}
+      />
     </div>
   );
 };
