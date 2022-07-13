@@ -233,7 +233,7 @@ export function getDataPerOrgUnits(orgUnits, data) {
   const orgUnitData = {};
 
   if (data) {
-    if (data["results"]["rows"]) {
+    if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
       orgUnitIds.map((id) => {
         orgUnitData[`${id}`] = data["results"]["rows"].filter(
           (val) => val[1] == id
@@ -354,7 +354,7 @@ export function computeCountryTimeSeries(data, level) {
   let processedData = null;
   if (level == "country") {
     if (data) {
-      if (data["results"]["rows"]) {
+      if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
         processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
       }
     }
@@ -374,7 +374,7 @@ export function computeDistrictTimeSeries(
     const districtIds = districts.map((val) => val.id);
     let districtData = {};
     if (data) {
-      if (data["results"]["rows"]) {
+      if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
         districtIds.map((id) => {
           districtData[`${id}`] = data["results"]["rows"].filter(
             (val) => val[1] == id
@@ -404,7 +404,7 @@ export function computeFacilityTimeSeries(
       districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
     if (data) {
-      if (data["results"]["rows"]) {
+      if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
         districtFacilitiesData = data["results"]["rows"].filter((val) =>
           districtFacilities.includes(val[1])
         );
@@ -452,7 +452,7 @@ export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
   const orgUnitData = {};
 
   if (data) {
-    if (data["results"]["rows"]) {
+    if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
       orgUnitIds.map((id) => {
         orgUnitData[`${id}`] = data["results"]["rows"].filter(
           (val) => val[1] == id
@@ -676,7 +676,7 @@ export function filterMonthlyYearlyData(
   district,
   districtFacilitiesMeta
 ) {
-  if (data && data["results"]["rows"]) {
+  if (data && data["results"]["rows"] && data["results"]["rows"].length > 0) {
     const yearsMonths = [
       ...new Set(data["results"]["rows"].map((val) => val[2])),
     ];
@@ -741,7 +741,7 @@ export function filterMonthlyYearlyData(
 export function extractDistrictData(data, district, districtFacilitiesMeta) {
   let districtData = null;
   const districtFacilities = districtFacilitiesMeta[district]["facility_ids"];
-  if (data && data["results"]["rows"]) {
+  if (data && data["results"]["rows"] && data["results"]["rows"].length > 0) {
     districtData = data["results"]["rows"].filter((val) =>
       districtFacilities.includes(val[1])
     );
