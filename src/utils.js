@@ -27,7 +27,6 @@ export function processMapData(data, districts, startMonth, endMonth) {
 
 export function processCountryData(data) {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  // console.log("Printing the list of years");
   // console.log(yearList);
   const yearSet = new Set(yearList);
   // const years = ["2018", "2019", "2020", "2021"];
