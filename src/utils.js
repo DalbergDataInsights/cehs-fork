@@ -25,14 +25,10 @@ export function processMapData(data, districts, startMonth, endMonth) {
   });
 }
 
-export function processCountryData(data) {
+export function processCountryData(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  // console.log(yearList);
   const yearSet = new Set(yearList);
-  // const years = ["2018", "2019", "2020", "2021"];
   const years = Array.from(yearSet);
-  // console.log("Printing the years");
-  // console.log(years);
   const months = [
     "01",
     "02",
@@ -47,8 +43,8 @@ export function processCountryData(data) {
     "11",
     "12",
   ];
-
-  const x = [
+  const quarters = ["Q1", "Q2", "Q3", "Q4"];
+  let x = [
     "Jan",
     "Feb",
     "Mar",
@@ -63,37 +59,54 @@ export function processCountryData(data) {
     "Dec",
   ];
 
-  return years.map((year) => {
-    const y = months.map((m) => parseInt(data[`${year}${m}`]));
-    // const yearColor = ? fig[year]:
-    return {
-      name: year,
-      x,
-      y,
-      hoverinfo: "x+y",
-      type: "scatter",
-      marker: {
-        // color: fig[year],
-        size: 10,
-        symbol: "square",
-      },
-      line: {
-        width: 2,
-      },
-    };
-  });
+  if (periodType == "monthly") {
+    return years.map((year) => {
+      const y = months.map((m) => parseInt(data[`${year}${m}`]));
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  } else if (periodType == "quarterly") {
+    return years.map((year) => {
+      const y = quarters.map((m) => {
+        return parseInt(data[`${year}${m}`]);
+      });
+
+      x = ["Q1", "Q2", "Q3", "Q4"];
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  }
 }
 
-export function processTimeSeriesDataDict(data) {
+export function processTimeSeriesDataDict(data, periodType) {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  // console.log("Printing the list of years");
-  // console.log(yearList);
   const yearSet = new Set(yearList);
-  // const years = ["2018", "2019", "2020", "2021"];
   const years = Array.from(yearSet);
-  // console.log("Printing the years");
-  // console.log(years);
-  // const years = ["2018", "2019", "2020", "2021"];
+
   const months = [
     "01",
     "02",
@@ -109,7 +122,7 @@ export function processTimeSeriesDataDict(data) {
     "12",
   ];
 
-  const x = [
+  let x = [
     "Jan",
     "Feb",
     "Mar",
@@ -124,24 +137,45 @@ export function processTimeSeriesDataDict(data) {
     "Dec",
   ];
 
-  return years.map((year) => {
-    const y = months.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
-    return {
-      name: year,
-      x,
-      y,
-      hoverinfo: "x+y",
-      type: "scatter",
-      marker: {
-        // color: fig[year],
-        size: 10,
-        symbol: "square",
-      },
-      line: {
-        width: 2,
-      },
-    };
-  });
+  const quarters = ["Q1", "Q2", "Q3", "Q4"];
+  if (periodType == "monthly") {
+    return years.map((year) => {
+      const y = months.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  } else if (periodType == "quarterly") {
+    return years.map((year) => {
+      const y = quarters.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
+      x = ["Q1", "Q2", "Q3", "Q4"];
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  }
 }
 
 export function processTitle(startDate, endDate, data, periodDescription = "") {
