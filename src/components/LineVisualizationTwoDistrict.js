@@ -25,6 +25,7 @@ const LineVisualizationTwoDistrict = ({
   processor,
   level,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   const periods = store.period.map((p) => p.format("YYYYMM"));
@@ -55,7 +56,7 @@ const LineVisualizationTwoDistrict = ({
             {level == "district" && (
               <>
                 <VisualizationTitle
-                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
+                  analysis={processTitle(dataViz, "")}
                   what={`Deep-dive in ${districtName}`}
                   indicatorDescription={displayName}
                   level=""
@@ -71,7 +72,7 @@ const LineVisualizationTwoDistrict = ({
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(dataViz)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,
