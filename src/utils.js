@@ -748,3 +748,22 @@ export function extractDistrictData(data, district, districtFacilitiesMeta) {
     return { results: { rows: districtData } };
   }
 }
+
+function monthsToQuarters(months) {
+  const q1 = ["01", "02", "03"];
+  const q2 = ["04", "05", "06"];
+  const q3 = ["07", "08", "09"];
+  const y = months.map((m) => {
+    const mth = m.slice(-2);
+    if (q1.includes(mth)) {
+      return m.substring(0, 4) + "Q1";
+    } else if (q2.includes(mth)) {
+      return m.substring(0, 4) + "Q2";
+    } else if (q3.includes(mth)) {
+      return m.substring(0, 4) + "Q3";
+    } else {
+      return m.substring(0, 4) + "Q4";
+    }
+  });
+  return [...new Set(y)].sort();
+}
