@@ -9,6 +9,7 @@ const overviewIndicatorMeta = [
     },
     denominator: { dataElementId: "1", function: "single" },
     group: "GENERAL",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -18,6 +19,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "Q9nSogNmKPt", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -27,6 +29,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "idXOxt69W0e", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -36,6 +39,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "hrTskGHP0Av", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -45,6 +49,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "F8Iz6QcexWB", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -54,6 +59,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "Ys31ug5E3f1", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -63,6 +69,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "WAjgHQVxVVm", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -72,6 +79,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "dgnUFBzt87d", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -81,6 +89,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "vI52cxgsBNv", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
     // meta: {},
   },
   {
@@ -99,6 +108,7 @@ const overviewIndicatorMeta = [
     numerator: { dataElementId: "bRYoCXTmJCB", function: "single" },
     denominator: { dataElementId: "1", function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
     // meta: {},
   },
 ];

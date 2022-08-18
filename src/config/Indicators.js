@@ -6,6 +6,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Q9nSogNmKPt", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "vitamin_a1",
@@ -14,6 +15,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "vI52cxgsBNv", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "vitamin_a2",
@@ -22,6 +24,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "A2ZOozUNmDz", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "4th_anc_visits",
@@ -30,6 +33,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "RnLOFSYaAhp", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "abortions_other",
@@ -38,6 +42,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "FlRxDBHWGid", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "abortions_gbv",
@@ -46,6 +51,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "TvqHbq8AKc7", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "anc_initiated_hiv",
@@ -54,6 +60,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "L4pwIgSDdG6", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "anc_tested_hiv",
@@ -62,6 +69,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "uALBQG7TFhq", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "anc_tested_hiv_positive",
@@ -70,6 +78,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "uzlQdD84jNj", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "bcg",
@@ -78,6 +87,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "MxAg9De4cra", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "births",
@@ -86,6 +96,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "idXOxt69W0e", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "births_fresh_stillbirth",
@@ -94,6 +105,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "T8W0wbzErSF", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "births_live",
@@ -102,6 +114,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "fEz9wGsA6YU", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "births_macerated_stillbirth",
@@ -110,6 +123,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "ULL9lX3DO7V", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "dpt1",
@@ -118,6 +132,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Ys31ug5E3f1", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -127,6 +142,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "ujs4ipzA4tb", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -136,6 +152,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "VmVKCCYeHiF", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "hei_given_arv",
@@ -144,6 +161,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "OUGMxrtXxri", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "hiv_positive_mother_before_anc",
@@ -152,6 +170,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "b78oMBcC5R8", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "hpv1",
@@ -160,6 +179,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Gtk7tbHfVfj", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -169,6 +189,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "zcT0YplhdAB", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "injuries_gbv",
@@ -177,6 +198,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "bRYoCXTmJCB", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "ipd_attendance",
@@ -185,6 +207,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "UwnR5kr982Y", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "GENERAL",
+    reportingFrequency: "monthly",
   },
   {
     key: "malaria_cases",
@@ -193,6 +216,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "fUflbWWhouR", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MAL",
+    reportingFrequency: "monthly",
   },
   {
     key: "malaria_deaths",
@@ -201,6 +225,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "IoZCByEDSnX", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MAL",
+    reportingFrequency: "monthly",
   },
   {
     key: "mat_initiated_hiv",
@@ -209,6 +234,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "KDoEmOjpYnL", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "maternal_deaths",
@@ -217,6 +243,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "F8Iz6QcexWB", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "maternity_admissions",
@@ -225,6 +252,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "JY0M7eC2N42", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_male_condom",
@@ -233,6 +261,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "bkCFVYMFMed", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -242,6 +271,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "XXZZbU4B2N3", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "mr1",
@@ -250,6 +280,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "WAjgHQVxVVm", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "newborn_deaths",
@@ -258,6 +289,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "hrTskGHP0Av", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "pcv1",
@@ -266,6 +298,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "NbG01i1Md55", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "pcv3",
@@ -274,6 +307,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "QHawVF72X6E", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "pnc_initiated_hiv",
@@ -282,6 +316,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "kGC9MVJppnk", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "pnc_tested_hiv",
@@ -290,6 +325,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "L0kzvUuDu0M", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "pnc_tested_hiv_positive",
@@ -298,6 +334,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "eerKMtKyYZt", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "postnatal_visits",
@@ -306,6 +343,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "LJ8MLXHctGs", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "MNCH",
+    reportingFrequency: "monthly",
   },
   {
     key: "sti_other",
@@ -314,6 +352,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "KaqDbaq0Yce", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "sti_gbv",
@@ -322,6 +361,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Cw3RNymXWjr", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -339,6 +379,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "oj4ttY118Fg", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "td2__pregnant",
@@ -347,6 +388,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "OrKSwpDxQaJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "td3__pregnant",
@@ -355,6 +397,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "vMZQxa2plDI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "tested_hiv",
@@ -363,6 +406,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "vFHITfiDo9g", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "tested_hiv_positive",
@@ -371,6 +415,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "B404cBe6vUa", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_female_condom",
@@ -379,6 +424,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Onpo1O1A7jr", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_emergency__fp_emergency_all",
@@ -387,6 +433,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "b2mZpqmL8VB", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_oral_lofemenal",
@@ -395,6 +442,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "dt0srLW7MmK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_oral_microgynon",
@@ -403,6 +451,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "A3r248imZ1L", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "contraceptives_oral_ovrette",
@@ -411,6 +460,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "dyfJZ2Llr6F", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -420,6 +470,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "NXCJqj7Edfo", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "opd_attendance",
@@ -431,6 +482,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "GENERAL",
+    reportingFrequency: "monthly",
   },
 
   {
@@ -440,6 +492,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "qWmp6ar4GSS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-002",
@@ -448,6 +501,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "YWdurab8GUI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-003",
@@ -456,6 +510,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "oUPfUoCx8T5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-004",
@@ -464,6 +519,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "BWa5OKXBnKL", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-005",
@@ -472,6 +528,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "LZUjkfqaS6i", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-006",
@@ -480,6 +537,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "t4szt7SkmvK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHM-007",
@@ -488,6 +546,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "JXmW20dcD9g", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-001",
@@ -496,6 +555,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "ulVTa8n0dg9", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-002",
@@ -504,6 +564,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "YyQbpCGHVLM", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-003",
@@ -512,6 +573,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "XTtgKWbb33s", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-004",
@@ -520,6 +582,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "SQnc564dMyJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-005",
@@ -528,6 +591,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "hjBYMet9ETI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-006",
@@ -536,6 +600,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "kIzWZ061Ill", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-007",
@@ -544,6 +609,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "YIlcfeW64TE", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-008",
@@ -552,6 +618,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "mLTfdnIAJSw", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-009",
@@ -560,6 +627,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Xlgeqv69eW2", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHC-010",
@@ -568,6 +636,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "x8pMRKVTDOS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHC",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHHTB-001",
@@ -576,6 +645,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "E8XlkjxceMj", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHHTB",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHHTB-002",
@@ -584,6 +654,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "iWQC5FP1Rmx", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHHTB",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHHTB-003",
@@ -592,6 +663,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "y87CFusc2mJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHHTB",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHW-001",
@@ -600,6 +672,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "yRiGyQaKGcK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHW",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHW-002",
@@ -608,6 +681,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "BVDdlVEOeQc", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHW",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHW-003",
@@ -616,6 +690,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Y6yqbwGyNcK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHW",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHW-004",
@@ -624,6 +699,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "E7d7CloQiMS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHW",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHW-005",
@@ -632,6 +708,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "nuhYCiiGmuH", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHW",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-001",
@@ -640,6 +717,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "SBxgVBZ0T2b", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-002",
@@ -648,6 +726,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "ABuRNqtTQHJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-003",
@@ -656,6 +735,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "pgooppftLQK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-004",
@@ -664,6 +744,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "RHuJknb2sD7", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-005",
@@ -672,6 +753,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "hwsCAW8hwZO", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-006",
@@ -680,6 +762,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "KH0dvtNaChi", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-007",
@@ -688,6 +771,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "MWsPBMIage8", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-008",
@@ -696,6 +780,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "I1HTSWsnWJF", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-009",
@@ -704,6 +789,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "uMtDg4qZ2oX", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-010",
@@ -712,6 +798,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "xVdeHPQQKwl", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-011",
@@ -720,6 +807,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "JcuxnUSICw6", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-012",
@@ -728,6 +816,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "cCWGBZlz3HC", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-013",
@@ -736,6 +825,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "rNSO5Vup5T5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-014",
@@ -744,6 +834,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "WQSsE382g5f", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHICCM-015",
@@ -752,6 +843,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "dWTxe9qIabU", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHICCM",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-001",
@@ -760,6 +852,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "zxJWUgIuj9U", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-002",
@@ -768,6 +861,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "vNDI3f5tsgw", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-003",
@@ -776,6 +870,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "auoxfH4Zd0I", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-004",
@@ -784,6 +879,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "uQvu8YoYATz", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-005",
@@ -792,6 +888,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "ru3AnD3BORA", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHSTOCK-006",
@@ -800,6 +897,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "AxmRemQZ1Ve", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHSTOCK",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHFP-001",
@@ -808,6 +906,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "Kg5Znm1bTU5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHFP-002",
@@ -816,6 +915,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "kaYaDO3oOMb", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHFP-003",
@@ -824,6 +924,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "QEspB5XVXVV", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHFP-004",
@@ -832,6 +933,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "dDOwE0917GX", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+    reportingFrequency: "quarterly",
   },
   {
     key: "CHFP-005",
@@ -840,6 +942,7 @@ const indicatorMeta = [
     numerator: { dataElementId: "R1juTYAlQcq", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
     group: "CHFP",
+    reportingFrequency: "quarterly",
   },
 
   {
@@ -852,6 +955,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11110",
@@ -863,6 +967,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11111",
@@ -874,6 +979,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11112",
@@ -885,6 +991,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11113",
@@ -904,6 +1011,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "MAL",
+    reportingFrequency: "monthly",
   },
   {
     key: "11114",
@@ -915,6 +1023,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "MAL",
+    reportingFrequency: "monthly",
   },
   {
     key: "11115",
@@ -926,6 +1035,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11116",
@@ -937,6 +1047,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "11117",
@@ -948,6 +1059,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "11118",
@@ -959,6 +1071,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "11119",
@@ -974,6 +1087,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "11120",
@@ -989,6 +1103,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "HIV",
+    reportingFrequency: "monthly",
   },
   {
     key: "11122",
@@ -1000,6 +1115,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "NUT",
+    reportingFrequency: "monthly",
   },
   {
     key: "11123",
@@ -1033,6 +1149,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "11126",
@@ -1044,6 +1161,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "EPI",
+    reportingFrequency: "monthly",
   },
   {
     key: "11127",
@@ -1057,6 +1175,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11128",
@@ -1070,6 +1189,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11129",
@@ -1081,6 +1201,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11131",
@@ -1092,6 +1213,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11132",
@@ -1103,6 +1225,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11133",
@@ -1119,6 +1242,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
   {
     key: "11134",
@@ -1135,6 +1259,7 @@ const indicatorMeta = [
     },
     denominator: { dataElementId: 1, function: "single" },
     group: "FP",
+    reportingFrequency: "monthly",
   },
 ];
 
