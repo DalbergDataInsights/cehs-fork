@@ -6,7 +6,7 @@ import { $store } from "../models/Store";
 import { processCountryData } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween } from "../utils";
+import { monthsBetween, periodBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
@@ -15,6 +15,26 @@ import LineVisualizationTwoDistrict from "./LineVisualizationTwoDistrict";
 import LineVisualizationTwoFacility from "./LineVisualizationTwoFacility";
 
 const myQuery = {
+  results: {
+    resource: "analytics",
+    params: ({ variableId, period, orgLevel, periodType }) => ({
+      dimension: [
+        `dx:${variableId}`,
+        `ou:${orgLevel}`,
+        `pe:${periodBetween(
+          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1],
+          periodType
+        ).join(";")}`,
+      ],
+      skipMeta: false,
+      paging: false,
+      includeNumDen: true,
+    }),
+  },
+};
+
+const myQueryFacility = {
   results: {
     resource: "analytics",
     params: ({ variableId, period, orgLevel }) => ({
