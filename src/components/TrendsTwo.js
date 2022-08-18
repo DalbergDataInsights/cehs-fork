@@ -76,11 +76,15 @@ const TrendsTwo = () => {
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
+  const periodType = variableObject.reportingFrequency;
+  console.log(`Period Type: ${periodType}`);
+
   const districtQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
       period: period,
       orgLevel: "LEVEL-3",
+      periodType: periodType,
     },
   });
 
@@ -90,8 +94,12 @@ const TrendsTwo = () => {
   const districtLevelRefetch = districtQuery.refetch;
 
   useEffect(() => {
-    districtLevelRefetch({ variableId: variableId, period: period });
-  }, [variableId, period]);
+    districtLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
