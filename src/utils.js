@@ -178,9 +178,13 @@ export function processTimeSeriesDataDict(data, periodType) {
   }
 }
 
-export function processTitle(startDate, endDate, data, periodDescription = "") {
-  const current = data[endDate] || 0;
-  const previous = data[startDate] || 0;
+export function processTitle(data, periodDescription = "") {
+  const periods = Object.keys(data).sort();
+  const start = periods[0];
+  const end = periods[periods.length - 1];
+
+  const current = data[end] || 0;
+  const previous = data[start] || 0;
   if (current !== 0) {
     const change = Number(
       (((current - previous) * 100) / (previous + 1)).toFixed(0)
