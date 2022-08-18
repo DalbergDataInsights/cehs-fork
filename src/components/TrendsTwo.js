@@ -101,7 +101,7 @@ const TrendsTwo = () => {
     });
   }, [variableId, period, periodType]);
 
-  const facilityQuery = useDataQuery(myQuery, {
+  const facilityQuery = useDataQuery(myQueryFacility, {
     variables: {
       variableId: variableId,
       period: period,
@@ -132,6 +132,7 @@ const TrendsTwo = () => {
         processor={processCountryData}
         level={"country"}
         displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualizationTwo
         data={districtLevelData}
@@ -156,6 +157,7 @@ const TrendsTwo = () => {
         processor={processCountryData}
         level={"district"}
         displayName={displayName}
+        periodType={periodType}
       />
       <TreeMapVisualization
         data={facilityLevelData}
