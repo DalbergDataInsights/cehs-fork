@@ -54,7 +54,7 @@ const LineVisualizationTwo = ({
             {level == "country" && (
               <>
                 <VisualizationTitle
-                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
+                  analysis={processTitle(dataViz, "")}
                   what="Overview:"
                   indicatorDescription={displayName}
                   level="Across the country"
