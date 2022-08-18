@@ -767,3 +767,14 @@ function monthsToQuarters(months) {
   });
   return [...new Set(y)].sort();
 }
+
+export function periodBetween(startPeriod, endPeriod, periodType) {
+  const months = monthsBetween(startPeriod, endPeriod);
+  if (periodType == "monthly") {
+    return months;
+  } else {
+    const quarters = monthsToQuarters(months);
+    console.log(quarters);
+    return quarters;
+  }
+}
