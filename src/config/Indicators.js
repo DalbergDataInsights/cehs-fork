@@ -487,7 +487,8 @@ const indicatorMeta = [
 
   {
     key: "CHM-001",
-    displayName: "% of adults using any family planning method",
+    displayName:
+      "CHM - Proportion of women in child bearing age using family planning method",
     function: "single",
     numerator: { dataElementId: "qWmp6ar4GSS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -496,7 +497,8 @@ const indicatorMeta = [
   },
   {
     key: "CHM-002",
-    displayName: "% of preg women  attended atleast 4 ANCs ",
+    displayName:
+      "CHM - Proportion of Pregnant who attended atleast 4  antenatal care Visits",
     function: "single",
     numerator: { dataElementId: "YWdurab8GUI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -505,7 +507,8 @@ const indicatorMeta = [
   },
   {
     key: "CHM-003",
-    displayName: "% of preg women who attended at least 8 ANCs ",
+    displayName:
+      "CHM - Proportion of Pregnant who attended atleast 8 antenatal care Visits",
     function: "single",
     numerator: { dataElementId: "oUPfUoCx8T5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -514,7 +517,7 @@ const indicatorMeta = [
   },
   {
     key: "CHM-004",
-    displayName: "% of deliveries at home",
+    displayName: "CHM - Proportion of  pregnant women who delivered at home",
     function: "single",
     numerator: { dataElementId: "BWa5OKXBnKL", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -523,7 +526,8 @@ const indicatorMeta = [
   },
   {
     key: "CHM-005",
-    displayName: "% of preg women who died during pregnancy",
+    displayName:
+      "CHM - Proportion of pregnant women who died during pregnancy in the community",
     function: "single",
     numerator: { dataElementId: "LZUjkfqaS6i", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -532,7 +536,8 @@ const indicatorMeta = [
   },
   {
     key: "CHM-006",
-    displayName: "% of preg with danger signs reffered",
+    displayName:
+      "CHM - Proportion of pregnant women with danger signs reffered",
     function: "single",
     numerator: { dataElementId: "t4szt7SkmvK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -541,7 +546,7 @@ const indicatorMeta = [
   },
   {
     key: "CHM-007",
-    displayName: "% of preg /lactating Women with red MUAC ",
+    displayName: "CHM - Proportion of Pregnant /lactating Women with red MUAC",
     function: "single",
     numerator: { dataElementId: "JXmW20dcD9g", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -550,7 +555,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-001",
-    displayName: "% of children < 1m who were reported dead ",
+    displayName:
+      "CHC - Proportion of children less than 1 month  reported dead in the community",
     function: "single",
     numerator: { dataElementId: "ulVTa8n0dg9", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -559,7 +565,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-002",
-    displayName: "% of children btn  1m - 11m reported dead",
+    displayName:
+      "CHC - Proportion of children betweeen  1 month and  11 months   reported dead in the community",
     function: "single",
     numerator: { dataElementId: "YyQbpCGHVLM", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -568,7 +575,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-003",
-    displayName: "% of children btn 1-5 years reported dead",
+    displayName:
+      "CHC - Proportion of children between  1 year to 5 years who were reported dead in the community",
     function: "single",
     numerator: { dataElementId: "XTtgKWbb33s", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -577,7 +585,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-004",
-    displayName: "% of children under 5 reported dead ",
+    displayName:
+      "CHC - Proportion of children under 5 years who were reported dead in the community",
     function: "single",
     numerator: { dataElementId: "SQnc564dMyJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -586,7 +595,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-005",
-    displayName: "% of Children < 5yrs  received vitamin A  last 6m",
+    displayName:
+      "CHC - Propotion of children under who received vitamin A in the last 6 months",
     function: "single",
     numerator: { dataElementId: "hjBYMet9ETI", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -595,7 +605,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-006",
-    displayName: "% of Children < 5yrs dewormed in  last 6 m",
+    displayName:
+      "CHC - Proportion of Children under five years that were dewormed in the last 6 Months",
     function: "single",
     numerator: { dataElementId: "kIzWZ061Ill", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -604,7 +615,7 @@ const indicatorMeta = [
   },
   {
     key: "CHC-007",
-    displayName: "%  of Children under 5 years with red MUAC",
+    displayName: "CHC - Proportion of Children with red MUAC",
     function: "single",
     numerator: { dataElementId: "YIlcfeW64TE", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -613,7 +624,7 @@ const indicatorMeta = [
   },
   {
     key: "CHC-008",
-    displayName: "%  of Children under 5 years with Oedema",
+    displayName: "CHC - Propotion of Children with Oedema",
     function: "single",
     numerator: { dataElementId: "mLTfdnIAJSw", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -622,7 +633,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-009",
-    displayName: "%  of  Children who are reffered ",
+    displayName:
+      "CHC - Propotion of Children with Oedema or red or yellow MUAC who are reffered",
     function: "single",
     numerator: { dataElementId: "Xlgeqv69eW2", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -631,7 +643,8 @@ const indicatorMeta = [
   },
   {
     key: "CHC-010",
-    displayName: "% of children with up- to- date immunization",
+    displayName:
+      "CHC - Proportion of children under 5years with up to date immunization",
     function: "single",
     numerator: { dataElementId: "x8pMRKVTDOS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -640,7 +653,8 @@ const indicatorMeta = [
   },
   {
     key: "CHHTB-001",
-    displayName: "% of HIV positive patients not on treatment",
+    displayName:
+      "CHHTB - Proportion of HIV positive patients that are not on treatment",
     function: "single",
     numerator: { dataElementId: "E8XlkjxceMj", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -649,7 +663,8 @@ const indicatorMeta = [
   },
   {
     key: "CHHTB-002",
-    displayName: "% of TB patients not on TB treatment",
+    displayName:
+      "CHHTB - Proportion of TB patients who are not on TB treatment",
     function: "single",
     numerator: { dataElementId: "iWQC5FP1Rmx", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -658,7 +673,7 @@ const indicatorMeta = [
   },
   {
     key: "CHHTB-003",
-    displayName: "% of household members who sleep under LLIN",
+    displayName: "CHHTB - Proportion of people who sleep under LLIN",
     function: "single",
     numerator: { dataElementId: "y87CFusc2mJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -667,7 +682,7 @@ const indicatorMeta = [
   },
   {
     key: "CHW-001",
-    displayName: "% of households with latrines ",
+    displayName: "CHW - Proportion of households with latrines",
     function: "single",
     numerator: { dataElementId: "yRiGyQaKGcK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -676,7 +691,7 @@ const indicatorMeta = [
   },
   {
     key: "CHW-002",
-    displayName: "% of households with Improved  latrines ",
+    displayName: "CHW - Proportion of households with Improved  latrines",
     function: "single",
     numerator: { dataElementId: "BVDdlVEOeQc", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -685,7 +700,7 @@ const indicatorMeta = [
   },
   {
     key: "CHW-003",
-    displayName: "% of households with handwashing facilities ",
+    displayName: "CHW - Proportion of households with handwashing facilities",
     function: "single",
     numerator: { dataElementId: "Y6yqbwGyNcK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -694,7 +709,8 @@ const indicatorMeta = [
   },
   {
     key: "CHW-004",
-    displayName: "% of households with source safe drinking water  ",
+    displayName:
+      "CHW - Proportion of households with source safe drinking water",
     function: "single",
     numerator: { dataElementId: "E7d7CloQiMS", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -703,7 +719,8 @@ const indicatorMeta = [
   },
   {
     key: "CHW-005",
-    displayName: "% of households that are open defeacation free ",
+    displayName:
+      "CHW - Proportion of households that are open defeacation free",
     function: "single",
     numerator: { dataElementId: "nuhYCiiGmuH", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -712,7 +729,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-001",
-    displayName: "% of sick Children 2m - 5Yrs with Diarrhoea",
+    displayName:
+      "CHICCM - Proportion of sick Children 2 months – 5 years seen by VHTs with Diarrhoea in the community",
     function: "single",
     numerator: { dataElementId: "SBxgVBZ0T2b", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -721,7 +739,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-002",
-    displayName: "% of children 2m -5yrs  treated with ORS- Zinc",
+    displayName:
+      "CHICCM - Proportion of Sick children 2 months -5yrs seen  by VHT and treated with ORS/Zinc copack  for Diarrhoea in the community",
     function: "single",
     numerator: { dataElementId: "ABuRNqtTQHJ", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -730,7 +749,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-003",
-    displayName: "% of children 2m -5yrs  treated within 24hrs",
+    displayName:
+      "CHICCM - Proportion of Children 2 months - 5yrs seen by VHT and treated within 24hrs for Diarrhoea in the community",
     function: "single",
     numerator: { dataElementId: "pgooppftLQK", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -739,7 +759,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-004",
-    displayName: "% of Children 2m - 5yrs cases with fever",
+    displayName:
+      "CHICCM - Proportion of Children 2 months - 5yrs cases with fever seen by VHTs in the community",
     function: "single",
     numerator: { dataElementId: "RHuJknb2sD7", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -748,7 +769,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-005",
-    displayName: "% of Children 2m - 5yrs cases received RDT",
+    displayName:
+      "CHICCM - Proportion of Children 2months - 5yrs cases with fever that received malaria RDT seen by VHTs in the community",
     function: "single",
     numerator: { dataElementId: "hwsCAW8hwZO", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -757,7 +779,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-006",
-    displayName: "% of Sick Children 2m-5yrs  confirmed Malaria",
+    displayName:
+      "CHICCM - Proportion of Sick Children 2months-5yrs with confirmed Malaria by RDT in the community",
     function: "single",
     numerator: { dataElementId: "KH0dvtNaChi", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -766,7 +789,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-007",
-    displayName: "% of Sick children 2m- 5yrs  received ACT",
+    displayName:
+      "CHICCM - Proportion of Sick children 2 months- 5yrs malaria cases that received ACT seen by VHTs in the community",
     function: "single",
     numerator: { dataElementId: "MWsPBMIage8", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -775,7 +799,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-008",
-    displayName: "% of Sick children 2m -5yrs  fever + danger signs",
+    displayName:
+      "CHICCM - Proportion of Sick children 2 months -5yrs with fever + danger sign seen in the community",
     function: "single",
     numerator: { dataElementId: "I1HTSWsnWJF", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -784,7 +809,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-009",
-    displayName: "% of Sick children 2m - 5yr treated  rectals",
+    displayName:
+      "CHICCM - Proportion of Sick children 2 months - 5yrs with fever and danger sign treated with rectal artesunate by VHTs",
     function: "single",
     numerator: { dataElementId: "uMtDg4qZ2oX", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -793,7 +819,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-010",
-    displayName: "%  of Sick children 2m - 5yr treated within 24hrs",
+    displayName:
+      "CHICCM - Proportion  of Sick children 2 months – 5 years seen by VHT and treated within 24hrs for fever in the community",
     function: "single",
     numerator: { dataElementId: "xVdeHPQQKwl", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -802,7 +829,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-011",
-    displayName: "% of Sick children  managed and recovered",
+    displayName:
+      "CHICCM - Proportion of Sick children who were managed by VHT who recovered",
     function: "single",
     numerator: { dataElementId: "JcuxnUSICw6", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -811,7 +839,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-012",
-    displayName: "% of sick Children 2m - 5 Yrs fast breathing",
+    displayName:
+      "CHICCM - Proportion  of sick Children 2 months – 5 years with fast breathing / Pneumonia",
     function: "single",
     numerator: { dataElementId: "cCWGBZlz3HC", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -820,7 +849,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-013",
-    displayName: "% of Sick children 2m -5yrs received amoxicn",
+    displayName:
+      "CHICCM - Proportion of Sick children 2 months - 5yrs confirmed pneumonia  that received amoxicillin dispersible tablets",
     function: "single",
     numerator: { dataElementId: "rNSO5Vup5T5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -829,7 +859,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-014",
-    displayName: "% of Sick children 2m - 5yrs treated for pneumonia",
+    displayName:
+      "CHICCM - Proportion of Sick children 2months - 5yrs seen by VHT and treated within 24hrs for pneumonia",
     function: "single",
     numerator: { dataElementId: "WQSsE382g5f", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -838,7 +869,8 @@ const indicatorMeta = [
   },
   {
     key: "CHICCM-015",
-    displayName: "% of Children < 5yrs referred to the Health Unit",
+    displayName:
+      "CHICCM - Proportion of sick children under 5 years referred to the Health Unit",
     function: "single",
     numerator: { dataElementId: "dWTxe9qIabU", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -847,7 +879,7 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-001",
-    displayName: "% of villages - stock out 1st line anti-Malarials",
+    displayName: "CHSTOCK - Proportion of villages with stock out of the ACT",
     function: "single",
     numerator: { dataElementId: "zxJWUgIuj9U", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -856,7 +888,7 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-002",
-    displayName: "% of villages with Stock out of RDTs",
+    displayName: "CHSTOCK - Proportion of villages with Stock out of RDTs",
     function: "single",
     numerator: { dataElementId: "vNDI3f5tsgw", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -865,7 +897,8 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-003",
-    displayName: "% of villages -  stock out 1st line anti-Malarial",
+    displayName:
+      "CHSTOCK - Proportion of villages with stock out of rectal Artesunate",
     function: "single",
     numerator: { dataElementId: "auoxfH4Zd0I", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -874,7 +907,8 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-004",
-    displayName: "% of villages with Stock out of Amoxycillin",
+    displayName:
+      "CHSTOCK - Proportion of villages with Stock out of Amoxycillin",
     function: "single",
     numerator: { dataElementId: "uQvu8YoYATz", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -883,7 +917,7 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-005",
-    displayName: "% of villages with stock out of ORS+ Zinc",
+    displayName: "CHSTOCK - Proportion of villages with stock out of ORS+ Zinc",
     function: "single",
     numerator: { dataElementId: "ru3AnD3BORA", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -892,7 +926,8 @@ const indicatorMeta = [
   },
   {
     key: "CHSTOCK-006",
-    displayName: "% of villages with Stock out of Misoprostol",
+    displayName:
+      "CHSTOCK - Proportion of villages with Stock out of Misoprostol",
     function: "single",
     numerator: { dataElementId: "AxmRemQZ1Ve", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -901,7 +936,8 @@ const indicatorMeta = [
   },
   {
     key: "CHFP-001",
-    displayName: "% of villages with Stock out of Injectable DMPA",
+    displayName:
+      "CHFP - Proportion of villages with Stock out of Injectable DMPA",
     function: "single",
     numerator: { dataElementId: "Kg5Znm1bTU5", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -910,7 +946,8 @@ const indicatorMeta = [
   },
   {
     key: "CHFP-002",
-    displayName: "% of villages with Stock out of Oral Contraceptive",
+    displayName:
+      "CHFP - Proportion of villages with Stock out of Combined Oral Contraceptive",
     function: "single",
     numerator: { dataElementId: "kaYaDO3oOMb", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -919,7 +956,7 @@ const indicatorMeta = [
   },
   {
     key: "CHFP-003",
-    displayName: "% of villages with Stock out of Condoms",
+    displayName: "CHFP - Proportion of villages with Stock out of Condoms",
     function: "single",
     numerator: { dataElementId: "QEspB5XVXVV", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -928,7 +965,8 @@ const indicatorMeta = [
   },
   {
     key: "CHFP-004",
-    displayName: "% of villages with stock out Progestin Only Pills",
+    displayName:
+      "CHFP - Proportion of villages with  stock out of Progestin Only Pills",
     function: "single",
     numerator: { dataElementId: "dDOwE0917GX", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
@@ -937,7 +975,8 @@ const indicatorMeta = [
   },
   {
     key: "CHFP-005",
-    displayName: "% of villages with stock out of Em. Contraceptives",
+    displayName:
+      "CHFP - Proportion of villages with stock out of Emergency Contraceptives",
     function: "single",
     numerator: { dataElementId: "R1juTYAlQcq", function: "single" },
     denominator: { dataElementId: 1, function: "single" },
