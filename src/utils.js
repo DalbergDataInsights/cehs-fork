@@ -102,7 +102,7 @@ export function processCountryData(data, periodType = "monthly") {
   }
 }
 
-export function processTimeSeriesDataDict(data, periodType) {
+export function processTimeSeriesDataDict(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
   const yearSet = new Set(yearList);
   const years = Array.from(yearSet);
@@ -332,6 +332,27 @@ export function getOrgUnitDataTotals(orgUnits, data) {
 
   // console.log("Printing org unit data totals with formatted names");
   // console.log(orgUnitDataTotalsRenamed);
+
+  return orgUnitDataTotalsRenamed;
+}
+
+export function getOrgUnitDataAverages(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = parseFloat(
+      (processOrgDataTotal(value) / value.length).toFixed(2)
+    );
+  });
+
+  const orgUnitDataTotalsRenamed = {};
+  Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataTotalsRenamed[orgUnitName] = value;
+  });
 
   return orgUnitDataTotalsRenamed;
 }
