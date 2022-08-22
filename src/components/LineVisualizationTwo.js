@@ -41,7 +41,7 @@ const LineVisualizationTwo = ({
 
   const dataViz = useMemo(() => {
     if (level == "country") {
-      return computeCountryTimeSeries(data, level);
+      return computeCountryTimeSeries(data, level, periodType);
     }
   }, [data]);
 
@@ -61,7 +61,12 @@ const LineVisualizationTwo = ({
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Total number of ${displayName} across the country`}</h5>
+                    {periodType == "monthly" && (
+                      <h5>{`Total number of ${displayName} across the country`}</h5>
+                    )}
+                    {periodType == "quarterly" && (
+                      <h5>{`Average value of ${displayName} across the country`}</h5>
+                    )}
                   </Col>
                 </Row>
               </>

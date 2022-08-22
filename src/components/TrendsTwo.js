@@ -118,6 +118,11 @@ const TrendsTwo = () => {
     facilityLevelRefetch({ variableId: variableId, period: period });
   }, [variableId, period]);
 
+  console.log(`Variable: ${variableId}`);
+  console.log(`Variable: ${displayName}`);
+  console.log(districtLevelData);
+  console.log(`Period type: ${periodType}`);
+
   return (
     <div id="ds-paginator">
       <VisualizationHeader

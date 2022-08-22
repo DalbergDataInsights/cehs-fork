@@ -42,7 +42,8 @@ const LineVisualizationTwoDistrict = ({
         data,
         districts,
         level,
-        store.selectedDistrict
+        store.selectedDistrict,
+        periodType
       );
     }
   }, [data, store.selectedDistrict]);
@@ -63,7 +64,12 @@ const LineVisualizationTwoDistrict = ({
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
+                    {periodType == "monthly" && (
+                      <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
+                    )}
+                    {periodType == "quarterly" && (
+                      <h5>{`Average value of ${displayName} in ${districtName}`}</h5>
+                    )}
                   </Col>
                 </Row>
               </>
