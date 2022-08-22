@@ -223,29 +223,45 @@ export function transpose(data) {
   }
 }
 
-export function processOrgRawDataToTimeSeries(data) {
-  if (!data || data === undefined) {
+export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
+  if (
+    !data ||
+    data === undefined ||
+    data.length == 0 ||
+    data[0].constructor !== Array
+  ) {
     return {};
   }
-  let data_tranposed = transpose(data); // tranpose the data
-  let time = data_tranposed[2]; // Get the raw time periods
-  let values = data_tranposed[3].map((val) => parseInt(val)); // Get the raw values
+  let data_transposed = transpose(data); // tranpose the data
+  let time = data_transposed[2]; // Get the raw time periods
+  let values = data_transposed[3].map((val) => parseInt(val)); // Get the raw values
   let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
   let time_dict = {}; // Create an empty dictionary
 
   // Initalize the time dictionary
   for (let i = 0; i < time_unique.length; i++) {
-    let x = 0;
     let time_i = time_unique[i];
+    let x_arr = [];
     for (let j = 0; j < time.length; j++) {
       if (time[j] == time_i) {
-        x = x + values[j];
+        x_arr.push(values[j]);
       }
     }
-    time_dict[time_unique[i]] = x;
+
+    console.log(x_arr);
+    const sum = x_arr.reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0);
+
+    if (periodType == "monthly") {
+      time_dict[time_unique[i]] = sum;
+    } else if (periodType == "quarterly") {
+      time_dict[time_unique[i]] = parseFloat((sum / x_arr.length).toFixed(1));
+    }
   }
 
-  // console.log(time_dict);
+  console.log(`Period type: ${periodType}`);
+  console.log(time_dict);
   return time_dict;
 }
 
@@ -387,12 +403,15 @@ export function sortDictionary(data) {
   }
 }
 
-export function computeCountryTimeSeries(data, level) {
+export function computeCountryTimeSeries(data, level, periodType) {
   let processedData = null;
   if (level == "country") {
     if (data) {
       if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
-        processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
+        processedData = processOrgRawDataToTimeSeries(
+          data["results"]["rows"],
+          periodType
+        );
       }
     }
   }
@@ -403,7 +422,8 @@ export function computeDistrictTimeSeries(
   data,
   districts,
   level,
-  selectedDistrict
+  selectedDistrict,
+  periodType
 ) {
   let selectedDistrictData = null;
   let processedData = null;
@@ -420,7 +440,10 @@ export function computeDistrictTimeSeries(
       }
     }
     selectedDistrictData = districtData[selectedDistrict];
-    processedData = processOrgRawDataToTimeSeries(selectedDistrictData);
+    processedData = processOrgRawDataToTimeSeries(
+      selectedDistrictData,
+      periodType
+    );
   }
 
   return processedData;
