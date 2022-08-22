@@ -453,7 +453,8 @@ export function computeFacilityTimeSeries(
   data,
   level,
   districtFacilitiesMeta,
-  selectedDistrict
+  selectedDistrict,
+  periodType = "monthly"
 ) {
   let facilitiesDataDict = {};
   let facility = null;

@@ -101,11 +101,12 @@ const TrendsTwo = () => {
     });
   }, [variableId, period, periodType]);
 
-  const facilityQuery = useDataQuery(myQueryFacility, {
+  const facilityQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
       period: period,
       orgLevel: "LEVEL-5",
+      periodType: periodType,
     },
   });
 
@@ -115,8 +116,12 @@ const TrendsTwo = () => {
   const facilityLevelRefetch = facilityQuery.refetch;
 
   useEffect(() => {
-    facilityLevelRefetch({ variableId: variableId, period: period });
-  }, [variableId, period]);
+    facilityLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
 
   console.log(`Variable: ${variableId}`);
   console.log(`Variable: ${displayName}`);
@@ -164,21 +169,25 @@ const TrendsTwo = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <TreeMapVisualization
-        data={facilityLevelData}
-        loading={facilityLevelLoading}
-        error={facilityLevelError}
-        displayName={displayName}
-      />
+      {periodType == "monthly" && (
+        <TreeMapVisualization
+          data={facilityLevelData}
+          loading={facilityLevelLoading}
+          error={facilityLevelError}
+          displayName={displayName}
+        />
+      )}
 
-      <LineVisualizationTwoFacility
-        data={facilityLevelData}
-        loading={facilityLevelLoading}
-        error={facilityLevelError}
-        processor={processCountryData}
-        level={"facility"}
-        displayName={displayName}
-      />
+      {periodType == "monthly" && (
+        <LineVisualizationTwoFacility
+          data={facilityLevelData}
+          loading={facilityLevelLoading}
+          error={facilityLevelError}
+          processor={processCountryData}
+          level={"facility"}
+          periodType={periodType}
+        />
+      )}
     </div>
   );
 };
