@@ -46,7 +46,7 @@ const LineVisualizationTwoDistrict = ({
         periodType
       );
     }
-  }, [data, store.selectedDistrict]);
+  }, [data, store.selectedDistrict, periodType]);
 
   return (
     <>

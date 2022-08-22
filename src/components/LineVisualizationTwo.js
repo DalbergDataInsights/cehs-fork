@@ -43,7 +43,7 @@ const LineVisualizationTwo = ({
     if (level == "country") {
       return computeCountryTimeSeries(data, level, periodType);
     }
-  }, [data]);
+  }, [data, periodType]);
 
   return (
     <>
