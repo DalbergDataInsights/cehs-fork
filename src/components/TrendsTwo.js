@@ -34,25 +34,6 @@ const myQuery = {
   },
 };
 
-const myQueryFacility = {
-  results: {
-    resource: "analytics",
-    params: ({ variableId, period, orgLevel }) => ({
-      dimension: [
-        `dx:${variableId}`,
-        `ou:${orgLevel}`,
-        `pe:${monthsBetween(
-          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
-          period.map((p) => p.format("YYYY-MM" + "-01"))[1]
-        ).join(";")}`,
-      ],
-      skipMeta: false,
-      paging: false,
-      includeNumDen: true,
-    }),
-  },
-};
-
 const { Option } = Select;
 
 const TrendsTwo = () => {
@@ -125,7 +106,8 @@ const TrendsTwo = () => {
 
   console.log(`Variable: ${variableId}`);
   console.log(`Variable: ${displayName}`);
-  console.log(districtLevelData);
+  console.log(facilityLevelData);
+  console.log(facilityLevelLoading);
   console.log(`Period type: ${periodType}`);
 
   return (
@@ -150,16 +132,16 @@ const TrendsTwo = () => {
         error={districtLevelError}
         maptype={"total"}
         displayName={displayName}
+        periodType={periodType}
       />
-
       <MapVisualizationTwo
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"percentage"}
         displayName={displayName}
+        periodType={periodType}
       />
-
       <LineVisualizationTwoDistrict
         data={districtLevelData}
         loading={districtLevelLoading}
@@ -169,25 +151,22 @@ const TrendsTwo = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      {periodType == "monthly" && (
-        <TreeMapVisualization
-          data={facilityLevelData}
-          loading={facilityLevelLoading}
-          error={facilityLevelError}
-          displayName={displayName}
-        />
-      )}
 
-      {periodType == "monthly" && (
-        <LineVisualizationTwoFacility
-          data={facilityLevelData}
-          loading={facilityLevelLoading}
-          error={facilityLevelError}
-          processor={processCountryData}
-          level={"facility"}
-          periodType={periodType}
-        />
-      )}
+      <TreeMapVisualization
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        displayName={displayName}
+      />
+
+      <LineVisualizationTwoFacility
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processCountryData}
+        level={"facility"}
+        periodType={periodType}
+      />
     </div>
   );
 };

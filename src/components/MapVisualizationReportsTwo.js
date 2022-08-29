@@ -28,53 +28,12 @@ const MapVisualizationReportsTwo = ({
   error,
   maptype,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
   console.log(periods);
-  // const variableObject = indicatorMeta.filter(
-  //   (i) => i.numerator.key == store.selectedVariable
-  // )[0];
-  // console.log("Printing the variable object");
-  // console.log(variableObject);
-  // const displayName = "";
-  // if (variableObject) {
-  //   // console.log(variableObject);
-  //   console.log(`Display name: ${variableObject.displayName}`);
-  //   displayName = variableObject.displayName;
-  // }
-  // console.log(displayName);
-
-  // 0. Get the unique list of facilities in the raw data
-  // const facilitiesIdsList =
-  //   data && data["results"]["rows"] !== undefined
-  //     ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
-  //     : [];
-
-  // console.log("Printing the facilities ID list from raw data");
-  // console.log(facilitiesIdsList);
-
-  // // 1. Partition the raw data into a dict of facility id => raw data for facility.
-  // // const facilitiesDataDict = {};
-  // // if (data && data["results"]["rows"]) {
-  // //   facilitiesIdsList.forEach(function (item, index) {
-  // //     facilitiesDataDict[item] = data["results"]["rows"].filter(
-  // //       (val) => val[1] == item
-  // //     );
-  // //   });
-  // // }
-
-  // // console.log("Printing the facilities per data dict");
-  // // console.log(facilitiesDataDict);
-
-  // const districtNumFacilities = {};
-  // for (const [key, value] of Object.entries(districtFacilitiesMeta)) {
-  //   districtNumFacilities[key] = value["facility_ids"].length;
-  // }
-
-  // console.log("Printing the number of reporting facilities per district");
-  // console.log(districtNumFacilities);
 
   const dataViz = useMemo(() => {
     if (maptype == "total") {

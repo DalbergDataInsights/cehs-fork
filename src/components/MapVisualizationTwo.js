@@ -6,6 +6,7 @@ import VisualizationTitle from "./VisualizationTitle";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
 import {
+  getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
 } from "../utils";
@@ -21,6 +22,7 @@ const MapVisualizationTwo = ({
   error,
   maptype,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   // console.log(store.selectedVariable);
@@ -29,7 +31,11 @@ const MapVisualizationTwo = ({
 
   const dataViz = useMemo(() => {
     if (maptype == "total") {
-      return getOrgUnitDataTotals(store.districts, data);
+      if (periodType == "monthly") {
+        return getOrgUnitDataTotals(store.districts, data);
+      } else if (periodType == "quarterly") {
+        return getOrgUnitDataAverages(store.districts, data);
+      }
     } else {
       return getOrgUnitDataPercentageChanges(store.districts, data);
     }
@@ -45,9 +51,20 @@ const MapVisualizationTwo = ({
           <Row style={{ marginBottom: 20 }}>
             {maptype == "total" && (
               <Col className="graph">
-                <h5>{`Total ${displayName} between ${store.period[0].format(
-                  "MMM-YYYY"
-                )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
+                {periodType == "monthly" && (
+                  <h5>{`Total ${displayName} between ${store.period[0].format(
+                    "MMM-YYYY"
+                  )} and ${store.period[1].format(
+                    "MMM-YYYY"
+                  )} by district`}</h5>
+                )}
+                {periodType == "quarterly" && (
+                  <h5>{`Average value of ${displayName} between ${store.period[0].format(
+                    "MMM-YYYY"
+                  )} and ${store.period[1].format(
+                    "MMM-YYYY"
+                  )} by district`}</h5>
+                )}
               </Col>
             )}
 

@@ -28,6 +28,7 @@ const LineVisualizationReports = ({
   processor,
   level,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   // console.log(store.selectedVariable);
@@ -75,7 +76,7 @@ const LineVisualizationReports = ({
             {level == "country" && (
               <>
                 <VisualizationTitle
-                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
+                  analysis={processTitle(dataViz, "")}
                   what="Overview:"
                   indicatorDescription={displayName}
                   level="Across the country, the proportion of facilities reporting"
@@ -93,7 +94,7 @@ const LineVisualizationReports = ({
             {level == "district" && (
               <>
                 <VisualizationTitle
-                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
+                  analysis={processTitle(dataViz, "")}
                   what={`Deep-dive in ${districtName}:`}
                   indicatorDescription={displayName}
                   level="The proportion of facilities reporting"
@@ -111,7 +112,7 @@ const LineVisualizationReports = ({
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(dataViz)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,
