@@ -27,15 +27,17 @@ const TreeMapTwo = ({ data, loading, error, parent }) => {
           data={[
             {
               type: "treemap",
-              // parents: Array(Object.keys(sortedData).length).fill(parent),
-              // labels: sortedData.map((v) => v[0]).map((val) => facilitiesMeta[val]),
-              // values: sortedData.map((v) => v[1]),
-              parents: Array(50).fill(parent),
+              parents: Array(Object.keys(sortedData).length).fill(parent),
               labels: sortedData
-                .slice(0, 50)
                 .map((v) => v[0])
                 .map((val) => facilitiesMeta[val]),
-              values: sortedData.slice(0, 50).map((v) => v[1]),
+              values: sortedData.map((v) => v[1]),
+              // parents: Array(50).fill(parent),
+              // labels: sortedData
+              //   .slice(0, 50)
+              //   .map((v) => v[0])
+              //   .map((val) => facilitiesMeta[val]),
+              // values: sortedData.slice(0, 50).map((v) => v[1]),
               // textinfo: "label+value+percent parent+percent entry",
               textinfo: "label+value+percent parent+percent",
               hoverinfo: "label+value+percent parent+percent",

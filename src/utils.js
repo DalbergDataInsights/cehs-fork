@@ -1,6 +1,7 @@
 import { fromPairs } from "lodash";
 import { useMemo } from "react";
 import facilitiesMeta from "./config/Facilities";
+import moment from "moment";
 const fig = {
   2018: "rgb(185, 221, 241)",
   2019: "rgb(106, 155, 195)",
@@ -832,7 +833,7 @@ export function extractDistrictData(data, district, districtFacilitiesMeta) {
   }
 }
 
-function monthsToQuarters(months) {
+export function monthsToQuarters(months) {
   const q1 = ["01", "02", "03"];
   const q2 = ["04", "05", "06"];
   const q3 = ["07", "08", "09"];
@@ -860,4 +861,14 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
     console.log(quarters);
     return quarters;
   }
+}
+
+export function getTimePeriodRange() {
+  const d = new Date();
+  const mth = d.getMonth() + 1;
+  const yr = d.getFullYear();
+  const currMth = mth < 10 ? "0" + mth : mth;
+  const period = [moment(yr + "-01-01"), moment(yr + "-" + currMth + "-01")];
+
+  return period;
 }

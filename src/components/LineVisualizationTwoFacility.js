@@ -97,7 +97,7 @@ const LineVisualizationTwoFacility = ({
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(dataViz)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,

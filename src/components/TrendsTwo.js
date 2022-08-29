@@ -164,6 +164,7 @@ const TrendsTwo = () => {
         loading={facilityLevelLoading}
         error={facilityLevelError}
         processor={processCountryData}
+        displayName={displayName}
         level={"facility"}
         periodType={periodType}
       />

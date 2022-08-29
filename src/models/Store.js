@@ -1,4 +1,5 @@
 import moment from "moment";
+import { getTimePeriodRange } from "../utils";
 import { domain } from "./Domain";
 import * as events from "./Events";
 export const $store = domain
@@ -38,7 +39,7 @@ export const $store = domain
     loading: false,
     selectedPolicy: "Keep outliers",
     selectedAnalysis: "Compare two months",
-    period: [moment("2018-01-01"), moment("2021-12-31")],
+    period: getTimePeriodRange(),
     selectedPercentageOption: "1",
     selectedTotalOption: "1",
     selectedContributionOption: "1",

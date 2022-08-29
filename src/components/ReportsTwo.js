@@ -112,6 +112,7 @@ const ReportsTwo = () => {
         loading={facilityLevelLoading}
         maptype={"total"}
         displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualizationReportsTwo
         data={facilityLevelData}
@@ -119,6 +120,7 @@ const ReportsTwo = () => {
         loading={facilityLevelLoading}
         maptype={"percentage"}
         displayName={displayName}
+        periodType={periodType}
       />
       <LineVisualizationReports
         data={facilityLevelData}
