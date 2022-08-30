@@ -1,13 +1,6 @@
 import { fromPairs } from "lodash";
-import { useMemo } from "react";
 import facilitiesMeta from "./config/Facilities";
 import moment from "moment";
-const fig = {
-  2018: "rgb(185, 221, 241)",
-  2019: "rgb(106, 155, 195)",
-  2021: "rgb(200, 19, 60)",
-  2020: "rgb(11, 119, 65)",
-};
 
 export function processMapData(data, districts, startMonth, endMonth) {
   return districts.map((district) => {
