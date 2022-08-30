@@ -761,7 +761,7 @@ export function filterMonthlyYearlyData(
         const facilitySet = new Set(facilityList);
 
         yearsMonthsProportionsDict[val] =
-          facilitySet.size / Object.keys(facilitiesMeta).length;
+          (facilitySet.size * 100) / Object.keys(facilitiesMeta).length;
       });
     } else if (level == "district") {
       // yearsMonths.map(
@@ -778,7 +778,7 @@ export function filterMonthlyYearlyData(
         const facilitySet = new Set(facilityList);
 
         yearsMonthsProportionsDict[val] =
-          facilitySet.size /
+          (facilitySet.size * 100) /
           districtFacilitiesMeta[district]["facility_ids"].length;
       });
     }

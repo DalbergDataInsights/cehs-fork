@@ -32,10 +32,11 @@ const MapVisualizationReportsTwo = ({
   periodType,
 }) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
+  console.log("Printing out the periods in map visualization reports");
   console.log(periods);
-  console.log(periodType);
+  // console.log(periodType);
 
   const dataViz = useMemo(() => {
     if (maptype == "total") {
@@ -56,6 +57,10 @@ const MapVisualizationReportsTwo = ({
         periodType == "monthly"
           ? filterStartPeriodEndPeriodData(data, periods)
           : filterStartPeriodEndPeriodData(data, quarterPeriods);
+
+      console.log(`Period type: ${periodType}`);
+      console.log("Printing out the filtered data");
+      console.log(filteredData);
 
       if (filteredData) {
         const startReporting = computeReportingProportions(
@@ -84,7 +89,7 @@ const MapVisualizationReportsTwo = ({
         return reportingPercentages;
       }
     }
-  }, [data, store.period]);
+  }, [data, store.period, periodType]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
@@ -96,7 +101,7 @@ const MapVisualizationReportsTwo = ({
           <Row style={{ marginBottom: 20 }}>
             {maptype == "total" && (
               <Col className="graph">
-                <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                <h5>{`Percentage of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>

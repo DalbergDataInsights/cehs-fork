@@ -79,11 +79,11 @@ const LineVisualizationReports = ({
                   analysis={processTitle(dataViz, "")}
                   what="Overview:"
                   indicatorDescription={displayName}
-                  level="Across the country, the proportion of facilities reporting"
+                  level="Across the country, the percentage of facilities reporting"
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                    <h5>{`Percentage of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                       "MMM-YYYY"
                     )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
                   </Col>
@@ -97,11 +97,11 @@ const LineVisualizationReports = ({
                   analysis={processTitle(dataViz, "")}
                   what={`Deep-dive in ${districtName}:`}
                   indicatorDescription={displayName}
-                  level="The proportion of facilities reporting"
+                  level="The percentage of facilities reporting"
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Proportion of reporting facilities in ${districtName} that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                    <h5>{`Percentage of reporting facilities in ${districtName} that reported a non-zero number for ${displayName} between ${store.period[0].format(
                       "MMM-YYYY"
                     )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
                   </Col>

@@ -58,7 +58,7 @@ const LineVisualizationTwoDistrict = ({
               <>
                 <VisualizationTitle
                   analysis={processTitle(dataViz, "")}
-                  what={`Deep-dive in ${districtName}`}
+                  what={`Deep-dive in ${districtName}:`}
                   indicatorDescription={displayName}
                   level=""
                 />

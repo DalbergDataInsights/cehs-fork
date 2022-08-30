@@ -57,7 +57,7 @@ const LineVisualizationTwo = ({
                   analysis={processTitle(dataViz, "")}
                   what="Overview:"
                   indicatorDescription={displayName}
-                  level="Across the country"
+                  level="Across the country,"
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
