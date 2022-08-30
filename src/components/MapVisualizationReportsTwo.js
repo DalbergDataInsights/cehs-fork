@@ -111,27 +111,6 @@ const MapVisualizationReportsTwo = ({
             )}
           </Row>
 
-          {/* {maptype == "percentage" && (
-            <Row>
-              <Col>
-                <Select
-                  style={{ width: "100%", backgroundColor: "white" }}
-                  size="large"
-                  value={store.selectedPercentageOption}
-                  onChange={(val) => onPercentageOptionChange(val)}
-                >
-                  <Option value="1">
-                    Compare month of interest and month of reference
-                  </Option>
-                  <Option value="2">
-                    Compare quarters averages, using the three months periods
-                    ending on month of interest and month of reference
-                  </Option>
-                </Select>
-              </Col>
-            </Row>
-          )} */}
-
           {loading && <Loading />}
 
           {data && dataViz && (
