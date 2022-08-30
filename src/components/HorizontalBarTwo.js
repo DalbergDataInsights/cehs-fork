@@ -5,7 +5,6 @@ import { sortDictionary } from "../utils";
 const HorizontalBarTwo = ({ data, type }) => {
   const sorted = sortDictionary(data);
   const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
-  // const colorScaleValue = "rgb(0,0,255)";
   const colorScaleValue = "rgb(33,102,172)";
 
   return (
@@ -16,17 +15,14 @@ const HorizontalBarTwo = ({ data, type }) => {
           barmode: "overlay",
           x: sorted.slice(0, 10).map((v) => v[1]),
           y: sorted.slice(0, 10).map((v) => v[0]),
-          // text: sorted.slice(0, 10).map((v) => `${v.value}%`),
           orientation: "h",
           textposition: "inside",
-          // texttemplate: "%{x}%",
           texttemplate: textTemplateValue,
           showlegend: false,
           hoverinfo: "none",
           marker: {
             color: colorScaleValue,
           },
-          // reversescale: reversedScaleValue,
         },
       ]}
       layout={{

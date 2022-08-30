@@ -179,24 +179,30 @@ export function processTitle(data, periodDescription = "") {
 
   const current = data[end] || 0;
   const previous = data[start] || 0;
+  let change = null;
   if (current !== 0) {
-    const change = Number(
-      (((current - previous) * 100) / (previous + 1)).toFixed(0)
-    );
-
-    if (change < 0) {
-      return `decreased by ${change * -1}% ${periodDescription}`;
-    } else if (change > 0) {
-      return `increased by ${change}% ${periodDescription}`;
+    if (previous == 0) {
+      change = Number(
+        (((current - previous) * 100) / (previous + 1)).toFixed(0)
+      );
+    } else {
+      change = Number((((current - previous) * 100) / previous).toFixed(0));
     }
+  } else {
+    if (previous != 0) {
+      change = Number((((current - previous) * 100) / previous).toFixed(0));
+    } else {
+      change = 0;
+    }
+  }
+
+  if (change < 0) {
+    return `decreased by ${change * -1}% ${periodDescription}`;
+  } else if (change > 0) {
+    return `increased by ${change}% ${periodDescription}`;
+  } else {
     return `remained constant ${periodDescription}`;
   }
-
-  if (previous !== 0) {
-    return `decreased by ${100 * -1}% ${periodDescription}`;
-  }
-
-  return `remained constant ${periodDescription}`;
 }
 
 export function monthsBetween(...args) {
@@ -362,29 +368,39 @@ export function processOrgUnitDataPercent(data) {
   return parseFloat(percentChange.toFixed(2));
 }
 
-export function computeOrgUnitPercentofAverage(data) {
+export function computeOrgUnitPercentOfAverage(data, orgUnit) {
   if (!data) {
     return 0;
   }
+  console.log(orgUnit);
   const sortedData = sortByColumn(data, 2);
-  const periods = [...new Set(sortedData.map((val) => val[2]))];
+  const periods = [...new Set(sortedData.map((val) => val[2]))].sort();
+  console.log("Printing out the periods");
+  console.log(periods);
+
   const startPeriod = periods[0];
   const endPeriod = periods[periods.length - 1];
   const startData = sortedData.filter((val) => val[2] == startPeriod);
   const endData = sortedData.filter((val) => val[2] == endPeriod);
 
-  const startAverage = processOrgDataTotal(startData) / (startData.length + 1);
-  const endAverage = getOrgUnitDataAverages(endData) / (endData.length + 1);
+  console.log("Printing start data and end data");
+  console.log(startData);
+  console.log(endData);
 
-  console.log("Printing the start average");
-  console.log(startAverage);
+  const startAverage = processOrgDataTotal(startData) / startData.length;
+  const endAverage = processOrgDataTotal(endData) / endData.length;
 
-  console.log("Printing the end average");
-  console.log(endAverage);
+  let value = null;
+  if (startAverage && endAverage) {
+    const num = ((endAverage - startAverage) * 100) / startAverage;
+    value = parseFloat(num.toFixed(2));
+  } else if (!startAverage && endAverage) {
+    value = null;
+  } else if (startAverage && !endAverage) {
+    value = 0;
+  }
 
-  const value = ((endAverage - startAverage) * 100) / (startAverage + 1);
-
-  return parseFloat(value.toFixed(2));
+  return value;
 }
 
 export function processDataPercentOfAverages(orgUnits, data) {
@@ -396,7 +412,7 @@ export function processDataPercentOfAverages(orgUnits, data) {
   const orgUnitAvChanges = {};
 
   Object.entries(orgUnitData).forEach(([key, value]) => {
-    orgUnitAvChanges[key] = computeOrgUnitPercentofAverage(value);
+    orgUnitAvChanges[key] = computeOrgUnitPercentOfAverage(value, key);
   });
 
   const orgUnitAvChangesRenamed = {};
@@ -432,11 +448,11 @@ export function getOrgUnitDataPercentageChanges(orgUnits, data) {
 
 export function sortDictionary(data) {
   if (data) {
-    var items = Object.keys(data).map(function (key) {
+    let items = Object.keys(data).map(function (key) {
       return [key, data[key]];
     });
 
-    items.sort(function (first, second) {
+    items = items.sort(function (first, second) {
       return second[1] - first[1];
     });
     return items;
