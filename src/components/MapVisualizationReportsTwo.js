@@ -14,6 +14,7 @@ import {
   computeReportingProportions,
   computeReportingPercentages,
   filterStartPeriodEndPeriodData,
+  monthsToQuarters,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBarTwo from "./HorizontalBarTwo";
@@ -28,53 +29,14 @@ const MapVisualizationReportsTwo = ({
   error,
   maptype,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
-  console.log(store.selectedVariable);
+  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
+  console.log("Printing out the periods in map visualization reports");
   console.log(periods);
-  // const variableObject = indicatorMeta.filter(
-  //   (i) => i.numerator.key == store.selectedVariable
-  // )[0];
-  // console.log("Printing the variable object");
-  // console.log(variableObject);
-  // const displayName = "";
-  // if (variableObject) {
-  //   // console.log(variableObject);
-  //   console.log(`Display name: ${variableObject.displayName}`);
-  //   displayName = variableObject.displayName;
-  // }
-  // console.log(displayName);
-
-  // 0. Get the unique list of facilities in the raw data
-  // const facilitiesIdsList =
-  //   data && data["results"]["rows"] !== undefined
-  //     ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
-  //     : [];
-
-  // console.log("Printing the facilities ID list from raw data");
-  // console.log(facilitiesIdsList);
-
-  // // 1. Partition the raw data into a dict of facility id => raw data for facility.
-  // // const facilitiesDataDict = {};
-  // // if (data && data["results"]["rows"]) {
-  // //   facilitiesIdsList.forEach(function (item, index) {
-  // //     facilitiesDataDict[item] = data["results"]["rows"].filter(
-  // //       (val) => val[1] == item
-  // //     );
-  // //   });
-  // // }
-
-  // // console.log("Printing the facilities per data dict");
-  // // console.log(facilitiesDataDict);
-
-  // const districtNumFacilities = {};
-  // for (const [key, value] of Object.entries(districtFacilitiesMeta)) {
-  //   districtNumFacilities[key] = value["facility_ids"].length;
-  // }
-
-  // console.log("Printing the number of reporting facilities per district");
-  // console.log(districtNumFacilities);
+  // console.log(periodType);
 
   const dataViz = useMemo(() => {
     if (maptype == "total") {
@@ -85,21 +47,22 @@ const MapVisualizationReportsTwo = ({
         store.districts
       );
     } else if (maptype == "percentage") {
-      // return computeReportingPercentages(
-      //   data,
-      //   periods,
-      //   districtFacilitiesMeta,
-      //   store.districts
-      // );
-      // Filter the out the data for periods
-      const filteredData = filterStartPeriodEndPeriodData(data, periods);
+      const quarterPeriods =
+        periodType == "quarterly" ? monthsToQuarters(periods) : null;
+
+      console.log(`Printing out the quarters: ${quarterPeriods}`);
+      console.log(`Periods: ${periods}`);
+
+      const filteredData =
+        periodType == "monthly"
+          ? filterStartPeriodEndPeriodData(data, periods)
+          : filterStartPeriodEndPeriodData(data, quarterPeriods);
+
+      console.log(`Period type: ${periodType}`);
+      console.log("Printing out the filtered data");
+      console.log(filteredData);
+
       if (filteredData) {
-        // console.log("Printing out the start period data");
-        // console.log(filteredData[0]);
-
-        // console.log("Printing out the end period data");
-        // console.log(filteredData[1]);
-
         const startReporting = computeReportingProportions(
           filteredData[0],
           "total",
@@ -114,12 +77,6 @@ const MapVisualizationReportsTwo = ({
           store.districts
         );
 
-        // console.log("Printing out the start reporting");
-        // console.log(startReporting);
-
-        // console.log("Printing out the end reporting");
-        // console.log(endReporting);
-
         const reportingPercentages = {};
         Object.entries(startReporting).forEach(([key, value]) => {
           reportingPercentages[key] = parseFloat(
@@ -129,91 +86,10 @@ const MapVisualizationReportsTwo = ({
           ).toFixed(2);
         });
 
-        // console.log("Printing out reporting percetange changes");
-        // console.log(reportingPercentages);
         return reportingPercentages;
       }
     }
-  }, [data, store.period]);
-
-  // let facilitiesDataTotals = null;
-
-  // let dataViz = null;
-
-  // if (data && data["results"]["rows"] && maptype == "total") {
-  //   // if (data && maptype == "total") {
-  //   facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
-
-  //   console.log("Printing the data totals per facility");
-  //   console.log(facilitiesDataTotals);
-
-  //   const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-  //   console.log("Printing facilities data totals array");
-  //   console.log(facilitiesDataTotalsArray);
-
-  //   const districtFacilitiesReportingTotals = {};
-  //   Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
-  //     districtFacilitiesReportingTotals[item] =
-  //       facilitiesDataTotalsArray.filter((val) =>
-  //         districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
-  //       ).length / districtNumFacilities[item];
-  //   });
-
-  //   console.log("Printing the proportions");
-  //   console.log(districtFacilitiesReportingTotals);
-
-  //   const districtFacilitiesReportingTotalsRenamed = {};
-  //   Object.entries(districtFacilitiesReportingTotals).forEach(
-  //     ([key, value]) => {
-  //       const districtName = store.districts
-  //         .filter((i) => i.id == key)
-  //         .map((ou) => ou.name)[0];
-
-  //       districtFacilitiesReportingTotalsRenamed[districtName] = parseFloat(
-  //         value.toFixed(2)
-  //       );
-  //     }
-  //   );
-
-  //   console.log("Printing the proportion of reporting facilites");
-  //   console.log(districtFacilitiesReportingTotalsRenamed);
-
-  //   dataViz = districtFacilitiesReportingTotalsRenamed;
-  // }
-
-  // if (data && data["results"]["rows"] && maptype == "percentage") {
-  //   // Get facility data from the start period
-  //   console.log(data["results"]["rows"]);
-  //   const startData = data["results"]["rows"].filter(
-  //     (val) => val[2] == store.period[0]
-  //   );
-  //   console.log(startData);
-  //   // Get facility data from the end period
-  //   const endData = data["results"]["rows"].filter(
-  //     (val) => val[2] == store.period[1]
-  //   );
-
-  //   // Computer the reporting totals
-  //   startReportingTotals = computeReportingTotals(
-  //     facilitiesIdsList,
-  //     startData,
-  //     districtFacilitiesMeta
-  //   );
-
-  //   // endReportingTotals = computeReportingTotals(
-  //   //   facilitiesIdsList,
-  //   //   endData,
-  //   //   districtFacilitiesMeta
-  //   // );
-
-  //   console.log("Printing out the start reporting total");
-  //   console.log(startReportingTotals);
-  //   // console.log("Printing out the end reporting totals");
-  //   // console.log(endReportingTotals);
-  // }
-
-  // console.log("Printing data Viz");
-  // console.log(dataViz);
+  }, [data, store.period, periodType]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
@@ -225,7 +101,7 @@ const MapVisualizationReportsTwo = ({
           <Row style={{ marginBottom: 20 }}>
             {maptype == "total" && (
               <Col className="graph">
-                <h5>{`Proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                <h5>{`Percentage of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
@@ -239,27 +115,6 @@ const MapVisualizationReportsTwo = ({
               </Col>
             )}
           </Row>
-
-          {/* {maptype == "percentage" && (
-            <Row>
-              <Col>
-                <Select
-                  style={{ width: "100%", backgroundColor: "white" }}
-                  size="large"
-                  value={store.selectedPercentageOption}
-                  onChange={(val) => onPercentageOptionChange(val)}
-                >
-                  <Option value="1">
-                    Compare month of interest and month of reference
-                  </Option>
-                  <Option value="2">
-                    Compare quarters averages, using the three months periods
-                    ending on month of interest and month of reference
-                  </Option>
-                </Select>
-              </Col>
-            </Row>
-          )} */}
 
           {loading && <Loading />}
 
@@ -302,7 +157,7 @@ const MapVisualizationReportsTwo = ({
                     />
                   </Col>
                 </Row>
-                <Download />
+                <Download data={dataViz} />
               </Col>
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
@@ -310,12 +165,12 @@ const MapVisualizationReportsTwo = ({
                     <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
-                <Download />
+                <Download data={dataViz} />
               </Col>
             </Row>
           )}
         </Col>
-        {error && <div>{error.message}</div>}
+        {error && <div>Data Fetch Error: {error.message}</div>}
       </Row>
     </>
   );

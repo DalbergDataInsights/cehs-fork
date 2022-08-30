@@ -6,7 +6,7 @@ import { $store } from "../models/Store";
 import { processCountryData, processTimeSeriesDataDict } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween } from "../utils";
+import { monthsBetween, periodBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationReportsTwo from "./MapVisualizationReportsTwo";
@@ -15,13 +15,14 @@ import LineVisualizationReports from "./LineVisualizationReports";
 const myQuery = {
   results: {
     resource: "analytics",
-    params: ({ variableId, period, orgLevel }) => ({
+    params: ({ variableId, period, orgLevel, periodType }) => ({
       dimension: [
         `dx:${variableId}`,
         `ou:${orgLevel}`,
-        `pe:${monthsBetween(
+        `pe:${periodBetween(
           period.map((p) => p.format("YYYY-MM" + "-01"))[0],
-          period.map((p) => p.format("YYYY-MM" + "-01"))[1]
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1],
+          periodType
         ).join(";")}`,
       ],
       skipMeta: false,
@@ -30,7 +31,6 @@ const myQuery = {
     }),
   },
 };
-
 const ReportsTwo = () => {
   const store = useStore($store);
   const variable = store.selectedVariable;
@@ -62,11 +62,15 @@ const ReportsTwo = () => {
   }
   console.log(`Variable Id: ${variableId}`);
 
+  const periodType = variableObject.reportingFrequency;
+  console.log(`Period Type: ${periodType}`);
+
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
       period: period,
       orgLevel: "LEVEL-5",
+      periodType: periodType,
     },
   });
 
@@ -76,8 +80,15 @@ const ReportsTwo = () => {
   const facilityLevelRefetch = facilityQuery.refetch;
 
   useEffect(() => {
-    facilityLevelRefetch({ variableId: variableId, period: period });
-  }, [variableId, period]);
+    facilityLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
+
+  console.log("Printing facility level data");
+  console.log(facilityLevelData);
 
   return (
     <div id="ds-paginator">
@@ -93,6 +104,7 @@ const ReportsTwo = () => {
         processor={processTimeSeriesDataDict}
         level={"country"}
         displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualizationReportsTwo
         data={facilityLevelData}
@@ -100,6 +112,7 @@ const ReportsTwo = () => {
         loading={facilityLevelLoading}
         maptype={"total"}
         displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualizationReportsTwo
         data={facilityLevelData}
@@ -107,6 +120,7 @@ const ReportsTwo = () => {
         loading={facilityLevelLoading}
         maptype={"percentage"}
         displayName={displayName}
+        periodType={periodType}
       />
       <LineVisualizationReports
         data={facilityLevelData}
@@ -115,6 +129,7 @@ const ReportsTwo = () => {
         processor={processTimeSeriesDataDict}
         level={"district"}
         displayName={displayName}
+        periodType={periodType}
       />
     </div>
   );

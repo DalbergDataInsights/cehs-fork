@@ -6,7 +6,7 @@ import { $store } from "../models/Store";
 import { processCountryData } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween } from "../utils";
+import { monthsBetween, periodBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
@@ -17,13 +17,14 @@ import LineVisualizationTwoFacility from "./LineVisualizationTwoFacility";
 const myQuery = {
   results: {
     resource: "analytics",
-    params: ({ variableId, period, orgLevel }) => ({
+    params: ({ variableId, period, orgLevel, periodType }) => ({
       dimension: [
         `dx:${variableId}`,
         `ou:${orgLevel}`,
-        `pe:${monthsBetween(
+        `pe:${periodBetween(
           period.map((p) => p.format("YYYY-MM" + "-01"))[0],
-          period.map((p) => p.format("YYYY-MM" + "-01"))[1]
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1],
+          periodType
         ).join(";")}`,
       ],
       skipMeta: false,
@@ -56,11 +57,15 @@ const TrendsTwo = () => {
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
+  const periodType = variableObject.reportingFrequency;
+  console.log(`Period Type: ${periodType}`);
+
   const districtQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
       period: period,
       orgLevel: "LEVEL-3",
+      periodType: periodType,
     },
   });
 
@@ -70,14 +75,19 @@ const TrendsTwo = () => {
   const districtLevelRefetch = districtQuery.refetch;
 
   useEffect(() => {
-    districtLevelRefetch({ variableId: variableId, period: period });
-  }, [variableId, period]);
+    districtLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
       variableId: variableId,
       period: period,
       orgLevel: "LEVEL-5",
+      periodType: periodType,
     },
   });
 
@@ -87,8 +97,18 @@ const TrendsTwo = () => {
   const facilityLevelRefetch = facilityQuery.refetch;
 
   useEffect(() => {
-    facilityLevelRefetch({ variableId: variableId, period: period });
-  }, [variableId, period]);
+    facilityLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
+
+  console.log(`Variable: ${variableId}`);
+  console.log(`Variable: ${displayName}`);
+  console.log(facilityLevelData);
+  console.log(facilityLevelLoading);
+  console.log(`Period type: ${periodType}`);
 
   return (
     <div id="ds-paginator">
@@ -104,6 +124,7 @@ const TrendsTwo = () => {
         processor={processCountryData}
         level={"country"}
         displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualizationTwo
         data={districtLevelData}
@@ -111,16 +132,16 @@ const TrendsTwo = () => {
         error={districtLevelError}
         maptype={"total"}
         displayName={displayName}
+        periodType={periodType}
       />
-
       <MapVisualizationTwo
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
         maptype={"percentage"}
         displayName={displayName}
+        periodType={periodType}
       />
-
       <LineVisualizationTwoDistrict
         data={districtLevelData}
         loading={districtLevelLoading}
@@ -128,7 +149,9 @@ const TrendsTwo = () => {
         processor={processCountryData}
         level={"district"}
         displayName={displayName}
+        periodType={periodType}
       />
+
       <TreeMapVisualization
         data={facilityLevelData}
         loading={facilityLevelLoading}
@@ -141,8 +164,9 @@ const TrendsTwo = () => {
         loading={facilityLevelLoading}
         error={facilityLevelError}
         processor={processCountryData}
-        level={"facility"}
         displayName={displayName}
+        level={"facility"}
+        periodType={periodType}
       />
     </div>
   );

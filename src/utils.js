@@ -1,6 +1,7 @@
 import { fromPairs } from "lodash";
 import { useMemo } from "react";
 import facilitiesMeta from "./config/Facilities";
+import moment from "moment";
 const fig = {
   2018: "rgb(185, 221, 241)",
   2019: "rgb(106, 155, 195)",
@@ -25,14 +26,88 @@ export function processMapData(data, districts, startMonth, endMonth) {
   });
 }
 
-export function processCountryData(data) {
+export function processCountryData(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  // console.log(yearList);
   const yearSet = new Set(yearList);
-  // const years = ["2018", "2019", "2020", "2021"];
   const years = Array.from(yearSet);
-  // console.log("Printing the years");
-  // console.log(years);
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+  const quarters = ["Q1", "Q2", "Q3", "Q4"];
+  let x = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  if (periodType == "monthly") {
+    return years.map((year) => {
+      const y = months.map((m) => parseInt(data[`${year}${m}`]));
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  } else if (periodType == "quarterly") {
+    return years.map((year) => {
+      const y = quarters.map((m) => {
+        return parseInt(data[`${year}${m}`]);
+      });
+
+      x = ["Q1", "Q2", "Q3", "Q4"];
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  }
+}
+
+export function processTimeSeriesDataDict(data, periodType = "monthly") {
+  const yearList = Object.keys(data).map((val) => val.substr(0, 4));
+  const yearSet = new Set(yearList);
+  const years = Array.from(yearSet);
+
   const months = [
     "01",
     "02",
@@ -48,7 +123,7 @@ export function processCountryData(data) {
     "12",
   ];
 
-  const x = [
+  let x = [
     "Jan",
     "Feb",
     "Mar",
@@ -63,90 +138,54 @@ export function processCountryData(data) {
     "Dec",
   ];
 
-  return years.map((year) => {
-    const y = months.map((m) => parseInt(data[`${year}${m}`]));
-    // const yearColor = ? fig[year]:
-    return {
-      name: year,
-      x,
-      y,
-      hoverinfo: "x+y",
-      type: "scatter",
-      marker: {
-        // color: fig[year],
-        size: 10,
-        symbol: "square",
-      },
-      line: {
-        width: 2,
-      },
-    };
-  });
+  const quarters = ["Q1", "Q2", "Q3", "Q4"];
+  if (periodType == "monthly") {
+    return years.map((year) => {
+      const y = months.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  } else if (periodType == "quarterly") {
+    return years.map((year) => {
+      const y = quarters.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
+      x = ["Q1", "Q2", "Q3", "Q4"];
+      return {
+        name: year,
+        x,
+        y,
+        hoverinfo: "x+y",
+        type: "scatter",
+        marker: {
+          size: 10,
+          symbol: "square",
+        },
+        line: {
+          width: 2,
+        },
+      };
+    });
+  }
 }
 
-export function processTimeSeriesDataDict(data) {
-  const yearList = Object.keys(data).map((val) => val.substr(0, 4));
-  // console.log("Printing the list of years");
-  // console.log(yearList);
-  const yearSet = new Set(yearList);
-  // const years = ["2018", "2019", "2020", "2021"];
-  const years = Array.from(yearSet);
-  // console.log("Printing the years");
-  // console.log(years);
-  // const years = ["2018", "2019", "2020", "2021"];
-  const months = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-  ];
+export function processTitle(data, periodDescription = "") {
+  const periods = Object.keys(data).sort();
+  const start = periods[0];
+  const end = periods[periods.length - 1];
 
-  const x = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  return years.map((year) => {
-    const y = months.map((m) => parseFloat(data[`${year}${m}`]).toFixed(4));
-    return {
-      name: year,
-      x,
-      y,
-      hoverinfo: "x+y",
-      type: "scatter",
-      marker: {
-        // color: fig[year],
-        size: 10,
-        symbol: "square",
-      },
-      line: {
-        width: 2,
-      },
-    };
-  });
-}
-
-export function processTitle(startDate, endDate, data, periodDescription = "") {
-  const current = data[endDate] || 0;
-  const previous = data[startDate] || 0;
+  const current = data[end] || 0;
+  const previous = data[start] || 0;
   if (current !== 0) {
     const change = Number(
       (((current - previous) * 100) / (previous + 1)).toFixed(0)
@@ -185,29 +224,45 @@ export function transpose(data) {
   }
 }
 
-export function processOrgRawDataToTimeSeries(data) {
-  if (!data || data === undefined) {
+export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
+  if (
+    !data ||
+    data === undefined ||
+    data.length == 0 ||
+    data[0].constructor !== Array
+  ) {
     return {};
   }
-  let data_tranposed = transpose(data); // tranpose the data
-  let time = data_tranposed[2]; // Get the raw time periods
-  let values = data_tranposed[3].map((val) => parseInt(val)); // Get the raw values
+  let data_transposed = transpose(data); // tranpose the data
+  let time = data_transposed[2]; // Get the raw time periods
+  let values = data_transposed[3].map((val) => parseInt(val)); // Get the raw values
   let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
   let time_dict = {}; // Create an empty dictionary
 
   // Initalize the time dictionary
   for (let i = 0; i < time_unique.length; i++) {
-    let x = 0;
     let time_i = time_unique[i];
+    let x_arr = [];
     for (let j = 0; j < time.length; j++) {
       if (time[j] == time_i) {
-        x = x + values[j];
+        x_arr.push(values[j]);
       }
     }
-    time_dict[time_unique[i]] = x;
+
+    console.log(x_arr);
+    const sum = x_arr.reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0);
+
+    if (periodType == "monthly") {
+      time_dict[time_unique[i]] = sum;
+    } else if (periodType == "quarterly") {
+      time_dict[time_unique[i]] = parseFloat((sum / x_arr.length).toFixed(1));
+    }
   }
 
-  // console.log(time_dict);
+  console.log(`Period type: ${periodType}`);
+  console.log(time_dict);
   return time_dict;
 }
 
@@ -282,6 +337,27 @@ export function getOrgUnitDataTotals(orgUnits, data) {
   return orgUnitDataTotalsRenamed;
 }
 
+export function getOrgUnitDataAverages(orgUnits, data) {
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitDataTotals = {};
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitDataTotals[key] = parseFloat(
+      (processOrgDataTotal(value) / value.length).toFixed(2)
+    );
+  });
+
+  const orgUnitDataTotalsRenamed = {};
+  Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitDataTotalsRenamed[orgUnitName] = value;
+  });
+
+  return orgUnitDataTotalsRenamed;
+}
+
 function sortByColumn(a, colIndex) {
   a.sort(sortFunction);
 
@@ -349,12 +425,15 @@ export function sortDictionary(data) {
   }
 }
 
-export function computeCountryTimeSeries(data, level) {
+export function computeCountryTimeSeries(data, level, periodType) {
   let processedData = null;
   if (level == "country") {
     if (data) {
       if (data["results"]["rows"] && data["results"]["rows"].length > 0) {
-        processedData = processOrgRawDataToTimeSeries(data["results"]["rows"]);
+        processedData = processOrgRawDataToTimeSeries(
+          data["results"]["rows"],
+          periodType
+        );
       }
     }
   }
@@ -365,7 +444,8 @@ export function computeDistrictTimeSeries(
   data,
   districts,
   level,
-  selectedDistrict
+  selectedDistrict,
+  periodType
 ) {
   let selectedDistrictData = null;
   let processedData = null;
@@ -382,7 +462,10 @@ export function computeDistrictTimeSeries(
       }
     }
     selectedDistrictData = districtData[selectedDistrict];
-    processedData = processOrgRawDataToTimeSeries(selectedDistrictData);
+    processedData = processOrgRawDataToTimeSeries(
+      selectedDistrictData,
+      periodType
+    );
   }
 
   return processedData;
@@ -392,7 +475,8 @@ export function computeFacilityTimeSeries(
   data,
   level,
   districtFacilitiesMeta,
-  selectedDistrict
+  selectedDistrict,
+  periodType = "monthly"
 ) {
   let facilitiesDataDict = {};
   let facility = null;
@@ -482,11 +566,7 @@ export function computeReportingTotals(
 ) {
   const facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-  // console.log("Printing the data totals per facility");
-  // console.log(facilitiesDataTotals);
-
   const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-  // console.log(facilitiesDataTotalsArray);
 
   const districtFacilitiesReportingTotals = {};
   Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
@@ -494,9 +574,6 @@ export function computeReportingTotals(
       (val) => districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
     ).length;
   });
-
-  // console.log("Printing the proportions");
-  // console.log(districtFacilitiesReportingTotals);
 
   return districtFacilitiesReportingTotals;
 }
@@ -514,51 +591,25 @@ export function computeReportingProportions(
       ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
       : [];
 
-  // console.log("Printing the facilities ID list from raw data");
-  // console.log(facilitiesIdsList);
-
-  // 1. Partition the raw data into a dict of facility id => raw data for facility.
-  // const facilitiesDataDict = {};
-  // if (data && data["results"]["rows"]) {
-  //   facilitiesIdsList.forEach(function (item, index) {
-  //     facilitiesDataDict[item] = data["results"]["rows"].filter(
-  //       (val) => val[1] == item
-  //     );
-  //   });
-  // }
-
-  // console.log("Printing the facilities per data dict");
-  // console.log(facilitiesDataDict);
-
   const districtNumFacilities = {};
   for (const [key, value] of Object.entries(districtFacilitiesMeta)) {
     districtNumFacilities[key] = value["facility_ids"].length;
   }
 
-  // console.log("Printing the number of reporting facilities per district");
-  // console.log(districtNumFacilities);
-
   if (data && data["results"]["rows"] && maptype == "total") {
-    // if (data && maptype == "total") {
     facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-    // console.log("Printing the data totals per facility");
-    // console.log(facilitiesDataTotals);
-
     const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-    // console.log("Printing facilities data totals array");
-    // console.log(facilitiesDataTotalsArray);
 
     const districtFacilitiesReportingTotals = {};
     Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
       districtFacilitiesReportingTotals[item] =
-        facilitiesDataTotalsArray.filter((val) =>
+        (facilitiesDataTotalsArray.filter((val) =>
           districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
-        ).length / districtNumFacilities[item];
+        ).length *
+          100) /
+        districtNumFacilities[item];
     });
-
-    // console.log("Printing the proportions");
-    // console.log(districtFacilitiesReportingTotals);
 
     const districtFacilitiesReportingTotalsRenamed = {};
     Object.entries(districtFacilitiesReportingTotals).forEach(
@@ -573,10 +624,6 @@ export function computeReportingProportions(
       }
     );
 
-    // console.log("Printing the proportion of reporting facilites");
-    // console.log(districtFacilitiesReportingTotalsRenamed);
-
-    // dataViz = districtFacilitiesReportingTotalsRenamed;
     return districtFacilitiesReportingTotalsRenamed;
   }
 }
@@ -594,6 +641,12 @@ export function filterStartPeriodEndPeriodData(data, periods) {
     );
 
     const endData = { results: { rows: endPeriodData } };
+
+    console.log("Printing start data");
+    console.log(startData);
+
+    console.log("Printing end data");
+    console.log(endData);
 
     return [startData, endData];
   }
@@ -708,7 +761,7 @@ export function filterMonthlyYearlyData(
         const facilitySet = new Set(facilityList);
 
         yearsMonthsProportionsDict[val] =
-          facilitySet.size / Object.keys(facilitiesMeta).length;
+          (facilitySet.size * 100) / Object.keys(facilitiesMeta).length;
       });
     } else if (level == "district") {
       // yearsMonths.map(
@@ -725,7 +778,7 @@ export function filterMonthlyYearlyData(
         const facilitySet = new Set(facilityList);
 
         yearsMonthsProportionsDict[val] =
-          facilitySet.size /
+          (facilitySet.size * 100) /
           districtFacilitiesMeta[district]["facility_ids"].length;
       });
     }
@@ -747,4 +800,44 @@ export function extractDistrictData(data, district, districtFacilitiesMeta) {
 
     return { results: { rows: districtData } };
   }
+}
+
+export function monthsToQuarters(months) {
+  const q1 = ["01", "02", "03"];
+  const q2 = ["04", "05", "06"];
+  const q3 = ["07", "08", "09"];
+  const y = months.map((m) => {
+    const mth = m.slice(-2);
+    if (q1.includes(mth)) {
+      return m.substring(0, 4) + "Q1";
+    } else if (q2.includes(mth)) {
+      return m.substring(0, 4) + "Q2";
+    } else if (q3.includes(mth)) {
+      return m.substring(0, 4) + "Q3";
+    } else {
+      return m.substring(0, 4) + "Q4";
+    }
+  });
+  return [...new Set(y)].sort();
+}
+
+export function periodBetween(startPeriod, endPeriod, periodType) {
+  const months = monthsBetween(startPeriod, endPeriod);
+  if (periodType == "monthly") {
+    return months;
+  } else {
+    const quarters = monthsToQuarters(months);
+    console.log(quarters);
+    return quarters;
+  }
+}
+
+export function getTimePeriodRange() {
+  const d = new Date();
+  const mth = d.getMonth();
+  const yr = d.getFullYear();
+  const currMth = mth < 10 ? "0" + mth : mth;
+  const period = [moment(yr + "-01-01"), moment(yr + "-" + currMth + "-01")];
+
+  return period;
 }

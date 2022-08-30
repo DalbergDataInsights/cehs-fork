@@ -26,6 +26,7 @@ const LineVisualizationTwoFacility = ({
   processor,
   level,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   const periods = store.period.map((p) => p.format("YYYYMM"));
@@ -67,7 +68,10 @@ const LineVisualizationTwoFacility = ({
 
       facilityName = facilitiesMeta[myFacility];
 
-      return processOrgRawDataToTimeSeries(facilitiesDataDict[myFacility]);
+      return processOrgRawDataToTimeSeries(
+        facilitiesDataDict[myFacility],
+        periodType
+      );
     }
   }, [data, store.selectedDistrict, facility]);
 
@@ -80,7 +84,12 @@ const LineVisualizationTwoFacility = ({
             {level == "facility" && (
               <Row style={{ marginBottom: 20 }}>
                 <Col className="graph">
-                  <h5>{`Evolution of number of ${displayName} in ${facilityName}`}</h5>
+                  {periodType == "monthly" && (
+                    <h5>{`Evolution of number of ${displayName} in ${facilityName}`}</h5>
+                  )}
+                  {periodType == "quarterly" && (
+                    <h5>{`Evolution of average value of ${displayName} in ${facilityName}`}</h5>
+                  )}
                 </Col>
               </Row>
             )}
@@ -88,7 +97,7 @@ const LineVisualizationTwoFacility = ({
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(dataViz)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,

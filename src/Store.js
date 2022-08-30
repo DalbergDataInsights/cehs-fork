@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 import moment from "moment";
 import { colors } from "./Colors";
 import { VisualizationData } from "./models/VisualizationData";
+import { getTimePeriodRange } from "./utils";
 
 const fig = {
   2018: "rgb(185, 221, 241)",
@@ -65,7 +66,8 @@ export class Store {
   loading = false;
   selectedPolicy = "Keep outliers";
   selectedAnalysis = "Compare two months";
-  period = [moment("2018-01-01"), moment("2021-12-31")];
+
+  period = getTimePeriodRange();
 
   selectedPecentageOption = "1";
   selectedTotalOption = "1";

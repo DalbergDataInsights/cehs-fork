@@ -25,6 +25,7 @@ const LineVisualizationTwoDistrict = ({
   processor,
   level,
   displayName,
+  periodType,
 }) => {
   const store = useStore($store);
   const periods = store.period.map((p) => p.format("YYYYMM"));
@@ -41,10 +42,11 @@ const LineVisualizationTwoDistrict = ({
         data,
         districts,
         level,
-        store.selectedDistrict
+        store.selectedDistrict,
+        periodType
       );
     }
-  }, [data, store.selectedDistrict]);
+  }, [data, store.selectedDistrict, periodType]);
 
   return (
     <>
@@ -55,14 +57,19 @@ const LineVisualizationTwoDistrict = ({
             {level == "district" && (
               <>
                 <VisualizationTitle
-                  analysis={processTitle(periods[0], periods[1], dataViz, "")}
-                  what={`Deep-dive in ${districtName}`}
+                  analysis={processTitle(dataViz, "")}
+                  what={`Deep-dive in ${districtName}:`}
                   indicatorDescription={displayName}
                   level=""
                 />
                 <Row style={{ marginBottom: 20 }}>
                   <Col className="graph">
-                    <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
+                    {periodType == "monthly" && (
+                      <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
+                    )}
+                    {periodType == "quarterly" && (
+                      <h5>{`Average value of ${displayName} in ${districtName}`}</h5>
+                    )}
                   </Col>
                 </Row>
               </>
@@ -71,7 +78,7 @@ const LineVisualizationTwoDistrict = ({
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(dataViz)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,
