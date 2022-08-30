@@ -249,7 +249,6 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
       }
     }
 
-    console.log(x_arr);
     const sum = x_arr.reduce((accumulator, value) => {
       return accumulator + value;
     }, 0);
@@ -261,8 +260,6 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
     }
   }
 
-  console.log(`Period type: ${periodType}`);
-  console.log(time_dict);
   return time_dict;
 }
 
@@ -282,8 +279,6 @@ export function processOrgDataTotal(data) {
 
 export function getDataPerOrgUnits(orgUnits, data) {
   const orgUnitIds = orgUnits.map((val) => val.id);
-  // console.log("Printing organisation units");
-  // console.log(orgUnitIds);
   const orgUnitData = {};
 
   if (data) {
@@ -294,9 +289,6 @@ export function getDataPerOrgUnits(orgUnits, data) {
         );
       });
     }
-    // console.log("Printing out districts data");
-    // console.log(orgUnitData);
-    // console.log(Object.keys(orgUnitData));
   }
   return orgUnitData;
 }
@@ -307,9 +299,6 @@ export function getOrgUnitDataTotalsNoRenaming(orgUnits, data) {
   Object.entries(orgUnitData).forEach(([key, value]) => {
     orgUnitDataTotals[key] = processOrgDataTotal(value);
   });
-
-  // console.log("Printing org unit data totals");
-  // console.log(orgUnitDataTotals);
 }
 
 export function getOrgUnitDataTotals(orgUnits, data) {
@@ -319,9 +308,6 @@ export function getOrgUnitDataTotals(orgUnits, data) {
     orgUnitDataTotals[key] = processOrgDataTotal(value);
   });
 
-  // console.log("Printing org unit data totals");
-  // console.log(orgUnitDataTotals);
-
   const orgUnitDataTotalsRenamed = {};
   Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
     const orgUnitName = orgUnits
@@ -330,9 +316,6 @@ export function getOrgUnitDataTotals(orgUnits, data) {
 
     orgUnitDataTotalsRenamed[orgUnitName] = value;
   });
-
-  // console.log("Printing org unit data totals with formatted names");
-  // console.log(orgUnitDataTotalsRenamed);
 
   return orgUnitDataTotalsRenamed;
 }
@@ -386,14 +369,61 @@ export function processOrgUnitDataPercent(data) {
   return parseFloat(percentChange.toFixed(2));
 }
 
+export function computeOrgUnitPercentofAverage(data) {
+  if (!data) {
+    return 0;
+  }
+  const sortedData = sortByColumn(data, 2);
+  const periods = [...new Set(sortedData.map((val) => val[2]))];
+  const startPeriod = periods[0];
+  const endPeriod = periods[periods.length - 1];
+  const startData = sortedData.filter((val) => val[2] == startPeriod);
+  const endData = sortedData.filter((val) => val[2] == endPeriod);
+
+  const startAverage = processOrgDataTotal(startData) / (startData.length + 1);
+  const endAverage = getOrgUnitDataAverages(endData) / (endData.length + 1);
+
+  console.log("Printing the start average");
+  console.log(startAverage);
+
+  console.log("Printing the end average");
+  console.log(endAverage);
+
+  const value = ((endAverage - startAverage) * 100) / (startAverage + 1);
+
+  return parseFloat(value.toFixed(2));
+}
+
+export function processDataPercentOfAverages(orgUnits, data) {
+  if (!data) {
+    return {};
+  }
+
+  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
+  const orgUnitAvChanges = {};
+
+  Object.entries(orgUnitData).forEach(([key, value]) => {
+    orgUnitAvChanges[key] = computeOrgUnitPercentofAverage(value);
+  });
+
+  const orgUnitAvChangesRenamed = {};
+  Object.entries(orgUnitAvChanges).forEach(([key, value]) => {
+    const orgUnitName = orgUnits
+      .filter((i) => i.id == key)
+      .map((ou) => ou.name)[0];
+
+    orgUnitAvChangesRenamed[orgUnitName] = value;
+  });
+
+  return orgUnitAvChangesRenamed;
+}
+
 export function getOrgUnitDataPercentageChanges(orgUnits, data) {
   const orgUnitData = getDataPerOrgUnits(orgUnits, data);
   const orgUnitDataPercentages = {};
   Object.entries(orgUnitData).forEach(([key, value]) => {
     orgUnitDataPercentages[key] = processOrgUnitDataPercent(value);
   });
-  // console.log("Printing org unit data percentages");
-  // console.log(orgUnitDataPercentages);
 
   const orgUnitDataPercentagesRenamed = {};
   Object.entries(orgUnitDataPercentages).forEach(([key, value]) => {
@@ -403,9 +433,6 @@ export function getOrgUnitDataPercentageChanges(orgUnits, data) {
 
     orgUnitDataPercentagesRenamed[orgUnitName] = value;
   });
-
-  // console.log("Printing org unit data percentages named");
-  // console.log(orgUnitDataPercentagesRenamed);
 
   return orgUnitDataPercentagesRenamed;
 }
@@ -501,15 +528,6 @@ export function computeFacilityTimeSeries(
         );
       });
     }
-
-    // // Now with the facility raw data for the facilities in the district
-    // // Get the totals per facility
-    // const facilitiesDataTotals = {};
-    // Object.entries(facilitiesDataDict).forEach(([key, value]) => {
-    //   facilitiesDataTotals[key] = processOrgDataTotal(value);
-    // });
-
-    // const processedData = sortDictionary(facilitiesDataTotals);
   }
 
   return facilitiesDataDict;
@@ -529,9 +547,6 @@ export function objectToArray(obj) {
 }
 
 export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
-  // const orgUnitIds = orgUnits.map((val) => val.id);
-  // console.log("Printing organisation units");
-  // console.log(orgUnitIds);
   const orgUnitData = {};
 
   if (data) {
@@ -542,9 +557,6 @@ export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
         );
       });
     }
-    // console.log("Printing out districts data");
-    // console.log(orgUnitData);
-    // console.log(Object.keys(orgUnitData));
   }
   return orgUnitData;
 }
@@ -642,12 +654,6 @@ export function filterStartPeriodEndPeriodData(data, periods) {
 
     const endData = { results: { rows: endPeriodData } };
 
-    console.log("Printing start data");
-    console.log(startData);
-
-    console.log("Printing end data");
-    console.log(endData);
-
     return [startData, endData];
   }
 }
@@ -662,12 +668,6 @@ export function computeReportingPercentages(
   const filteredData = filterStartPeriodEndPeriodData(data, periods);
 
   if (filteredData) {
-    // console.log("Printing out the start period data");
-    // console.log(filteredData[0]);
-
-    // console.log("Printing out the end period data");
-    // console.log(filteredData[1]);
-
     const startReporting = computeReportingProportions(
       filteredData[0],
       "total",
@@ -675,36 +675,12 @@ export function computeReportingPercentages(
       districts
     );
 
-    // const startReporting = useMemo(() => {
-    //   return computeReportingProportions(
-    //     filteredData[0],
-    //     "total",
-    //     districtFacilitiesMeta,
-    //     districts
-    //   );
-    // }, [filteredData]);
-
     const endReporting = computeReportingProportions(
       filteredData[1],
       "total",
       districtFacilitiesMeta,
       districts
     );
-
-    // const endReporting = useMemo(() => {
-    //   return computeReportingProportions(
-    //     filteredData[1],
-    //     "total",
-    //     districtFacilitiesMeta,
-    //     districts
-    //   );
-    // }, [filteredData]);
-
-    // console.log("Printing out the start reporting");
-    // console.log(startReporting);
-
-    // console.log("Printing out the end reporting");
-    // console.log(endReporting);
 
     const reportingPercentages = {};
     Object.entries(startReporting).forEach(([key, value]) => {
@@ -714,8 +690,6 @@ export function computeReportingPercentages(
         100;
     });
 
-    // console.log("Printing out reporting percetange changes");
-    // console.log(reportingPercentages);
     return reportingPercentages;
   }
 
@@ -733,26 +707,9 @@ export function filterMonthlyYearlyData(
       ...new Set(data["results"]["rows"].map((val) => val[2])),
     ];
 
-    console.log(yearsMonths);
-
     const yearsMonthsProportionsDict = {};
-    // yearsMonths.map((val) => {
-    //   const facilityDataList = data["results"]["rows"].filter(
-    //     (res) => res[2] == val
-    //   );
-    //   const facilityList = facilityDataList.map((val) => val[1]);
-    //   const facilitySet = new Set(facilityList);
 
-    //   yearsMonthsProportionsDict[val] =
-    //     facilitySet.size / Object.keys(facilitiesMeta).length;
-    // });
     if (level == "country") {
-      // yearsMonths.map(
-      //   (val) =>
-      //     (yearsMonthsProportionsDict[val] =
-      //       data["results"]["rows"].filter((res) => res[2] == val).length /
-      //       Object.keys(facilitiesMeta).length)
-      // );
       yearsMonths.map((val) => {
         const facilityDataList = data["results"]["rows"].filter(
           (res) => res[2] == val
@@ -764,12 +721,6 @@ export function filterMonthlyYearlyData(
           (facilitySet.size * 100) / Object.keys(facilitiesMeta).length;
       });
     } else if (level == "district") {
-      // yearsMonths.map(
-      //   (val) =>
-      //     (yearsMonthsProportionsDict[val] =
-      //       data["results"]["rows"].filter((res) => res[2] == val).length /
-      //       districtFacilitiesMeta[district]["facility_ids"].length)
-      // );
       yearsMonths.map((val) => {
         const facilityDataList = data["results"]["rows"].filter(
           (res) => res[2] == val
@@ -782,9 +733,6 @@ export function filterMonthlyYearlyData(
           districtFacilitiesMeta[district]["facility_ids"].length;
       });
     }
-
-    // console.log("Printing the proportion of reporting facilities");
-    // console.log(yearsMonthsProportionsDict);
 
     return yearsMonthsProportionsDict;
   }
@@ -827,7 +775,6 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
     return months;
   } else {
     const quarters = monthsToQuarters(months);
-    console.log(quarters);
     return quarters;
   }
 }
