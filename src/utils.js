@@ -566,11 +566,7 @@ export function computeReportingTotals(
 ) {
   const facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-  // console.log("Printing the data totals per facility");
-  // console.log(facilitiesDataTotals);
-
   const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-  // console.log(facilitiesDataTotalsArray);
 
   const districtFacilitiesReportingTotals = {};
   Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
@@ -578,9 +574,6 @@ export function computeReportingTotals(
       (val) => districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
     ).length;
   });
-
-  // console.log("Printing the proportions");
-  // console.log(districtFacilitiesReportingTotals);
 
   return districtFacilitiesReportingTotals;
 }
@@ -598,51 +591,25 @@ export function computeReportingProportions(
       ? [...new Set(data["results"]["rows"].map((val) => val[1]))]
       : [];
 
-  // console.log("Printing the facilities ID list from raw data");
-  // console.log(facilitiesIdsList);
-
-  // 1. Partition the raw data into a dict of facility id => raw data for facility.
-  // const facilitiesDataDict = {};
-  // if (data && data["results"]["rows"]) {
-  //   facilitiesIdsList.forEach(function (item, index) {
-  //     facilitiesDataDict[item] = data["results"]["rows"].filter(
-  //       (val) => val[1] == item
-  //     );
-  //   });
-  // }
-
-  // console.log("Printing the facilities per data dict");
-  // console.log(facilitiesDataDict);
-
   const districtNumFacilities = {};
   for (const [key, value] of Object.entries(districtFacilitiesMeta)) {
     districtNumFacilities[key] = value["facility_ids"].length;
   }
 
-  // console.log("Printing the number of reporting facilities per district");
-  // console.log(districtNumFacilities);
-
   if (data && data["results"]["rows"] && maptype == "total") {
-    // if (data && maptype == "total") {
     facilitiesDataTotals = getOrgUnitDataTotalsTwo(facilitiesIdsList, data);
 
-    // console.log("Printing the data totals per facility");
-    // console.log(facilitiesDataTotals);
-
     const facilitiesDataTotalsArray = objectToArray(facilitiesDataTotals);
-    // console.log("Printing facilities data totals array");
-    // console.log(facilitiesDataTotalsArray);
 
     const districtFacilitiesReportingTotals = {};
     Object.keys(districtFacilitiesMeta).forEach(function (item, index) {
       districtFacilitiesReportingTotals[item] =
-        facilitiesDataTotalsArray.filter((val) =>
+        (facilitiesDataTotalsArray.filter((val) =>
           districtFacilitiesMeta[item]["facility_ids"].includes(val[0])
-        ).length / districtNumFacilities[item];
+        ).length *
+          100) /
+        districtNumFacilities[item];
     });
-
-    // console.log("Printing the proportions");
-    // console.log(districtFacilitiesReportingTotals);
 
     const districtFacilitiesReportingTotalsRenamed = {};
     Object.entries(districtFacilitiesReportingTotals).forEach(
@@ -657,10 +624,6 @@ export function computeReportingProportions(
       }
     );
 
-    // console.log("Printing the proportion of reporting facilites");
-    // console.log(districtFacilitiesReportingTotalsRenamed);
-
-    // dataViz = districtFacilitiesReportingTotalsRenamed;
     return districtFacilitiesReportingTotalsRenamed;
   }
 }
@@ -678,6 +641,12 @@ export function filterStartPeriodEndPeriodData(data, periods) {
     );
 
     const endData = { results: { rows: endPeriodData } };
+
+    console.log("Printing start data");
+    console.log(startData);
+
+    console.log("Printing end data");
+    console.log(endData);
 
     return [startData, endData];
   }
@@ -865,7 +834,7 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
 
 export function getTimePeriodRange() {
   const d = new Date();
-  const mth = d.getMonth() + 1;
+  const mth = d.getMonth();
   const yr = d.getFullYear();
   const currMth = mth < 10 ? "0" + mth : mth;
   const period = [moment(yr + "-01-01"), moment(yr + "-" + currMth + "-01")];
