@@ -157,7 +157,7 @@ const MapVisualizationReportsTwo = ({
                     />
                   </Col>
                 </Row>
-                <Download />
+                <Download data={dataViz} />
               </Col>
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
