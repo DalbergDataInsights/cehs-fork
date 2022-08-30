@@ -165,7 +165,7 @@ const MapVisualizationReportsTwo = ({
                     <HorizontalBarTwo data={dataViz} type={maptype} />
                   </Col>
                 </Row>
-                <Download />
+                <Download data={dataViz} />
               </Col>
             </Row>
           )}
