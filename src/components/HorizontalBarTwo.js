@@ -1,9 +1,10 @@
 import React from "react";
 import Plot from "react-plotly.js";
-import { sortDictionary } from "../utils";
+import { sortDictionary, clean } from "../utils";
 
 const HorizontalBarTwo = ({ data, type }) => {
-  const sorted = sortDictionary(data);
+  const cleanData = clean(data); // Remove null values
+  const sorted = sortDictionary(cleanData);
   const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
   const colorScaleValue = "rgb(33,102,172)";
 
