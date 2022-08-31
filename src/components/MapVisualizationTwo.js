@@ -61,7 +61,7 @@ const MapVisualizationTwo = ({
                   )} by district`}</h5>
                 )}
                 {periodType == "quarterly" && (
-                  <h5>{`Average Value of ${displayName} between ${store.period[0].format(
+                  <h5>{`Average value of ${displayName} between ${store.period[0].format(
                     "MMM-YYYY"
                   )} and ${store.period[1].format(
                     "MMM-YYYY"
@@ -73,7 +73,7 @@ const MapVisualizationTwo = ({
             {maptype == "percentage" && (
               <Col className="graph">
                 {periodType == "monthly" && (
-                  <h5>{`Percentage Change in Total ${displayName} between ${store.period[0].format(
+                  <h5>{`Percentage change in total ${displayName} between ${store.period[0].format(
                     "MMM-YYYY"
                   )} and ${store.period[1].format(
                     "MMM-YYYY"
@@ -81,7 +81,7 @@ const MapVisualizationTwo = ({
                 )}
 
                 {periodType == "quarterly" && (
-                  <h5>{`Percentage Change in Average Value of ${displayName} between ${store.period[0].format(
+                  <h5>{`Percentage change in average value of ${displayName} between ${store.period[0].format(
                     "MMM-YYYY"
                   )} and ${store.period[1].format(
                     "MMM-YYYY"
