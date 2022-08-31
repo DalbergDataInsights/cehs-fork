@@ -21,10 +21,7 @@ const Controlls = () => {
     ...new Set(indicatorMeta.map((val) => val.group)),
   ];
 
-  // add All option to the variable group list
-  variableGroupSetList.unshift("ALL") 
-
-  console.log(store.period);
+  variableGroupSetList.unshift("ALL");
 
   return (
     <Row className="p-3">
@@ -72,7 +69,7 @@ const Controlls = () => {
                         ? indicatorMeta
                             .filter((i) => i.group == variableGroup)
                             .map((i) =>
-                              i.function == "single" ? (
+                              i.function == "single" || true ? (
                                 <Option key={i.id} value={i.key}>
                                   {i.displayName}
                                 </Option>
@@ -87,7 +84,7 @@ const Controlls = () => {
                               )
                             )
                         : indicatorMeta.map((i) =>
-                            i.function == "single" ? (
+                            i.function == "single" || true ? (
                               <Option key={i.id} value={i.key}>
                                 {i.displayName}
                               </Option>

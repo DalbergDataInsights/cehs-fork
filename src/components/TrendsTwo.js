@@ -107,14 +107,14 @@ const TrendsTwo = () => {
   }, [variableId, period, periodType]);
 
   if (variableObject.function == "nansum") {
-    if (districtLevelData["results"]["rows"]) {
+    if (districtLevelData && districtLevelData["results"]["rows"]) {
       districtLevelData = processNansum(
         districtLevelData["results"]["rows"],
         1
       );
     }
 
-    if (facilityLevelData["results"]["rows"]) {
+    if (facilityLevelData && facilityLevelData["results"]["rows"]) {
       facilityLevelData = processNansum(
         facilityLevelData["results"]["rows"],
         1
