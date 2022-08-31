@@ -3,7 +3,7 @@ import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
-import { processCountryData } from "../utils";
+import { processCountryData, processNansum } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween, periodBetween } from "../utils";
@@ -51,6 +51,8 @@ const TrendsTwo = () => {
 
   if (variableObject.function == "single") {
     variableId = variableObject.numerator.dataElementId;
+  } else if (variableObject.function == "nansum") {
+    variableId = variableObject.numerator.dataElementId.join(";");
   }
   console.log(`Variable Id: ${variableId}`);
 
@@ -69,7 +71,7 @@ const TrendsTwo = () => {
     },
   });
 
-  const districtLevelData = districtQuery.data;
+  let districtLevelData = districtQuery.data;
   const districtLevelError = districtQuery.error;
   const districtLevelLoading = districtQuery.loading;
   const districtLevelRefetch = districtQuery.refetch;
@@ -91,7 +93,7 @@ const TrendsTwo = () => {
     },
   });
 
-  const facilityLevelData = facilityQuery.data;
+  let facilityLevelData = facilityQuery.data;
   const facilityLevelError = facilityQuery.error;
   const facilityLevelLoading = facilityQuery.loading;
   const facilityLevelRefetch = facilityQuery.refetch;
@@ -103,6 +105,22 @@ const TrendsTwo = () => {
       periodType: periodType,
     });
   }, [variableId, period, periodType]);
+
+  if (variableObject.function == "nansum") {
+    if (districtLevelData["results"]["rows"]) {
+      districtLevelData = processNansum(
+        districtLevelData["results"]["rows"],
+        1
+      );
+    }
+
+    if (facilityLevelData["results"]["rows"]) {
+      facilityLevelData = processNansum(
+        facilityLevelData["results"]["rows"],
+        1
+      );
+    }
+  }
 
   console.log(`Variable: ${variableId}`);
   console.log(`Variable: ${displayName}`);
