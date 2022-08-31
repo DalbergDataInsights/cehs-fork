@@ -9,6 +9,7 @@ import {
   getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
+  processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBarTwo from "./HorizontalBarTwo";
@@ -25,10 +26,7 @@ const MapVisualizationTwo = ({
   periodType,
 }) => {
   const store = useStore($store);
-  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  // console.log(periods);
-
   const dataViz = useMemo(() => {
     if (maptype == "total") {
       if (periodType == "monthly") {
@@ -37,9 +35,13 @@ const MapVisualizationTwo = ({
         return getOrgUnitDataAverages(store.districts, data);
       }
     } else {
-      return getOrgUnitDataPercentageChanges(store.districts, data);
+      if (periodType == "monthly") {
+        return getOrgUnitDataPercentageChanges(store.districts, data);
+      } else if (periodType == "quarterly") {
+        return processDataPercentOfAverages(store.districts, data);
+      }
     }
-  }, [data]);
+  }, [data, periodType]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
@@ -70,9 +72,21 @@ const MapVisualizationTwo = ({
 
             {maptype == "percentage" && (
               <Col className="graph">
-                <h5>{`Percentage change in ${displayName} between ${store.period[0].format(
-                  "MMM-YYYY"
-                )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
+                {periodType == "monthly" && (
+                  <h5>{`Percentage change in total ${displayName} between ${store.period[0].format(
+                    "MMM-YYYY"
+                  )} and ${store.period[1].format(
+                    "MMM-YYYY"
+                  )} by district`}</h5>
+                )}
+
+                {periodType == "quarterly" && (
+                  <h5>{`Percentage change in average value of ${displayName} between ${store.period[0].format(
+                    "MMM-YYYY"
+                  )} and ${store.period[1].format(
+                    "MMM-YYYY"
+                  )} by district`}</h5>
+                )}
               </Col>
             )}
           </Row>

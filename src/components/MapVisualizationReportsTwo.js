@@ -109,7 +109,7 @@ const MapVisualizationReportsTwo = ({
 
             {maptype == "percentage" && (
               <Col className="graph">
-                <h5>{`Percentage change in proportion of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
+                <h5>{`Percentage change in percentage of reporting facilities that reported a non-zero number for ${displayName} between ${store.period[0].format(
                   "MMM-YYYY"
                 )} and ${store.period[1].format("MMM-YYYY")} by district`}</h5>
               </Col>
@@ -162,7 +162,7 @@ const MapVisualizationReportsTwo = ({
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
-                    <HorizontalBarTwo data={dataViz} type={maptype} />
+                    <HorizontalBarTwo data={dataViz} type={"percentage"} />
                   </Col>
                 </Row>
                 <Download data={dataViz} />
