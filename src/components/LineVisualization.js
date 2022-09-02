@@ -18,7 +18,7 @@ import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import facilitiesMeta from "../config/Facilities";
 
-const LineVisualizationTwo = ({
+const LineVisualization = ({
   data,
   loading,
   error,
@@ -117,4 +117,4 @@ const LineVisualizationTwo = ({
   );
 };
 
-export default LineVisualizationTwo;
+export default LineVisualization;
