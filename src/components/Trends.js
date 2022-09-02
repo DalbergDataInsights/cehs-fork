@@ -9,7 +9,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween, periodBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
-import MapVisualizationTwo from "./MapVisualizationTwo";
+import MapVisualization from "./MapVisualization";
 import TreeMapVisualization from "./TreeMapVisualization";
 import LineVisualizationDistrict from "./LineVisualizationDistrict";
 import LineVisualizationFacility from "./LineVisualizationFacility";
@@ -172,7 +172,7 @@ const Trends = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <MapVisualizationTwo
+      <MapVisualization
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
@@ -180,7 +180,7 @@ const Trends = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <MapVisualizationTwo
+      <MapVisualization
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}

@@ -17,7 +17,7 @@ import { Select } from "antd";
 import { onPercentageOptionChange } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 
-const MapVisualizationTwo = ({
+const MapVisualization = ({
   data,
   loading,
   error,
@@ -173,4 +173,4 @@ const MapVisualizationTwo = ({
   );
 };
 
-export default MapVisualizationTwo;
+export default MapVisualization;
