@@ -11,7 +11,7 @@ import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
 import TreeMapVisualization from "./TreeMapVisualization";
-import LineVisualizationTwoDistrict from "./LineVisualizationTwoDistrict";
+import LineVisualizationDistrict from "./LineVisualizationDistrict";
 import LineVisualizationTwoFacility from "./LineVisualizationTwoFacility";
 
 const myQuery = {
@@ -188,7 +188,7 @@ const Trends = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <LineVisualizationTwoDistrict
+      <LineVisualizationDistrict
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
