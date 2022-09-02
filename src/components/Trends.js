@@ -4,7 +4,7 @@ import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
 import { processCountryData, processNansum } from "../utils";
-import LineVisualizationTwo from "./LineVisualizationTwo";
+import LineVisualization from "./LineVisualization";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween, periodBetween } from "../utils";
 import { setPage } from "../models/Events";
@@ -163,7 +163,7 @@ const Trends = () => {
         title="Trends analysis over time, across districts and health facilities"
         subTitle="Health Insights and Visualization for Essential Health Services"
       />
-      <LineVisualizationTwo
+      <LineVisualization
         data={districtLevelData}
         loading={districtLevelLoading}
         error={districtLevelError}
