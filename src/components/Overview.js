@@ -9,7 +9,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import overviewIndicatorMeta from "../config/OverviewIndicators";
-import TextVisualizationTwo from "./TextVisualizationTwo";
+import TextVisualization from "./TextVisualization";
 
 const myQuery = {
   results: {
@@ -127,28 +127,28 @@ const Overview = () => {
           <Col className="m-bot-24">
             <Row>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[0]}
                   loading={loading}
                   color={"rgb(39, 190, 182)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[1]}
                   loading={loading}
                   color={"rgb(244, 174, 26)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[2]}
                   loading={loading}
                   color={"rgb(244, 174, 26)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[3]}
                   loading={loading}
                   color={"rgb(244, 174, 26)"}
@@ -157,28 +157,28 @@ const Overview = () => {
             </Row>
             <Row>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[4]}
                   loading={loading}
                   color={"rgb(244, 174, 26)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[5]}
                   loading={loading}
                   color={"rgb(81, 139, 201)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[6]}
                   loading={loading}
                   color={"rgb(81, 139, 201)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[7]}
                   loading={loading}
                   color={"rgb(238, 47, 68)"}
@@ -188,21 +188,21 @@ const Overview = () => {
 
             <Row>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[8]}
                   loading={loading}
                   color={"rgb(103, 191, 107)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[9]}
                   loading={loading}
                   color={"rgb(236, 70, 139)"}
                 />
               </Col>
               <Col>
-                <TextVisualizationTwo
+                <TextVisualization
                   info={overview[10]}
                   loading={loading}
                   color={"rgb(145, 91, 166)"}
