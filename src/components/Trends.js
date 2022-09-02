@@ -12,7 +12,7 @@ import indicatorMeta from "../config/Indicators";
 import MapVisualizationTwo from "./MapVisualizationTwo";
 import TreeMapVisualization from "./TreeMapVisualization";
 import LineVisualizationDistrict from "./LineVisualizationDistrict";
-import LineVisualizationTwoFacility from "./LineVisualizationTwoFacility";
+import LineVisualizationFacility from "./LineVisualizationFacility";
 
 const myQuery = {
   results: {
@@ -205,7 +205,7 @@ const Trends = () => {
         displayName={displayName}
       />
 
-      <LineVisualizationTwoFacility
+      <LineVisualizationFacility
         data={facilityLevelData}
         loading={facilityLevelLoading}
         error={facilityLevelError}
