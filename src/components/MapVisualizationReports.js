@@ -23,7 +23,7 @@ import { onPercentageOptionChange } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 
-const MapVisualizationReportsTwo = ({
+const MapVisualizationReports = ({
   data,
   loading,
   error,
@@ -176,4 +176,4 @@ const MapVisualizationReportsTwo = ({
   );
 };
 
-export default MapVisualizationReportsTwo;
+export default MapVisualizationReports;
