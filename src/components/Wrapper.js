@@ -9,9 +9,8 @@ import Overview from "./Overview";
 import Reports from "./Reports";
 import SideBar from "./SideBar";
 import { ThreeLines } from "./ThreeLines";
-import Trends from "./Trends";
 import { loadDefaults } from "../Query";
-import TrendsTwo from "./TrendsTwo";
+import Trends from "./Trends";
 import OverviewTwo from "./OverviewTwo";
 import ReportsTwo from "./ReportsTwo";
 
@@ -57,7 +56,7 @@ const Wrapper = () => {
                   <ReportsTwo />
                 </Route>
                 <Route path="/">
-                  <TrendsTwo />
+                  <Trends />
                 </Route>
               </Switch>
             </div>

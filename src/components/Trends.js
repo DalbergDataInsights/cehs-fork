@@ -36,7 +36,7 @@ const myQuery = {
 
 const { Option } = Select;
 
-const TrendsTwo = () => {
+const Trends = () => {
   const store = useStore($store);
   const variable = store.selectedVariable;
   const period = store.period;
@@ -218,4 +218,4 @@ const TrendsTwo = () => {
   );
 };
 
-export default TrendsTwo;
+export default Trends;
