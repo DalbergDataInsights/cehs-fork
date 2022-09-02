@@ -1,5 +1,5 @@
 import { useStore } from "effector-react";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import Plot from "react-plotly.js";
 import { $store } from "../models/Store";
