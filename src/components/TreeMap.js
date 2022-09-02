@@ -7,7 +7,7 @@ import { sortDictionary, getKeyByValue } from "../utils";
 import facilitiesMeta from "../config/Facilities";
 import { setCurrentFacility } from "../models/Events";
 
-const TreeMapTwo = ({ data, loading, error, parent }) => {
+const TreeMap = ({ data, loading, error, parent }) => {
   const store = useStore($store);
   const sortedData = sortDictionary(data);
 
@@ -76,4 +76,4 @@ const TreeMapTwo = ({ data, loading, error, parent }) => {
   );
 };
 
-export default TreeMapTwo;
+export default TreeMap;
