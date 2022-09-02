@@ -1,11 +1,10 @@
 import { React, useEffect, useMemo } from "react";
-import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
-import { processCountryData, processTimeSeriesDataDict } from "../utils";
+import { processTimeSeriesDataDict } from "../utils";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween, periodBetween, processNansum } from "../utils";
+import { periodBetween, processNansum } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationReports from "./MapVisualizationReports";
