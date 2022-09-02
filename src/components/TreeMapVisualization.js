@@ -23,7 +23,7 @@ import Loading from "./Loading";
 import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import { sortDictionary } from "../utils";
-import TreeMapTwo from "./TreeMapTwo";
+import TreeMapTwo from "./TreeMap";
 
 const TreeMapVisualization = ({ data, loading, error, displayName }) => {
   const store = useStore($store);
