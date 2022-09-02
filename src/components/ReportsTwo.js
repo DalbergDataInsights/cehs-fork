@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useMemo } from "react";
 import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
@@ -6,7 +6,7 @@ import { $store } from "../models/Store";
 import { processCountryData, processTimeSeriesDataDict } from "../utils";
 import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween, periodBetween } from "../utils";
+import { monthsBetween, periodBetween, processNansum } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualizationReportsTwo from "./MapVisualizationReportsTwo";
@@ -59,6 +59,8 @@ const ReportsTwo = () => {
 
   if (variableObject.function == "single") {
     variableId = variableObject.numerator.dataElementId;
+  } else if (variableObject.function == "nansum") {
+    variableId = variableObject.numerator.dataElementId.join(";");
   }
   console.log(`Variable Id: ${variableId}`);
 
@@ -74,7 +76,7 @@ const ReportsTwo = () => {
     },
   });
 
-  const facilityLevelData = facilityQuery.data;
+  let facilityLevelData = facilityQuery.data;
   const facilityLevelError = facilityQuery.error;
   const facilityLevelLoading = facilityQuery.loading;
   const facilityLevelRefetch = facilityQuery.refetch;
@@ -86,6 +88,21 @@ const ReportsTwo = () => {
       periodType: periodType,
     });
   }, [variableId, period, periodType]);
+
+  const processedData = useMemo(() => {
+    if (variableObject.function == "nansum") {
+      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
+        facilityLevelData = processNansum(
+          facilityLevelData["results"]["rows"],
+          1
+        );
+      }
+    }
+    return facilityLevelData;
+  }, [facilityLevelData]);
+
+  facilityLevelData =
+    variableObject.function == "nansum" ? processedData : facilityLevelData;
 
   console.log("Printing facility level data");
   console.log(facilityLevelData);
