@@ -4,7 +4,6 @@ import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
 import { processCountryData, processTimeSeriesDataDict } from "../utils";
-import LineVisualizationTwo from "./LineVisualizationTwo";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween, periodBetween, processNansum } from "../utils";
 import { setPage } from "../models/Events";
