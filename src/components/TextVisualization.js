@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextVisualizationTwo = ({ info, loading, color }) => {
+const TextVisualization = ({ info, loading, color }) => {
   const title = info["title"] !== undefined ? info["title"] : 0;
   const total = info["total"] !== undefined ? info["total"] : 0;
   const percentage = info["percentage"] !== undefined ? info["percentage"] : 0;
@@ -22,4 +22,4 @@ const TextVisualizationTwo = ({ info, loading, color }) => {
   );
 };
 
-export default TextVisualizationTwo;
+export default TextVisualization;
