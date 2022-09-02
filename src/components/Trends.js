@@ -6,7 +6,7 @@ import { $store } from "../models/Store";
 import { processCountryData, processNansum } from "../utils";
 import LineVisualization from "./LineVisualization";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { monthsBetween, periodBetween } from "../utils";
+import { periodBetween } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 import MapVisualization from "./MapVisualization";
