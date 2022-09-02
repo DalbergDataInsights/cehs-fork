@@ -1,28 +1,12 @@
-import { React, useEffect, useMemo } from "react";
+import { React, useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Select } from "antd";
-// import { useStore } from "../Context";
 import Download from "./Download";
-import HorizontalBar from "./HorizontalBar";
-import LineVisualization from "./LineVisualization";
-import MapVisualization from "./MapVisualization";
-import TreeMap from "./TreeMap";
-import VisualizationHeader from "./VisualizationHeader";
-import VisualizationTitle from "./VisualizationTitle";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
-import { useDataQuery } from "@dhis2/app-runtime";
-import {
-  computeFacilityTimeSeries,
-  monthsBetween,
-  processCountryData,
-  processDistrictData,
-  processOrgDataTotal,
-} from "../utils";
+import { computeFacilityTimeSeries, processOrgDataTotal } from "../utils";
 import Loading from "./Loading";
-import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
-import { sortDictionary } from "../utils";
 import TreeMapTwo from "./TreeMap";
 
 const TreeMapVisualization = ({ data, loading, error, displayName }) => {
