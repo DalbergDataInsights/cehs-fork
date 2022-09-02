@@ -32,7 +32,7 @@ const myQuery = {
 
 const { Option } = Select;
 
-const OverviewTwo = () => {
+const Overview = () => {
   const store = useStore($store);
   const period = store.period;
 
@@ -218,4 +218,4 @@ const OverviewTwo = () => {
   );
 };
 
-export default OverviewTwo;
+export default Overview;
