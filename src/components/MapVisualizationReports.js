@@ -2,25 +2,15 @@ import React, { useMemo } from "react";
 import { useStore } from "effector-react";
 import Plot from "react-plotly.js";
 import { Col, Row } from "react-bootstrap";
-import VisualizationTitle from "./VisualizationTitle";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
 import {
-  getOrgUnitDataPercentageChanges,
-  getOrgUnitDataTotals,
-  getOrgUnitDataTotalsTwo,
-  objectToArray,
-  computeReportingTotals,
   computeReportingProportions,
-  computeReportingPercentages,
   filterStartPeriodEndPeriodData,
   monthsToQuarters,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBar from "./HorizontalBar";
-import { Select } from "antd";
-import { onPercentageOptionChange } from "../models/Events";
-import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 
 const MapVisualizationReports = ({
