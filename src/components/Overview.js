@@ -121,7 +121,6 @@ const Overview = () => {
         title="Overview of WHO's HIVES indicators"
         subTitle="Health Insights and Visualization for Essential Health Services"
       />
-      {loading && <div>Loading</div>}
       {overview.length > 0 && (
         <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
           <Col className="m-bot-24">
