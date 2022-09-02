@@ -2,7 +2,7 @@ import React from "react";
 import Plot from "react-plotly.js";
 import { sortDictionary, clean } from "../utils";
 
-const HorizontalBarTwo = ({ data, type }) => {
+const HorizontalBar = ({ data, type }) => {
   const cleanData = clean(data); // Remove null values
   const sorted = sortDictionary(cleanData);
   const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
@@ -55,4 +55,4 @@ const HorizontalBarTwo = ({ data, type }) => {
   );
 };
 
-export default HorizontalBarTwo;
+export default HorizontalBar;

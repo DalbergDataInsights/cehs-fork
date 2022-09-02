@@ -12,7 +12,7 @@ import {
   processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
-import HorizontalBarTwo from "./HorizontalBarTwo";
+import HorizontalBar from "./HorizontalBar";
 import { Select } from "antd";
 import { onPercentageOptionChange } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
@@ -159,7 +159,7 @@ const MapVisualization = ({
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
-                    <HorizontalBarTwo data={dataViz} type={maptype} />
+                    <HorizontalBar data={dataViz} type={maptype} />
                   </Col>
                 </Row>
                 <Download data={dataViz} />
