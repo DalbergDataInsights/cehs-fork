@@ -8,7 +8,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween, periodBetween, processNansum } from "../utils";
 import { setPage } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
-import MapVisualizationReportsTwo from "./MapVisualizationReportsTwo";
+import MapVisualizationReports from "./MapVisualizationReports";
 import LineVisualizationReports from "./LineVisualizationReports";
 
 const myQuery = {
@@ -122,7 +122,7 @@ const ReportsTwo = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <MapVisualizationReportsTwo
+      <MapVisualizationReports
         data={facilityLevelData}
         error={facilityLevelError}
         loading={facilityLevelLoading}
@@ -130,7 +130,7 @@ const ReportsTwo = () => {
         displayName={displayName}
         periodType={periodType}
       />
-      <MapVisualizationReportsTwo
+      <MapVisualizationReports
         data={facilityLevelData}
         error={facilityLevelError}
         loading={facilityLevelLoading}
