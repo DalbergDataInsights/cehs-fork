@@ -4,18 +4,13 @@ import { Col, Row } from "react-bootstrap";
 import Plot from "react-plotly.js";
 import { $store } from "../models/Store";
 import {
-  computeCountryTimeSeries,
-  computeDistrictTimeSeries,
   computeFacilityTimeSeries,
   processOrgDataTotal,
-  processTitle,
   getKeyByValue,
 } from "../utils";
 import Download from "./Download";
 import Loading from "./Loading";
-import VisualizationTitle from "./VisualizationTitle";
 import { processOrgRawDataToTimeSeries, sortDictionary } from "../utils";
-import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import facilitiesMeta from "../config/Facilities";
 
