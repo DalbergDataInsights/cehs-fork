@@ -1,157 +1,154 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { Col, Row } from "react-bootstrap";
-import { useStore } from "../Context";
-import Download from "./Download";
-import LineVisualization from "./LineVisualization";
-import MapVisualization from "./MapVisualization";
-import VisualizationHeader from "./VisualizationHeader";
-import VisualizationTitle from "./VisualizationTitle";
+import { React, useEffect, useMemo } from "react";
 import { Select } from "antd";
+import VisualizationHeader from "./VisualizationHeader";
+import { useStore } from "effector-react";
+import { $store } from "../models/Store";
+import { processCountryData, processTimeSeriesDataDict } from "../utils";
+import { useDataQuery } from "@dhis2/app-runtime";
+import { monthsBetween, periodBetween, processNansum } from "../utils";
+import { setPage } from "../models/Events";
+import indicatorMeta from "../config/Indicators";
+import MapVisualizationReports from "./MapVisualizationReports";
+import LineVisualizationReports from "./LineVisualizationReports";
 
-const { Option } = Select;
+const myQuery = {
+  results: {
+    resource: "analytics",
+    params: ({ variableId, period, orgLevel, periodType }) => ({
+      dimension: [
+        `dx:${variableId}`,
+        `ou:${orgLevel}`,
+        `pe:${periodBetween(
+          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1],
+          periodType
+        ).join(";")}`,
+      ],
+      skipMeta: false,
+      paging: false,
+      includeNumDen: true,
+    }),
+  },
+};
+const Reports = () => {
+  const store = useStore($store);
+  const variable = store.selectedVariable;
+  const period = store.period;
+  let variableId = "";
+  const variableObject = indicatorMeta.filter(
+    (i) => i.key == store.selectedVariable
+  )[0];
 
-const Reports = observer(() => {
-  const store = useStore();
+  // if (store.page != "reports") {
+  //   setPage("reports");
+  // }
   useEffect(() => {
-    store.loadReports();
-  }, [store]);
+    setPage("reports");
+  }, []);
+
+  // const displayName = "";
+  // if (variableObject) {
+  //   // console.log(variableObject);
+  //   console.log(`Display name: ${variableObject.displayName}`);
+  //   displayName = variableObject.displayName;
+  // }
+  // console.log(displayName);
+  const displayName =
+    variableObject !== undefined ? variableObject.displayName : "";
+
+  if (variableObject.function == "single") {
+    variableId = variableObject.numerator.dataElementId;
+  } else if (variableObject.function == "nansum") {
+    variableId = variableObject.numerator.dataElementId.join(";");
+  }
+  console.log(`Variable Id: ${variableId}`);
+
+  const periodType = variableObject.reportingFrequency;
+  console.log(`Period Type: ${periodType}`);
+
+  const facilityQuery = useDataQuery(myQuery, {
+    variables: {
+      variableId: variableId,
+      period: period,
+      orgLevel: "LEVEL-5",
+      periodType: periodType,
+    },
+  });
+
+  let facilityLevelData = facilityQuery.data;
+  const facilityLevelError = facilityQuery.error;
+  const facilityLevelLoading = facilityQuery.loading;
+  const facilityLevelRefetch = facilityQuery.refetch;
+
+  useEffect(() => {
+    facilityLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
+
+  const processedData = useMemo(() => {
+    if (variableObject.function == "nansum") {
+      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
+        facilityLevelData = processNansum(
+          facilityLevelData["results"]["rows"],
+          1
+        );
+      }
+    }
+    return facilityLevelData;
+  }, [facilityLevelData]);
+
+  facilityLevelData =
+    variableObject.function == "nansum" ? processedData : facilityLevelData;
+
+  console.log("Printing facility level data");
+  console.log(facilityLevelData);
+
   return (
     <div id="ds-paginator">
       <VisualizationHeader
         icon="center_focus_weak"
         title="Quality of the reporting of health facilities across districts"
-        subTitle="Continuity of Essential Health Services"
+        subTitle="Health Insights and Visualization for Essential Health Services"
       />
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
-        <Col className="m-bot-24">
-          <VisualizationTitle
-            analysis={store.districtAnalyticsTitle}
-            what={`Deep-dive in ${store.districtName}`}
-            level=""
-          />
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>{`Total number of facilities reporting on their 105:1 form, and reporting a non-zero ${store.indicatorDescription} across the country`}</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ minHeight: 480 }}>
-              <LineVisualization
-                data={store.countryReport.data}
-                loading={store.countryReport.loading}
-                empty={store.countryReport.isEmpty}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
-        <Col className="m-bot-24">
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>
-                {`Percentage change in proportion of reporting facilities that reported a non-zero number ${
-                  store.indicatorDescription
-                } by district between  ${store.period[0].format(
-                  "MMM-YYYY"
-                )} and  ${store.period[1].format("MMM-YYYY")}`}
-              </h5>
-            </Col>
-          </Row>
-          <Row style={{ marginBottom: 20 }}>
-            <Col>
-              <Select
-                style={{ width: "100%" }}
-                size="large"
-                value={store.selectedContributionOption}
-                onChange={store.onContributionOptionChange}
-              >
-                <Option value="1">
-                  Compare month of interest and month of reference
-                </Option>
-                <Option value="2">
-                  Compare quarters averages, using the three months periods
-                  ending on month of interest and month of reference
-                </Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ minHeight: 480 }}>
-              <MapVisualization
-                data={store.countryMapData.data}
-                loading={store.countryMapData.loading}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
-        <Col className="m-bot-24">
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>
-                {`Proportion of reporting facilities that reported a non-zero number for ${
-                  store.indicatorDescription
-                } by district ${store.period[1].format("MMM-YYYY")}`}
-              </h5>
-            </Col>
-          </Row>
-          <Row style={{ marginBottom: 20 }}>
-            <Col>
-              <Select
-                style={{ width: "100%" }}
-                size="large"
-                value={store.selectedContributionOption}
-                onChange={store.onContributionOptionChange}
-              >
-                <Option value="1">Show month of interest</Option>
-                <Option value="3">
-                  Show average between month of reference and month of interest
-                  period
-                </Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ minHeight: 480 }}>
-              <MapVisualization
-                data={store.countryMapData1.data}
-                loading={store.countryMapData1.loading}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
-        <Col className="m-bot-24">
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>{`Percentages of facilities reporting on their 105:1 form, and percentage of reporting facilities that reported a value of one or above for ${store.indicatorDescription} in ${store.districtName}`}</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ minHeight: 480 }}>
-              <LineVisualization
-                data={store.districtReport.data}
-                loading={store.districtReport.loading}
-                empty={store.districtReport.isEmpty}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
+      <LineVisualizationReports
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processTimeSeriesDataDict}
+        level={"country"}
+        displayName={displayName}
+        periodType={periodType}
+      />
+      <MapVisualizationReports
+        data={facilityLevelData}
+        error={facilityLevelError}
+        loading={facilityLevelLoading}
+        maptype={"total"}
+        displayName={displayName}
+        periodType={periodType}
+      />
+      <MapVisualizationReports
+        data={facilityLevelData}
+        error={facilityLevelError}
+        loading={facilityLevelLoading}
+        maptype={"percentage"}
+        displayName={displayName}
+        periodType={periodType}
+      />
+      <LineVisualizationReports
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processTimeSeriesDataDict}
+        level={"district"}
+        displayName={displayName}
+        periodType={periodType}
+      />
     </div>
   );
-});
+};
 
 export default Reports;
