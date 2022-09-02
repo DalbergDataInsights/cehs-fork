@@ -2,28 +2,18 @@ import React, { useMemo } from "react";
 import { useStore } from "effector-react";
 import Plot from "react-plotly.js";
 import { Col, Row } from "react-bootstrap";
-import VisualizationTitle from "./VisualizationTitle";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
 import {
-  getOrgUnitDataPercentageChanges,
-  getOrgUnitDataTotals,
-  getOrgUnitDataTotalsTwo,
-  objectToArray,
-  computeReportingTotals,
   computeReportingProportions,
-  computeReportingPercentages,
   filterStartPeriodEndPeriodData,
   monthsToQuarters,
 } from "../utils";
 import Download from "./Download";
-import HorizontalBarTwo from "./HorizontalBarTwo";
-import { Select } from "antd";
-import { onPercentageOptionChange } from "../models/Events";
-import indicatorMeta from "../config/Indicators";
+import HorizontalBar from "./HorizontalBar";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 
-const MapVisualizationReportsTwo = ({
+const MapVisualizationReports = ({
   data,
   loading,
   error,
@@ -162,7 +152,7 @@ const MapVisualizationReportsTwo = ({
               <Col className="m-bot-24 p-3" xs={6}>
                 <Row>
                   <Col className="graph" style={{ minHeight: 480 }}>
-                    <HorizontalBarTwo data={dataViz} type={"percentage"} />
+                    <HorizontalBar data={dataViz} type={"percentage"} />
                   </Col>
                 </Row>
                 <Download data={dataViz} />
@@ -176,4 +166,4 @@ const MapVisualizationReportsTwo = ({
   );
 };
 
-export default MapVisualizationReportsTwo;
+export default MapVisualizationReports;

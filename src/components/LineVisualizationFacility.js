@@ -1,24 +1,20 @@
 import { useStore } from "effector-react";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import Plot from "react-plotly.js";
 import { $store } from "../models/Store";
 import {
-  computeCountryTimeSeries,
-  computeDistrictTimeSeries,
   computeFacilityTimeSeries,
   processOrgDataTotal,
-  processTitle,
+  getKeyByValue,
 } from "../utils";
 import Download from "./Download";
 import Loading from "./Loading";
-import VisualizationTitle from "./VisualizationTitle";
 import { processOrgRawDataToTimeSeries, sortDictionary } from "../utils";
-import indicatorMeta from "../config/Indicators";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import facilitiesMeta from "../config/Facilities";
 
-const LineVisualizationTwoDistrict = ({
+const LineVisualizationFacility = ({
   data,
   loading,
   error,
@@ -29,24 +25,50 @@ const LineVisualizationTwoDistrict = ({
 }) => {
   const store = useStore($store);
   const periods = store.period.map((p) => p.format("YYYYMM"));
+
   console.log(`Selected district: ${store.selectedDistrict}`);
+
   const districts = store.districts;
+
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
   console.log(districtName);
 
+  let facilityName = store.currentFacility != "" ? store.currentFacility : "";
+  let facility =
+    store.currentFacility != ""
+      ? getKeyByValue(facilitiesMeta, store.currentFacility)
+      : "";
+
   const dataViz = useMemo(() => {
-    if (level == "district") {
-      return computeDistrictTimeSeries(
+    if (level == "facility") {
+      const facilitiesDataDict = computeFacilityTimeSeries(
         data,
-        districts,
         level,
-        store.selectedDistrict,
+        districtFacilitiesMeta,
+        store.selectedDistrict
+      );
+
+      const facilitiesDataTotals = {};
+      Object.entries(facilitiesDataDict).forEach(([key, value]) => {
+        facilitiesDataTotals[key] = processOrgDataTotal(value);
+      });
+
+      const sortedData = sortDictionary(facilitiesDataTotals);
+      const myFacility =
+        facilityName == ""
+          ? sortedData.slice(0, 1).map((v) => v[0])[0]
+          : facility;
+
+      facilityName = facilitiesMeta[myFacility];
+
+      return processOrgRawDataToTimeSeries(
+        facilitiesDataDict[myFacility],
         periodType
       );
     }
-  }, [data, store.selectedDistrict, periodType]);
+  }, [data, store.selectedDistrict, facility]);
 
   return (
     <>
@@ -54,25 +76,17 @@ const LineVisualizationTwoDistrict = ({
       {!loading && dataViz && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
-            {level == "district" && (
-              <>
-                <VisualizationTitle
-                  analysis={processTitle(dataViz, "")}
-                  what={`Deep-dive in ${districtName}:`}
-                  indicatorDescription={displayName}
-                  level=""
-                />
-                <Row style={{ marginBottom: 20 }}>
-                  <Col className="graph">
-                    {periodType == "monthly" && (
-                      <h5>{`Total number of ${displayName} in ${districtName}`}</h5>
-                    )}
-                    {periodType == "quarterly" && (
-                      <h5>{`Average value of ${displayName} in ${districtName}`}</h5>
-                    )}
-                  </Col>
-                </Row>
-              </>
+            {level == "facility" && (
+              <Row style={{ marginBottom: 20 }}>
+                <Col className="graph">
+                  {periodType == "monthly" && (
+                    <h5>{`Evolution of number of ${displayName} in ${facilityName}`}</h5>
+                  )}
+                  {periodType == "quarterly" && (
+                    <h5>{`Evolution of average value of ${displayName} in ${facilityName}`}</h5>
+                  )}
+                </Col>
+              </Row>
             )}
 
             <Row>
@@ -120,4 +134,4 @@ const LineVisualizationTwoDistrict = ({
   );
 };
 
-export default LineVisualizationTwoDistrict;
+export default LineVisualizationFacility;
