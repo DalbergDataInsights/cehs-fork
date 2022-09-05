@@ -69,11 +69,19 @@ const MapVisualizationReports = ({
 
         const reportingPercentages = {};
         Object.entries(startReporting).forEach(([key, value]) => {
-          reportingPercentages[key] = parseFloat(
-            ((endReporting[key] - startReporting[key]) /
-              (startReporting[key] + 1)) *
-              100
-          ).toFixed(2);
+          if (startReporting[key] == 0) {
+            reportingPercentages[key] = parseFloat(
+              ((endReporting[key] - startReporting[key]) /
+                (startReporting[key] + 1)) *
+                100
+            ).toFixed(2);
+          } else {
+            reportingPercentages[key] = parseFloat(
+              ((endReporting[key] - startReporting[key]) /
+                startReporting[key]) *
+                100
+            ).toFixed(2);
+          }
         });
 
         return reportingPercentages;

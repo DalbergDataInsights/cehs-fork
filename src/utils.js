@@ -362,9 +362,13 @@ export function processOrgUnitDataPercent(data) {
   const values = sortedData.map((val) => val[3]);
   const valuesNumeric = values.map((val) => parseInt(val));
   const percentChange =
-    ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
-      (valuesNumeric[0] + 1)) *
-    100;
+    valuesNumeric[0] == 0
+      ? ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
+          (valuesNumeric[0] + 1)) *
+        100
+      : ((valuesNumeric[valuesNumeric.length - 1] - valuesNumeric[0]) /
+          valuesNumeric[0]) *
+        100;
   return parseFloat(percentChange.toFixed(2));
 }
 
@@ -693,10 +697,15 @@ export function computeReportingPercentages(
 
     const reportingPercentages = {};
     Object.entries(startReporting).forEach(([key, value]) => {
-      reportingPercentages[key] =
-        ((endReporting[key] - startReporting[key]) /
-          (startReporting[key] + 1)) *
-        100;
+      if (startReporting[key] == 0) {
+        reportingPercentages[key] =
+          ((endReporting[key] - startReporting[key]) * 100) /
+          (startReporting[key] + 1);
+      } else {
+        reportingPercentages[key] =
+          ((endReporting[key] - startReporting[key]) * 100) /
+          startReporting[key];
+      }
     });
 
     return reportingPercentages;
@@ -726,8 +735,12 @@ export function filterMonthlyYearlyData(
         const facilityList = facilityDataList.map((val) => val[1]);
         const facilitySet = new Set(facilityList);
 
-        yearsMonthsProportionsDict[val] =
-          (facilitySet.size * 100) / Object.keys(facilitiesMeta).length;
+        yearsMonthsProportionsDict[val] = parseFloat(
+          (
+            (facilitySet.size * 100) /
+            Object.keys(facilitiesMeta).length
+          ).toFixed(2)
+        );
       });
     } else if (level == "district") {
       yearsMonths.map((val) => {
@@ -737,9 +750,12 @@ export function filterMonthlyYearlyData(
         const facilityList = facilityDataList.map((val) => val[1]);
         const facilitySet = new Set(facilityList);
 
-        yearsMonthsProportionsDict[val] =
-          (facilitySet.size * 100) /
-          districtFacilitiesMeta[district]["facility_ids"].length;
+        yearsMonthsProportionsDict[val] = parseFloat(
+          (
+            (facilitySet.size * 100) /
+            districtFacilitiesMeta[district]["facility_ids"].length
+          ).toFixed(2)
+        );
       });
     }
 
@@ -790,11 +806,10 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
 
 export function getTimePeriodRange() {
   const d = new Date();
-  const mth = d.getMonth();
-  const yr = d.getFullYear();
+  const mth = d.getMonth() == 1 ? 12 : d.getMonth() - 1;
+  const yr = d.getMonth() == 1 ? d.getFullYear() - 1 : d.getFullYear();
   const currMth = mth < 10 ? "0" + mth : mth;
   const period = [moment(yr + "-01-01"), moment(yr + "-" + currMth + "-01")];
-
   return period;
 }
 
