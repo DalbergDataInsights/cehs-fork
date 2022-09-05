@@ -807,7 +807,7 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
 export function getTimePeriodRange() {
   const d = new Date();
   const mth = d.getMonth() == 1 ? 12 : d.getMonth() - 1;
-  const yr = d.getMonth() == 1 ? d.getFullYear() : d.getFullYear() - 1;
+  const yr = d.getMonth() == 1 ? d.getFullYear() - 1 : d.getFullYear();
   const currMth = mth < 10 ? "0" + mth : mth;
   const period = [moment(yr + "-01-01"), moment(yr + "-" + currMth + "-01")];
   return period;
