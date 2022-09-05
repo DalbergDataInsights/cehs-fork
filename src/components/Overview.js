@@ -278,7 +278,7 @@ const Overview = () => {
               </Col>
               <Col>
                 <TextVisualization
-                  info={overview[6]}
+                  info={processedData[1]}
                   loading={loading}
                   color={"rgb(238, 47, 68)"}
                 />
@@ -288,21 +288,21 @@ const Overview = () => {
             <Row>
               <Col>
                 <TextVisualization
-                  info={overview[7]}
+                  info={processedData[2]}
                   loading={loading}
                   color={"rgb(103, 191, 107)"}
                 />
               </Col>
               <Col>
                 <TextVisualization
-                  info={overview[8]}
+                  info={overview[6]}
                   loading={loading}
                   color={"rgb(236, 70, 139)"}
                 />
               </Col>
               <Col>
                 <TextVisualization
-                  info={overview[9]}
+                  info={overview[7]}
                   loading={loading}
                   color={"rgb(145, 91, 166)"}
                 />
