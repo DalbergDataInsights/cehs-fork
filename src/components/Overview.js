@@ -124,19 +124,24 @@ const Overview = () => {
   }
 
   // Now do the same for the nansum computations
-  const nansumOverviewIndicators = overviewIndicatorMeta
-    .filter((i) => i.function == "nansum")
-    .map((i) => i.numerator.dataElementId);
+  const nansumOverviewIndicators = overviewIndicatorMeta.filter(
+    (i) => i.function == "nansum"
+  );
 
-  const nansumOverviewIndicatorsNames = overviewIndicatorMeta
-    .filter((i) => i.function == "nansum")
-    .map((i) => i.displayName);
+  console.log("Printing nansum overview Indicators");
+  console.log(nansumOverviewIndicators);
 
-  const nansumIds = nansumOverviewIndicators[0].join(";");
+  const nansumOverviewIndicatorsDataElementIds = nansumOverviewIndicators.map(
+    (i) => i.numerator.dataElementId
+  );
 
-  // console.log(nansumOverviewIndicators);
-  // console.log(nansumOverviewIndicatorsNames);
-  // console.log(nansumIds);
+  const nansumOverviewIndicatorsNames = overviewIndicatorMeta.map(
+    (i) => i.displayName
+  );
+
+  const nansumIds = nansumOverviewIndicatorsDataElementIds
+    .map((val) => val.join(";"))
+    .join(";");
 
   const nansumNationalQuery = useDataQuery(myQueryNansum, {
     variables: {
@@ -165,36 +170,49 @@ const Overview = () => {
       nansumData["results"]["rows"] &&
       nansumData["results"]["rows"].length != 0
     ) {
-      const nansumDataProcessed = processNansum(
-        nansumData["results"]["rows"],
-        1
-      );
-      console.log("Printing the processed nansum");
-      console.log(nansumDataProcessed);
-      const nansumDataTotal = processOrgDataTotal(
-        nansumDataProcessed["results"]["rows"]
-      );
-      const nansumDataPercentage = processOrgUnitDataPercent(
-        nansumDataProcessed["results"]["rows"]
-      );
-      return [nansumDataTotal, nansumDataPercentage];
+      nansumOverviewIndicators.forEach((ind) => {
+        // Extract data for only ids for a specific indicator
+        const indData = nansumData["results"]["rows"].filter((val) =>
+          ind.numerator.dataElementId.includes(val[0])
+        );
+        console.log("Printing ind data");
+        console.log(indData);
+        const nansumDataProcessed = processNansum(indData, 1);
+        console.log("Printing the processed nansum");
+        console.log(nansumDataProcessed);
+        const nansumDataTotal = processOrgDataTotal(
+          nansumDataProcessed["results"]["rows"]
+        );
+        const nansumDataPercentage = processOrgUnitDataPercent(
+          nansumDataProcessed["results"]["rows"]
+        );
+        const obj = {
+          title: ind.displayName,
+          total: nansumDataTotal,
+          percentage: nansumDataPercentage,
+        };
+        console.log(obj);
+        processedData.push(obj);
+      });
+
+      return processedData;
     }
-    return [];
+    return processedData;
   }, [nansumData]);
 
-  const nansumIndicatorName = nansumOverviewIndicatorsNames[0];
-  const nansumIndicator =
-    processedData.length != 0
-      ? {
-          title: nansumIndicatorName,
-          total: processedData[0],
-          percentage: processedData[1],
-        }
-      : {
-          title: nansumIndicatorName,
-          total: "",
-          percentage: "",
-        };
+  // const nansumIndicatorName = nansumOverviewIndicatorsNames[0];
+  // const nansumIndicator =
+  //   processedData.length != 0
+  //     ? {
+  //         title: nansumIndicatorName,
+  //         total: processedData[0],
+  //         percentage: processedData[1],
+  //       }
+  //     : {
+  //         title: nansumIndicatorName,
+  //         total: "",
+  //         percentage: "",
+  //       };
 
   return (
     <div id="ds-paginator">
@@ -203,13 +221,13 @@ const Overview = () => {
         title="Overview of WHO's HIVES indicators"
         subTitle="Health Insights and Visualization for Essential Health Services"
       />
-      {overview.length > 0 && (
+      {overview.length > 0 && processedData.length > 0 && (
         <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
           <Col className="m-bot-24">
             <Row>
               <Col>
                 <TextVisualization
-                  info={nansumIndicator}
+                  info={processedData[0]}
                   loading={loading}
                   color={"rgb(39, 190, 182)"}
                 />
