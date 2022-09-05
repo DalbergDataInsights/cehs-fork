@@ -1,10 +1,14 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useMemo } from "react";
 import { Select } from "antd";
 import { Col, Row } from "react-bootstrap";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
 import { $store } from "../models/Store";
-import { processOrgDataTotal, processOrgUnitDataPercent } from "../utils";
+import {
+  processNansum,
+  processOrgDataTotal,
+  processOrgUnitDataPercent,
+} from "../utils";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
@@ -30,6 +34,25 @@ const myQuery = {
   },
 };
 
+const myQueryNansum = {
+  results: {
+    resource: "analytics",
+    params: ({ variableId, period, orgLevel }) => ({
+      dimension: [
+        `dx:${variableId}`,
+        `ou:${orgLevel}`,
+        `pe:${monthsBetween(
+          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1]
+        ).join(";")}`,
+      ],
+      skipMeta: false,
+      paging: false,
+      includeNumDen: true,
+    }),
+  },
+};
+
 const { Option } = Select;
 
 const Overview = () => {
@@ -40,12 +63,12 @@ const Overview = () => {
     setPage("overview");
   }, []);
 
-  const overviewIndicatorsIds = overviewIndicatorMeta.map(
-    (i) => i.numerator.dataElementId
-  );
-  const overviewIndicatorsNames = overviewIndicatorMeta.map(
-    (i) => i.displayName
-  );
+  const overviewIndicatorsIds = overviewIndicatorMeta
+    .filter((i) => i.function == "single")
+    .map((i) => i.numerator.dataElementId);
+  const overviewIndicatorsNames = overviewIndicatorMeta
+    .filter((i) => i.function == "single")
+    .map((i) => i.displayName);
 
   // console.log(overviewIndicatorsIds);
 
@@ -66,8 +89,6 @@ const Overview = () => {
     nationalLevelRefetch({ variableId: overviewIndicatorsIds, period: period });
   }, [period]);
 
-  // console.log(data);
-
   const indicatorData = {};
   if (data) {
     if (data["results"]["rows"]) {
@@ -77,9 +98,6 @@ const Overview = () => {
         );
       });
     }
-    // console.log("Printing out indicator data");
-    // console.log(indicatorData);
-    // console.log(Object.keys(indicatorData));
   }
 
   const indicatorDataTotals = {};
@@ -91,12 +109,6 @@ const Overview = () => {
   Object.entries(indicatorData).forEach(([key, value]) => {
     indicatorDataPercentages[key] = processOrgUnitDataPercent(value);
   });
-
-  // console.log("Printing indicator data totals");
-  // console.log(indicatorDataTotals);
-
-  // console.log("Printing indicator data percentages");
-  // console.log(indicatorDataPercentages);
 
   const overview = [];
   if (Object.entries(indicatorDataTotals)) {
@@ -111,8 +123,78 @@ const Overview = () => {
     }
   }
 
-  // console.log("Printing overview");
-  // console.log(overview);
+  // Now do the same for the nansum computations
+  const nansumOverviewIndicators = overviewIndicatorMeta
+    .filter((i) => i.function == "nansum")
+    .map((i) => i.numerator.dataElementId);
+
+  const nansumOverviewIndicatorsNames = overviewIndicatorMeta
+    .filter((i) => i.function == "nansum")
+    .map((i) => i.displayName);
+
+  const nansumIds = nansumOverviewIndicators[0].join(";");
+
+  // console.log(nansumOverviewIndicators);
+  // console.log(nansumOverviewIndicatorsNames);
+  // console.log(nansumIds);
+
+  const nansumNationalQuery = useDataQuery(myQueryNansum, {
+    variables: {
+      variableId: nansumIds,
+      period: period,
+      orgLevel: "LEVEL-1",
+    },
+  });
+
+  const nansumData = nansumNationalQuery.data;
+  const nansumError = nansumNationalQuery.error;
+  const nansumLoading = nansumNationalQuery.loading;
+  const nansumNationalLevelRefetch = nansumNationalQuery.refetch;
+
+  useEffect(() => {
+    nansumNationalLevelRefetch({ variableId: nansumIds, period: period });
+  }, [period]);
+
+  console.log("Printing nansum data");
+  console.log(nansumData);
+
+  let processedData = [];
+  processedData = useMemo(() => {
+    if (
+      nansumData &&
+      nansumData["results"]["rows"] &&
+      nansumData["results"]["rows"].length != 0
+    ) {
+      const nansumDataProcessed = processNansum(
+        nansumData["results"]["rows"],
+        1
+      );
+      console.log("Printing the processed nansum");
+      console.log(nansumDataProcessed);
+      const nansumDataTotal = processOrgDataTotal(
+        nansumDataProcessed["results"]["rows"]
+      );
+      const nansumDataPercentage = processOrgUnitDataPercent(
+        nansumDataProcessed["results"]["rows"]
+      );
+      return [nansumDataTotal, nansumDataPercentage];
+    }
+    return [];
+  }, [nansumData]);
+
+  const nansumIndicatorName = nansumOverviewIndicatorsNames[0];
+  const nansumIndicator =
+    processedData.length != 0
+      ? {
+          title: nansumIndicatorName,
+          total: processedData[0],
+          percentage: processedData[1],
+        }
+      : {
+          title: nansumIndicatorName,
+          total: "",
+          percentage: "",
+        };
 
   return (
     <div id="ds-paginator">
@@ -127,9 +209,16 @@ const Overview = () => {
             <Row>
               <Col>
                 <TextVisualization
-                  info={overview[0]}
+                  info={nansumIndicator}
                   loading={loading}
                   color={"rgb(39, 190, 182)"}
+                />
+              </Col>
+              <Col>
+                <TextVisualization
+                  info={overview[0]}
+                  loading={loading}
+                  color={"rgb(244, 174, 26)"}
                 />
               </Col>
               <Col>
@@ -146,6 +235,8 @@ const Overview = () => {
                   color={"rgb(244, 174, 26)"}
                 />
               </Col>
+            </Row>
+            <Row>
               <Col>
                 <TextVisualization
                   info={overview[3]}
@@ -153,13 +244,11 @@ const Overview = () => {
                   color={"rgb(244, 174, 26)"}
                 />
               </Col>
-            </Row>
-            <Row>
               <Col>
                 <TextVisualization
                   info={overview[4]}
                   loading={loading}
-                  color={"rgb(244, 174, 26)"}
+                  color={"rgb(81, 139, 201)"}
                 />
               </Col>
               <Col>
@@ -173,13 +262,6 @@ const Overview = () => {
                 <TextVisualization
                   info={overview[6]}
                   loading={loading}
-                  color={"rgb(81, 139, 201)"}
-                />
-              </Col>
-              <Col>
-                <TextVisualization
-                  info={overview[7]}
-                  loading={loading}
                   color={"rgb(238, 47, 68)"}
                 />
               </Col>
@@ -188,21 +270,21 @@ const Overview = () => {
             <Row>
               <Col>
                 <TextVisualization
-                  info={overview[8]}
+                  info={overview[7]}
                   loading={loading}
                   color={"rgb(103, 191, 107)"}
                 />
               </Col>
               <Col>
                 <TextVisualization
-                  info={overview[9]}
+                  info={overview[8]}
                   loading={loading}
                   color={"rgb(236, 70, 139)"}
                 />
               </Col>
               <Col>
                 <TextVisualization
-                  info={overview[10]}
+                  info={overview[9]}
                   loading={loading}
                   color={"rgb(145, 91, 166)"}
                 />

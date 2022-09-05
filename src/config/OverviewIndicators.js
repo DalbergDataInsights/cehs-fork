@@ -2,10 +2,10 @@ const overviewIndicatorMeta = [
   {
     key: "OPD attendance",
     displayName: "OPD attendance",
-    function: "single",
+    function: "nansum",
     numerator: {
-      dataElementId: "sv6SeKroHPV",
-      function: "single",
+      dataElementId: ["sv6SeKroHPV", "sQ4EexvvhVe"],
+      function: "nansum",
     },
     denominator: { dataElementId: "1", function: "single" },
     group: "GENERAL",
