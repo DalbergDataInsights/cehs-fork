@@ -1,32 +1,28 @@
 import React from "react";
 import Plot from "react-plotly.js";
+import { sortDictionary, clean } from "../utils";
 
-const HorizontalBar = ({ data }) => {
-  const sorted = data.sort((a, b) => {
-    if (a.value < b.value) {
-      return -1;
-    }
-    if (a.value > b.value) {
-      return 1;
-    }
-    return 0;
-  });
+const HorizontalBar = ({ data, type }) => {
+  const cleanData = clean(data); // Remove null values
+  const sorted = sortDictionary(cleanData);
+  const textTemplateValue = type == "total" ? "%{x}" : "%{x}%";
+  const colorScaleValue = "rgb(33,102,172)";
+
   return (
     <Plot
       data={[
         {
           type: "bar",
           barmode: "overlay",
-          x: sorted.slice(0, 10).map((v) => v.value),
-          y: sorted.slice(0, 10).map((v) => v.district),
-          // text: sorted.slice(0, 10).map((v) => `${v.value}%`),
+          x: sorted.slice(0, 10).map((v) => v[1]),
+          y: sorted.slice(0, 10).map((v) => v[0]),
           orientation: "h",
           textposition: "inside",
-          texttemplate: "%{x}%",
+          texttemplate: textTemplateValue,
           showlegend: false,
           hoverinfo: "none",
           marker: {
-            color: "rgb(211, 41, 61)",
+            color: colorScaleValue,
           },
         },
       ]}
@@ -50,6 +46,7 @@ const HorizontalBar = ({ data }) => {
           zeroline: true,
           gridcolor: "lightgray",
           zerolinecolor: "lightgray",
+          autorange: "reversed",
         },
       }}
       style={{ width: "100%", height: "100%" }}

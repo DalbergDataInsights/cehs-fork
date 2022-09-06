@@ -2,10 +2,10 @@ const overviewIndicatorMeta = [
   {
     key: "OPD attendance",
     displayName: "OPD attendance",
-    function: "single",
+    function: "nansum",
     numerator: {
-      dataElementId: "sv6SeKroHPV",
-      function: "single",
+      dataElementId: ["sv6SeKroHPV", "sQ4EexvvhVe"],
+      function: "nansum",
     },
     denominator: { dataElementId: "1", function: "single" },
     group: "GENERAL",
@@ -75,8 +75,11 @@ const overviewIndicatorMeta = [
   {
     key: "SAM cases identified",
     displayName: "SAM cases identified",
-    function: "single",
-    numerator: { dataElementId: "dgnUFBzt87d", function: "single" },
+    function: "nansum",
+    numerator: {
+      dataElementId: ["dgnUFBzt87d", "LX6uCvQ7a7W", "zvJyAAeman2"],
+      function: "nansum",
+    },
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
     reportingFrequency: "monthly",
@@ -85,8 +88,11 @@ const overviewIndicatorMeta = [
   {
     key: "1st & 2nd doses of vitamin A to U5",
     displayName: "1st & 2nd doses of vitamin A to U5",
-    function: "single",
-    numerator: { dataElementId: "vI52cxgsBNv", function: "single" },
+    function: "nansum",
+    numerator: {
+      dataElementId: ["vI52cxgsBNv", "A2ZOozUNmDz"],
+      function: "nansum",
+    },
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
     reportingFrequency: "monthly",

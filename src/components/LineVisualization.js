@@ -1,49 +1,71 @@
 import { useStore } from "effector-react";
-import React from "react";
+import React, { useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import Plot from "react-plotly.js";
-import { $store, $indicatorDescription } from "../models/Store";
-import { useAnalytics } from "../Query";
-import { processTitle } from "../utils";
+import { $store } from "../models/Store";
+import { computeCountryTimeSeries, processTitle } from "../utils";
 import Download from "./Download";
 import Loading from "./Loading";
 import VisualizationTitle from "./VisualizationTitle";
 
 const LineVisualization = ({
-  sqlView,
-  parameters,
+  data,
+  loading,
+  error,
   processor,
-  titleProcessor,
+  level,
+  displayName,
+  periodType,
 }) => {
   const store = useStore($store);
-  const indicatorDescription = useStore($indicatorDescription);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  const { isLoading, isSuccess, isError, error, data } = useAnalytics(
-    sqlView,
-    parameters
-  );
+
+  console.log(`Selected district: ${store.selectedDistrict}`);
+
+  const districts = store.districts;
+
+  const districtName = store.districts
+    .filter((i) => i.id == store.selectedDistrict)
+    .map((ou) => ou.name)[0];
+  console.log(districtName);
+
+  const dataViz = useMemo(() => {
+    if (level == "country") {
+      return computeCountryTimeSeries(data, level, periodType);
+    }
+  }, [data, periodType]);
 
   return (
     <>
-      {isLoading && <Loading />}
-      {isSuccess && (
+      {loading && <Loading />}
+      {!loading && dataViz && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
-            <VisualizationTitle
-              analysis={processTitle(periods[0], periods[1], data, "")}
-              what="Overview:"
-              indicatorDescription={indicatorDescription}
-              level="Across the country"
-            />
-            <Row>
-              <Col className="graph">
-                <h5>{`Total number of ${indicatorDescription} across the country`}</h5>
-              </Col>
-            </Row>
+            {level == "country" && (
+              <>
+                <VisualizationTitle
+                  analysis={processTitle(dataViz, "")}
+                  what="Overview:"
+                  indicatorDescription={displayName}
+                  level="Across the country,"
+                />
+                <Row style={{ marginBottom: 20 }}>
+                  <Col className="graph">
+                    {periodType == "monthly" && (
+                      <h5>{`Total number of ${displayName} across the country`}</h5>
+                    )}
+                    {periodType == "quarterly" && (
+                      <h5>{`Average value of ${displayName} across the country`}</h5>
+                    )}
+                  </Col>
+                </Row>
+              </>
+            )}
+
             <Row>
               <Col className="graph" style={{ minHeight: 480 }}>
                 <Plot
-                  data={processor(data)}
+                  data={processor(dataViz, periodType)}
                   layout={{
                     showlegend: true,
                     autosize: true,
@@ -55,7 +77,7 @@ const LineVisualization = ({
                       x: 1,
                     },
                     coloraxis: { colorbar_len: 1 },
-                    margin: { r: 0, t: 0, b: 25, l: 25 },
+                    margin: { r: 0, t: 0, b: 25, l: 50 },
                     plot_bgcolor: "rgba(255, 255, 255, 1)",
                     paper_bgcolor: "rgba(255, 255, 255, 1)",
                     xaxis: {
@@ -63,6 +85,7 @@ const LineVisualization = ({
                       zeroline: false,
                     },
                     yaxis: {
+                      autorange: true,
                       showgrid: true,
                       zeroline: true,
                       zerolinecolor: "lightgray",
@@ -75,11 +98,11 @@ const LineVisualization = ({
                 />
               </Col>
             </Row>
-            <Download />
+            <Download data={dataViz} />
           </Col>
         </Row>
       )}
-      {isError && <div>{error.message}</div>}
+      {error && <div>{error.message}</div>}
     </>
   );
 };

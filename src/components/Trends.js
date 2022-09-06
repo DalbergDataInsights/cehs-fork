@@ -1,200 +1,219 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { Col, Row } from "react-bootstrap";
+import { React, useEffect, useMemo } from "react";
 import { Select } from "antd";
-// import { useStore } from "../Context";
-import Download from "./Download";
-import HorizontalBar from "./HorizontalBar";
-import LineVisualization from "./LineVisualization";
-import MapVisualization from "./MapVisualization";
-import TreeMap from "./TreeMap";
 import VisualizationHeader from "./VisualizationHeader";
-import VisualizationTitle from "./VisualizationTitle";
 import { useStore } from "effector-react";
-import { $store, $indicatorDescription } from "../models/Store";
-import { processCountryData } from "../utils";
+import { $store } from "../models/Store";
+import { processCountryData, processNansum } from "../utils";
+import LineVisualization from "./LineVisualization";
+import { useDataQuery } from "@dhis2/app-runtime";
+import { periodBetween } from "../utils";
+import { setPage } from "../models/Events";
+import indicatorMeta from "../config/Indicators";
+import MapVisualization from "./MapVisualization";
+import TreeMapVisualization from "./TreeMapVisualization";
+import LineVisualizationDistrict from "./LineVisualizationDistrict";
+import LineVisualizationFacility from "./LineVisualizationFacility";
+
+const myQuery = {
+  results: {
+    resource: "analytics",
+    params: ({ variableId, period, orgLevel, periodType }) => ({
+      dimension: [
+        `dx:${variableId}`,
+        `ou:${orgLevel}`,
+        `pe:${periodBetween(
+          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
+          period.map((p) => p.format("YYYY-MM" + "-01"))[1],
+          periodType
+        ).join(";")}`,
+      ],
+      skipMeta: false,
+      paging: false,
+      includeNumDen: true,
+    }),
+  },
+};
 
 const { Option } = Select;
 
 const Trends = () => {
   const store = useStore($store);
+  const variable = store.selectedVariable;
+  const period = store.period;
+  let variableId = "";
+  const variableObject = indicatorMeta.filter(
+    (i) => i.key == store.selectedVariable
+  )[0];
+
+  if (store.page != "trends") {
+    setPage("trends");
+  }
+
+  if (variableObject.function == "single") {
+    variableId = variableObject.numerator.dataElementId;
+  } else if (variableObject.function == "nansum") {
+    variableId = variableObject.numerator.dataElementId.join(";");
+  }
+  console.log(`Variable Id: ${variableId}`);
+
+  const displayName =
+    variableObject !== undefined ? variableObject.displayName : "";
+
+  const periodType = variableObject.reportingFrequency;
+  console.log(`Period Type: ${periodType}`);
+
+  const districtQuery = useDataQuery(myQuery, {
+    variables: {
+      variableId: variableId,
+      period: period,
+      orgLevel: "LEVEL-3",
+      periodType: periodType,
+    },
+  });
+
+  let districtLevelData = districtQuery.data;
+  const districtLevelError = districtQuery.error;
+  const districtLevelLoading = districtQuery.loading;
+  const districtLevelRefetch = districtQuery.refetch;
+
+  useEffect(() => {
+    districtLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
+
+  const facilityQuery = useDataQuery(myQuery, {
+    variables: {
+      variableId: variableId,
+      period: period,
+      orgLevel: "LEVEL-5",
+      periodType: periodType,
+    },
+  });
+
+  let facilityLevelData = facilityQuery.data;
+  const facilityLevelError = facilityQuery.error;
+  const facilityLevelLoading = facilityQuery.loading;
+  const facilityLevelRefetch = facilityQuery.refetch;
+
+  useEffect(() => {
+    facilityLevelRefetch({
+      variableId: variableId,
+      period: period,
+      periodType: periodType,
+    });
+  }, [variableId, period, periodType]);
+
+  const processedData = useMemo(() => {
+    if (variableObject.function == "nansum") {
+      if (districtLevelData && districtLevelData["results"]["rows"]) {
+        districtLevelData = processNansum(
+          districtLevelData["results"]["rows"],
+          1
+        );
+      }
+
+      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
+        facilityLevelData = processNansum(
+          facilityLevelData["results"]["rows"],
+          1
+        );
+      }
+    }
+    return [districtLevelData, facilityLevelData];
+  }, [districtLevelData, facilityLevelData]);
+
+  districtLevelData =
+    variableObject.function == "nansum" ? processedData[0] : districtLevelData;
+
+  facilityLevelData =
+    variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
+
+  console.log(districtLevelData);
+  console.log(facilityLevelData);
+
+  // if (variableObject.function == "nansum") {
+  //   if (districtLevelData && districtLevelData["results"]["rows"]) {
+  //     districtLevelData = processNansum(
+  //       districtLevelData["results"]["rows"],
+  //       1
+  //     );
+  //   }
+
+  //   if (facilityLevelData && facilityLevelData["results"]["rows"]) {
+  //     facilityLevelData = processNansum(
+  //       facilityLevelData["results"]["rows"],
+  //       1
+  //     );
+  //   }
+  // }
+
+  console.log(`Variable: ${variableId}`);
+  console.log(`Variable: ${displayName}`);
+  console.log(facilityLevelData);
+  console.log(facilityLevelLoading);
+  console.log(`Period type: ${periodType}`);
+
   return (
     <div id="ds-paginator">
       <VisualizationHeader
         icon="analytics"
         title="Trends analysis over time, across districts and health facilities"
-        subTitle="Continuity of Essential Health Services"
+        subTitle="Health Insights and Visualization for Essential Health Services"
       />
       <LineVisualization
-        sqlView="Qc8cZsEJCyr"
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
         processor={processCountryData}
-        parameters={{
-          columns: "monthly",
-          value: store.selectedDataElement,
-          value1: "2018",
-          value2: "2021",
-        }}
+        level={"country"}
+        displayName={displayName}
+        periodType={periodType}
       />
       <MapVisualization
-        sqlView="dg4aQ4VY416"
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
+        maptype={"total"}
+        displayName={displayName}
+        periodType={periodType}
+      />
+      <MapVisualization
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
+        maptype={"percentage"}
+        displayName={displayName}
+        periodType={periodType}
+      />
+      <LineVisualizationDistrict
+        data={districtLevelData}
+        loading={districtLevelLoading}
+        error={districtLevelError}
         processor={processCountryData}
-        parameters={{
-          columns: "uidlevel3",
-          additional: "monthly",
-          column: "monthly",
-          value: store.selectedDataElement,
-          value1: store.period[0].format("YYYYMM"),
-          value2: store.period[1].format("YYYYMM"),
-        }}
+        level={"district"}
+        displayName={displayName}
+        periodType={periodType}
       />
 
-      {/* 
+      <TreeMapVisualization
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        displayName={displayName}
+      />
 
-      <Row className="data-card mb-5 p-3 shadow-sm rounded">
-        <Col>
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>{`Total number of ${
-                store.indicatorDescription
-              } on ${store.period[1].format("MMM-YYYY")} by district`}</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Select
-                style={{ width: "100%" }}
-                size="large"
-                value={store.selectedTotalOption}
-                onChange={store.onTotalOptionChange}
-              >
-                <Option value="1">Show month of interest</Option>
-                <Option value="2">
-                  Show sum between month of reference and month of interest
-                  period
-                </Option>
-                <Option value="3">
-                  Show average between month of reference and month of interest
-                  period
-                </Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="m-bot-24 p-3" xs={6}>
-              <Row>
-                <Col className="graph" style={{ minHeight: 480 }}>
-                  <MapVisualization
-                    data={store.geojson1.data}
-                    loading={store.geojson1.loading}
-                  />
-                </Col>
-              </Row>
-              <Download />
-            </Col>
-            <Col className="m-bot-24 p-3" xs={6}>
-              <Row>
-                <Col className="graph" style={{ minHeight: 480 }}>
-                  <HorizontalBar
-                    data={store.horizontalData1.data}
-                    loading={store.horizontalData1.loading}
-                    empty={store.horizontalData1.empty}
-                  />
-                </Col>
-              </Row>
-              <Download />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded">
-        <Col className="m-bot-24">
-          <VisualizationTitle
-            analysis={store.districtAnalyticsTitle}
-            what={`Deep-dive in ${store.districtName}`}
-            level=""
-          />
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>{`Total number of ${store.indicatorDescription} in ${store.districtName}`}</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="graph" style={{ minHeight: 480 }}>
-              <LineVisualization
-                data={store.acrossDistrict.data}
-                loading={store.acrossDistrict.loading}
-                empty={store.acrossDistrict.isEmpty}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
-        <Col className="m-bot-24">
-          <Row style={{ marginBottom: 20 }}>
-            <Col className="graph">
-              <h5>{`Contribution of individual facilities in ${
-                store.districtName
-              } to the  ${
-                store.indicatorDescription
-              } on ${store.period[0].format("MMM-YYYY")}`}</h5>
-            </Col>
-          </Row>
-          <Row style={{ marginBottom: 20 }}>
-            <Col>
-              <Select
-                style={{ width: "100%" }}
-                size="large"
-                value={store.selectedContributionOption}
-                onChange={store.onContributionOptionChange}
-              >
-                <Option value="1">Show month of interest</Option>
-                <Option value="2">
-                  Show sum between month of reference and month of interest
-                  period
-                </Option>
-                <Option value="3">
-                  Show average between month of reference and month of interest
-                  period
-                </Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="graph" style={{ minHeight: 480 }}>
-              <TreeMap
-                data={store.treeData.data}
-                loading={store.treeData.loading}
-                empty={store.treeData.isEmpty}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row>
-
-      <Row className="data-card shadow-sm mb-5 p-3 rounded">
-        <Col className="m-bot-24">
-          <Row>
-            <Col className="graph">
-              <h5>{`Evolution of number of ${store.indicatorDescription} in ${store.currentFacility}`}</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="graph" style={{ minHeight: 480 }}>
-              <LineVisualization
-                data={store.facilityData.data}
-                loading={store.facilityData.loading}
-                empty={store.facilityData.isEmpty}
-              />
-            </Col>
-          </Row>
-          <Download />
-        </Col>
-      </Row> */}
+      <LineVisualizationFacility
+        data={facilityLevelData}
+        loading={facilityLevelLoading}
+        error={facilityLevelError}
+        processor={processCountryData}
+        displayName={displayName}
+        level={"facility"}
+        periodType={periodType}
+      />
     </div>
   );
 };
