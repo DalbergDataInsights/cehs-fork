@@ -204,3 +204,102 @@ h5 {
   justify-items: center;
   height: calc(100vh - 48px);
 }
+
+/* from spph */
+input, textarea, select, button {
+  width : 750px;
+  height: 600px;
+  margin: 10px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  justify-content: center;
+}
+
+input[type='radio'] {
+  /* appearance: none; */
+  background: white;
+  width: 15px;
+  height: 15px;
+  vertical-align: middle; 
+  margin: '1px';
+  border: none;
+  box-shadow: none;
+}
+
+input[type='checkbox'] {
+  box-sizing: border-box;
+  /* box-shadow: none; */
+  appearance: auto;
+  background: white;
+  border: 1px solid #333 ;
+  width: 15px;
+  height: 15px;
+  border-radius: 0;
+  vertical-align: middle; 
+  /* margin: 10px, */
+}
+
+input[type='radio']:checked {
+  background: #2986cc;
+}
+
+input {
+  margin: 10px;
+  height: 30px;
+  width: 200px;
+  cursor: pointer;
+  overflow: auto;
+  min-height:max-content;
+  padding: 10px;
+  outline: none;
+}
+
+input[type='text']:focus{
+  border-color: #3498DB;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+  padding: 1px;
+  /* margin: 10px; */
+  display: 'flex';
+  justify-content: center;
+  border-radius: 5px;
+  justify-items: center;
+  align-items: center;
+}
+
+button:hover {
+background-color: #3498DB;
+color: #f1f1f1;
+}
+
+button:active {
+background-color: #3498DB;
+transform: translateY(1px);
+}
+
+textarea {
+  font: medium;
+  font-size: 14px;
+}
+
+select {
+margin: 10px;
+height: 30px;
+width: 200px;
+background-color: transparent;
+cursor: pointer;
+overflow: auto;
+min-height:max-content;
+}
+
+select:focus{
+outline-color: #3498DB;
+}
