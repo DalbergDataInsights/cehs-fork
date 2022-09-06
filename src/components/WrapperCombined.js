@@ -1,13 +1,16 @@
+import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+import { useStore } from "../Context";
 import { Cross } from "./Cross";
+import Overview from "./Overview";
+import Reports from "./Reports";
 import SideBar from "./SideBar";
 import { ThreeLines } from "./ThreeLines";
 import { loadDefaults } from "../Query";
-import TrendsTwo from "./TrendsTwo";
-import OverviewTwo from "./OverviewTwo";
-import ReportsTwo from "./ReportsTwo";
+import Trends from "./Trends";
 import SendEmailView from "../view/SendEmailView";
 import SettingsView from "../view/SettingsView";
 import EmailTemplateView from "../view/EmailTemplateView";
@@ -24,7 +27,14 @@ const antIcon = (
 const HivesWrapper = () => {
   const [open, setOpen] = useState(true);
   const { isLoading, isSuccess, isError, data, error } = loadDefaults();
-
+  // const store = useStore();
+  // if (store.loading) {
+  //   return (
+  //     <div className="loader">
+  //       <Spin indicator={antIcon} />
+  //     </div>
+  //   );
+  // }
   return (
     <div>
       {isLoading && (
@@ -46,13 +56,13 @@ const HivesWrapper = () => {
             <div style={{ flex: 1, overflow: "auto" }}>
               <Switch>
                 <Route path="/overview">
-                  <OverviewTwo />
+                  <Overview />
                 </Route>
                 <Route path="/reports">
-                  <ReportsTwo />
+                  <Reports />
                 </Route>
                 <Route path="/">
-                  <TrendsTwo />
+                  <Trends />
                 </Route>
               </Switch>
             </div>
