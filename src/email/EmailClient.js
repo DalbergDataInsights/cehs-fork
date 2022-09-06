@@ -197,7 +197,7 @@ class Email {
 }
 
 const EmailClient = new Email(
-  "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"
+  process.env.SENDGRID_API_KEY
 );
 
 export default EmailClient;
