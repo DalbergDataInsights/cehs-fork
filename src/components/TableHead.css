@@ -1,0 +1,42 @@
+.header {
+    background-color: #073763;
+    /* #3d85c6; */
+    width: 100%;
+    padding: 5px;
+    color: white;
+    text-align: left;
+  }
+  
+.area {
+    background-color: #073763;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 5% 20% 25% 20% 15% 15%;
+    /* text-align: center; */
+    width: 100%;  
+    align-items: center; 
+    color: white;
+}
+
+@media screen and (max-width: 500px) {
+    table {
+        font-size: small;
+    }
+
+    .area {
+        display: grid;
+        grid-template-columns: 5% 20% 25% 20% 15% 15%;
+        text-align: left;
+    }
+}
+
+td {
+    display: inline-block;
+  }
+
+/* fix the position of table headers on scroll */
+thead {
+    position: sticky;
+    top: 0;
+    vertical-align: top;
+  }
