@@ -143,7 +143,7 @@ const Controlls = () => {
             <Row style={{ marginBottom: 10 }}>
               <Col>
                 <RangePicker
-                  // style={{ width: "100%" }}
+                  style={{ width: "100%", height:"70%"}}
                   size="large"
                   picker="month"
                   value={store.period}
