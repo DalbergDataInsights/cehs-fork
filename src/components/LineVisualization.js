@@ -23,13 +23,18 @@ const LineVisualization = ({
     }
   }, [data, periodType]);
 
+  console.log("Printing dataviz");
+  console.log(dataViz);
+
+  console.log("Printing the error");
+  console.log(error);
   return (
     <>
       {loading && <Loading />}
-      {!loading && dataViz && (
+      {!loading && dataViz && error === undefined && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
-            {level == "country" && (
+            {level == "country" && !error && (
               <>
                 <VisualizationTitle
                   analysis={processTitle(dataViz, "")}
@@ -90,7 +95,15 @@ const LineVisualization = ({
           </Col>
         </Row>
       )}
-      {error && <div>{error.message}</div>}
+      {!dataViz && error === undefined && !loading && (
+        <h5>No data available at country level for selected period</h5>
+      )}
+      {error && (
+        <div>
+          <h5>No data available</h5>
+          {console.log(error.message)}
+        </div>
+      )}
     </>
   );
 };

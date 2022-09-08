@@ -55,11 +55,14 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
     return facilitiesDataTotals;
   }, [data, store.selectedDistrict]);
 
+  console.log(dataViz);
+  const isAllZero = Object.values(dataViz).every((item) => item === 0);
+
   return (
     <>
       {loading && <Loading />}
 
-      {data && (
+      {data && dataViz && error === undefined && !isAllZero && (
         // <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
@@ -105,7 +108,16 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
         </Row>
       )}
 
-      {error && <div>{error.message}</div>}
+      {!dataViz && error === undefined && !loading && isAllZero && (
+        <h5>No data available at facility level for selected period</h5>
+      )}
+
+      {error && (
+        <div>
+          <h5>No data available at facility level for selected period</h5>
+          {console.log(error.message)}
+        </div>
+      )}
     </>
   );
 };
