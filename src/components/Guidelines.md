@@ -1,4 +1,4 @@
-## Guidelines on creating a template:
+### Guidelines on creating a template:
 
 ---
 
@@ -15,7 +15,7 @@ The template has 4 groups of variables that can be inputted. These are:
    > : line graphs comparing the percentages of facilities reporting on their 105:1 form, and percentage of reporting facilities that reported a value of one or above for a specific indicator in a specific district.
 4. Title - This group consist of titles for each visualization. They are implemented in the template similar to the figure captions i.e., below the respective visualization.
 
-### Defining a variable:
+#### Defining a variable:
 
 Creating a variable takes in the **_group_**, **_type_** (if any) followed by the **_name of the variable_**. For the variables specific to an indicator the name would be replaced by the indicator id. The syntax is therefore: **_group_type_name_** or **_group_type_indicatorid_** for indicator specific variables.
 

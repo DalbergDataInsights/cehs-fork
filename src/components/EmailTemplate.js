@@ -32,7 +32,7 @@ const EmailTemplate = ({ body, setTemplate}) => {
           toolbar: 'undo redo | formatselect copy paste| ' +
           'bold italic backcolor image| alignleft aligncenter ' +
           'alignright alignjustify | bullist numlist outdent indent code| ' +
-          'removeformat |fullscreen  preview help' ,
+          'removeformat |fullscreen  preview' ,
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:12px }',
           paste_as_text: true,
           placeholder: 'Type here...',

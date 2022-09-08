@@ -1,5 +1,5 @@
 .header {
-    background-color: #073763;
+    background-color: rgb(19, 52, 78);;
     /* #3d85c6; */
     width: 100%;
     padding: 5px;
@@ -8,7 +8,7 @@
   }
   
 .area {
-    background-color: #073763;
+    background-color: rgb(19, 52, 78);;
     padding: 5px;
     display: grid;
     grid-template-columns: 5% 20% 25% 20% 15% 15%;

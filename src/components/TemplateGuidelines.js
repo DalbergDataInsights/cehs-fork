@@ -10,7 +10,7 @@ function TemplateGuidelines() {
   useEffect(() => {
     fetch(guidelines)
       .then((res) => res.text())
-      .then((text) => {setContent(text); console.log(text)});
+      .then((text) => {setContent(text);});
   }, []);
 
   return (
