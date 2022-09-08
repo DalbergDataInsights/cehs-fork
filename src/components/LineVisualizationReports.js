@@ -46,11 +46,6 @@ const LineVisualizationReports = ({
     }
   }, [data, store.selectedDistrict]);
 
-  console.log("Printing out data viz");
-  console.log(dataViz);
-  console.log("Printing out error");
-  console.log(error);
-
   return (
     <>
       {loading && <Loading />}

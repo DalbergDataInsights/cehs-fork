@@ -28,7 +28,6 @@ const LineVisualizationFacility = ({
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
-  console.log(districtName);
 
   let facilityName = store.currentFacility != "" ? store.currentFacility : "";
   let facility =

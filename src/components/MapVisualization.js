@@ -44,9 +44,6 @@ const MapVisualization = ({
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
-  console.log("Printing data viz in map visualization");
-  console.log(dataViz);
-
   return (
     <>
       {loading && <Loading />}

@@ -92,11 +92,6 @@ const MapVisualizationReports = ({
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
 
-  console.log("Printing out data viz");
-  console.log(dataViz);
-  console.log("Printing out error");
-  console.log(error);
-
   const isAllZero =
     dataViz !== undefined
       ? Object.values(dataViz).every((item) => item == "0.00")
