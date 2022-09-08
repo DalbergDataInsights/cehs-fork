@@ -147,7 +147,6 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
   useEffect(() => {
     let isMounted = true;
-    let timerId;
     if (rData && data) {
       console.log("start processing");
       const orgUnitIndex = data
@@ -159,7 +158,6 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
       // --- approach email  ---
       // Iterate over each email to filter and fetch necessary variables
-      // testPayload = async(payload) => {
         payload.forEach((mi, index) => {
           console.log(index);
           // start building the email payload
@@ -181,9 +179,6 @@ const ProcessEmailView = ({ payload, setPayload }) => {
             districtFacilitiesMeta[mi.orgUnit]["facility_ids"];
 
           // get the images payload i.e., attachments and titles
-          // timerId =
-
-          // const test = 
           getImagePayload({
             varIds,
             scopeData,
@@ -197,16 +192,12 @@ const ProcessEmailView = ({ payload, setPayload }) => {
             mi,
           }).then((r) => console.log(r));
 
-          // console.log(test)
-
           // console.log("------------------ variable data-------------------");
           // console.log(emailData);
           // console.log(emailAttachment);
 
           setCount((pCount) => pCount + 1);
         });
-      // };
-      // testPayload(payload);
 
       setButtonDisabled(false);
       if (isMounted) {
@@ -215,7 +206,6 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
       return () => {
         isMounted = false;
-        // clearTimeout(timer);
       };
 
       // pushing history back to send instead of activating the button?? TEST!
@@ -228,28 +218,28 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
 
   return (
-    <>
-      <p>Sending Emails: </p>
-      <br></br>
-      <p>
+    <div>
+      <p>Sending Emails: {" "}
         {count} / {payload.length}
       </p>
       <div
-        id="graph" //style={{ display: "none" }}
+        id="graph" style={{ display: "none" }}
       ></div>
       <button disabled={buttonDisabled} onClick={() => history.push("send")}>
         Back
       </button>
-    </>
+    </div>
   );
 };
 
 //  function to get title for the line visualizations
 function getVisTitle(selectedDistrictData, period, districtName, displayName) {
+  const data = Object.fromEntries(
+    Object.entries(processOrgRawDataToTimeSeries(selectedDistrictData)).filter(([key]) => 
+    period.map((p) => p.format("YYYYMM")).includes(key)))
+
   const analysis = processTitle(
-    period.map((p) => p.format("YYYYMM"))[0],
-    period.map((p) => p.format("YYYYMM"))[1],
-    processOrgRawDataToTimeSeries(selectedDistrictData),
+    data,
     ""
   );
   const what = `in ${districtName}`;
@@ -438,6 +428,10 @@ function getImagePayload({
           indicatorScopedData.length > 0 ? indicatorScopedData : undefined
         )
       );
+      // add text to latest year
+      lineDistrictData[lineDistrictData.length -1].mode = "lines+markers+text"
+      lineDistrictData[lineDistrictData.length -1].textposition = "top"
+      lineDistrictData[lineDistrictData.length -1].texttemplate = "%{y}"
 
       // ---facility level (horizontal bars) visualizations data
       // console.log("--- 2. Getting facility level visualization data---");
