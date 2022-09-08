@@ -10,14 +10,10 @@ import { setCurrentFacility } from "../models/Events";
 const TreeMap = ({ data, loading, error, parent }) => {
   const store = useStore($store);
   const sortedData = sortDictionary(data);
-
-  console.log(`Current facility: ${store.currentFacility}`);
   const facilityId =
     store.currentFacility !== ""
       ? getKeyByValue(facilitiesMeta, store.currentFacility)
       : "";
-
-  console.log(`Facility ID: ${facilityId}`);
 
   return (
     <>
@@ -32,16 +28,8 @@ const TreeMap = ({ data, loading, error, parent }) => {
                 .map((v) => v[0])
                 .map((val) => facilitiesMeta[val]),
               values: sortedData.map((v) => v[1]),
-              // parents: Array(50).fill(parent),
-              // labels: sortedData
-              //   .slice(0, 50)
-              //   .map((v) => v[0])
-              //   .map((val) => facilitiesMeta[val]),
-              // values: sortedData.slice(0, 50).map((v) => v[1]),
-              // textinfo: "label+value+percent parent+percent entry",
               textinfo: "label+value+percent parent+percent",
               hoverinfo: "label+value+percent parent+percent",
-              // domain: { x: [0, 0.48] },
               outsidetextfont: { size: 20, color: "#377eb8" },
               marker: {
                 line: { width: 2 },

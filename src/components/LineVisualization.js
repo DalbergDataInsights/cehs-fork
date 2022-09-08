@@ -17,18 +17,6 @@ const LineVisualization = ({
   displayName,
   periodType,
 }) => {
-  const store = useStore($store);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
-
-  console.log(`Selected district: ${store.selectedDistrict}`);
-
-  const districts = store.districts;
-
-  const districtName = store.districts
-    .filter((i) => i.id == store.selectedDistrict)
-    .map((ou) => ou.name)[0];
-  console.log(districtName);
-
   const dataViz = useMemo(() => {
     if (level == "country") {
       return computeCountryTimeSeries(data, level, periodType);
@@ -38,10 +26,10 @@ const LineVisualization = ({
   return (
     <>
       {loading && <Loading />}
-      {!loading && dataViz && (
+      {!loading && dataViz && error === undefined && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
-            {level == "country" && (
+            {level == "country" && !error && (
               <>
                 <VisualizationTitle
                   analysis={processTitle(dataViz, "")}
@@ -102,7 +90,15 @@ const LineVisualization = ({
           </Col>
         </Row>
       )}
-      {error && <div>{error.message}</div>}
+      {!dataViz && error === undefined && !loading && (
+        <h5>No data available at country level for selected period</h5>
+      )}
+      {error && (
+        <div>
+          <h5>No data available</h5>
+          {console.log(error.message)}
+        </div>
+      )}
     </>
   );
 };
