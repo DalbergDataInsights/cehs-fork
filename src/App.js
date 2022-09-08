@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
-import Wrapper from "./components/WrapperCombined";
+import Wrapper from "./components/Wrapper";
 import { StoreContext } from "./Context";
 import { Store } from "./Store";
 
