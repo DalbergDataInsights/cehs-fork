@@ -11,9 +11,6 @@ import TreeMapTwo from "./TreeMap";
 
 const TreeMapVisualization = ({ data, loading, error, displayName }) => {
   const store = useStore($store);
-  const variableId = store.selectedVariable;
-  const period = store.period;
-
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
@@ -55,7 +52,6 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
     return facilitiesDataTotals;
   }, [data, store.selectedDistrict]);
 
-  console.log(dataViz);
   const isAllZero = Object.values(dataViz).every((item) => item === 0);
 
   return (

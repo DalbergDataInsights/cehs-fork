@@ -24,11 +24,6 @@ const LineVisualizationFacility = ({
   periodType,
 }) => {
   const store = useStore($store);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
-
-  console.log(`Selected district: ${store.selectedDistrict}`);
-
-  const districts = store.districts;
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)

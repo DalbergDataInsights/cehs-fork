@@ -23,11 +23,6 @@ const LineVisualization = ({
     }
   }, [data, periodType]);
 
-  console.log("Printing dataviz");
-  console.log(dataViz);
-
-  console.log("Printing the error");
-  console.log(error);
   return (
     <>
       {loading && <Loading />}

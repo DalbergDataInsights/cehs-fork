@@ -35,8 +35,6 @@ const LineVisualizationDistrict = ({
     }
   }, [data, store.selectedDistrict, periodType]);
 
-  console.log(dataViz);
-
   return (
     <>
       {loading && <Loading />}
