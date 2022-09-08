@@ -17,18 +17,6 @@ const LineVisualization = ({
   displayName,
   periodType,
 }) => {
-  const store = useStore($store);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
-
-  console.log(`Selected district: ${store.selectedDistrict}`);
-
-  const districts = store.districts;
-
-  const districtName = store.districts
-    .filter((i) => i.id == store.selectedDistrict)
-    .map((ou) => ou.name)[0];
-  console.log(districtName);
-
   const dataViz = useMemo(() => {
     if (level == "country") {
       return computeCountryTimeSeries(data, level, periodType);
