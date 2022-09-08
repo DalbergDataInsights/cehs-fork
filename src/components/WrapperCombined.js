@@ -16,7 +16,7 @@ import SettingsView from "../view/SettingsView";
 import EmailTemplateView from "../view/EmailTemplateView";
 import DeleteTemplateView from "../view/DeleteTemplateView";
 import NewTemplateView from "../view/NewTemplateView";
-import NavBar from "./NavBar";
+import SpphNavBar from "./SpphNavBar";
 import ProcessEmailView from "../view/ProcessEmailView";
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 
@@ -75,23 +75,30 @@ const HivesWrapper = () => {
 };
 
 const SpphWrapper = () => {
+  const [open, setOpen] = useState(true);
   const [emailTargets, setEmailTargets] = useState([]);
 
   return (
     <>
       <DataStoreProvider namespace="spph_app_08082022">
         <Router>
-          <NavBar />
+        <div id="spph-wrapper">
+        <div className="left" style={{ width: open ? "20.5vw" : "1.5vw" }}>
+              {open ? <SpphNavBar /> : null}
+              <div style={{ paddingLeft: 10 }}>
+                {open ? (
+                  <Cross onClick={() => setOpen(false)} />
+                ) : (
+                  <ThreeLines onClick={() => setOpen(true)} />
+                )}
+              </div>
+            </div>
           <div
             style={{
-              justifyContent: "center",
               display: "flex",
-              height: "calc(100vh - 98px)",
-              width: "calc(100vw - 18vw)",
-              // float: "right",
-              padding: "10px 3%  10px 3% ",
-              marginLeft: "auto",
-              marginRight: "auto",
+              padding: "0% 3%  10px 2% ",
+              flex: 1, 
+              overflow: "auto"
             }}
           >
             <Switch>
@@ -112,6 +119,7 @@ const SpphWrapper = () => {
                 />
               </Route>
             </Switch>
+          </div>
           </div>
         </Router>
       </DataStoreProvider>
