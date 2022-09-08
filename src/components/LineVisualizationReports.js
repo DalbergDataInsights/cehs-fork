@@ -23,18 +23,10 @@ const LineVisualizationReports = ({
   periodType,
 }) => {
   const store = useStore($store);
-  // console.log(store.selectedVariable);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
-  // console.log(periods);
-
-  console.log(`Selected district: ${store.selectedDistrict}`);
-
-  const districts = store.districts;
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
-  console.log(districtName);
 
   const dataViz = useMemo(() => {
     if (level == "country") {
@@ -45,9 +37,6 @@ const LineVisualizationReports = ({
         store.selectedDistrict,
         districtFacilitiesMeta
       );
-      // console.log("Printing out district data");
-      // console.log(districtData);
-
       return filterMonthlyYearlyData(
         districtData,
         "district",
