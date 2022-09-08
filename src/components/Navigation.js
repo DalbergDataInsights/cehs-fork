@@ -41,7 +41,7 @@ const Navigation = () => {
         <Col className="align-self-center">
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>
-              <Link to="/overview">
+              <Link to="/hives/overview">
                 <p style={{ color: "white" }} className="nav-element text-left">
                   <span
                     className="material-icons align-middle"
@@ -56,7 +56,7 @@ const Navigation = () => {
           </Row>
           <Row>
             <Col style={{ width: "80%" }}>
-              <Link to="/trends">
+              <Link to="/hives/trends">
                 <p
                   id="trends"
                   style={{ color: "white" }}
@@ -75,7 +75,7 @@ const Navigation = () => {
           </Row>
           <Row>
             <Col style={{ width: "80%" }}>
-              <Link to="/reports">
+              <Link to="/hives/reports">
                 <p
                   id="reporting"
                   style={{ color: "white" }}
