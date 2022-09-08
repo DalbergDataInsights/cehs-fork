@@ -46,12 +46,15 @@ const LineVisualizationReports = ({
     }
   }, [data, store.selectedDistrict]);
 
-  // console.log(dataViz);
+  console.log("Printing out data viz");
+  console.log(dataViz);
+  console.log("Printing out error");
+  console.log(error);
 
   return (
     <>
       {loading && <Loading />}
-      {dataViz && (
+      {!loading && dataViz && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
             {level == "country" && (
@@ -130,7 +133,16 @@ const LineVisualizationReports = ({
           </Col>
         </Row>
       )}
-      {error && <div>{error.message}</div>}
+      {!dataViz && error === undefined && !loading && (
+        <h5>No data available at facility level for selected period</h5>
+      )}
+
+      {error && (
+        <div>
+          <h5>No data available at facility level for selected time period</h5>
+          {console.log(error.message)}
+        </div>
+      )}
     </>
   );
 };
