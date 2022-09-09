@@ -172,6 +172,13 @@ export function processTimeSeriesDataDict(data, periodType = "monthly") {
   }
 }
 
+/**
+ * This function creates a dynamic title string indicating the change from a time period
+ *  and the percentage change if any
+ * @param {*} data - time series dictionary
+ * @param {*} periodDescription
+ * @returns - a string
+ */
 export function processTitle(data, periodDescription = "") {
   const periods = Object.keys(data).sort();
   const start = periods[0];
@@ -205,6 +212,11 @@ export function processTitle(data, periodDescription = "") {
   }
 }
 
+/**
+ * This function returns an array of months between two time periods
+ * @param  {...any} args
+ * @returns - Array
+ */
 export function monthsBetween(...args) {
   let [a, b] = args.map((arg) =>
     arg
@@ -223,6 +235,14 @@ export function transpose(data) {
   }
 }
 
+/**
+ * This function turns a 2d array of raw data into a time series dictionary
+ *  where the keys are the time periods and the values are the aggregated values for that time period
+ * @param {*} data
+ * @param {*} periodType
+ * @returns - a dictionary
+ */
+// TODO: This code can be optimized
 export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
   if (
     !data ||
@@ -232,47 +252,93 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
   ) {
     return {};
   }
-  let data_transposed = transpose(data); // tranpose the data
+  let data_transposed = transpose(data); // transpose the data
   let time = data_transposed[2]; // Get the raw time periods
   let values = data_transposed[3].map((val) => parseInt(val)); // Get the raw values
   let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
   let time_dict = {}; // Create an empty dictionary
+  let num_values = data_transposed[4].map((val) => parseFloat(val)); // Get the numerators
+  let denom_values = data_transposed[5].map((val) => parseFloat(val)); // Get the denominators
+
+  console.log("Printing num values");
+  console.log(num_values);
+  console.log("Printing num values");
+  console.log(denom_values);
 
   // Initalize the time dictionary
   for (let i = 0; i < time_unique.length; i++) {
     let time_i = time_unique[i];
-    let x_arr = [];
-    for (let j = 0; j < time.length; j++) {
-      if (time[j] == time_i) {
-        x_arr.push(values[j]);
-      }
-    }
-
-    const sum = x_arr.reduce((accumulator, value) => {
-      return accumulator + value;
-    }, 0);
 
     if (periodType == "monthly") {
+      let x_arr = [];
+      for (let j = 0; j < time.length; j++) {
+        if (time[j] == time_i) {
+          x_arr.push(values[j]);
+        }
+      }
+      const sum = x_arr.reduce((accumulator, value) => {
+        return accumulator + value;
+      }, 0);
       time_dict[time_unique[i]] = sum;
     } else if (periodType == "quarterly") {
-      time_dict[time_unique[i]] = parseFloat((sum / x_arr.length).toFixed(1));
+      let x_num_arr = [];
+      let x_denom_arr = [];
+
+      for (let j = 0; j < time.length; j++) {
+        if (time[j] == time_i) {
+          x_num_arr.push(num_values[j]);
+          x_denom_arr.push(denom_values[j]);
+        }
+      }
+
+      const num_sum = x_num_arr.reduce((accumulator, value) => {
+        return accumulator + value;
+      }, 0);
+      console.log("Printing num sum");
+      console.log(num_sum);
+      const denom_sum = x_denom_arr.reduce((accumulator, value) => {
+        return accumulator + value;
+      }, 0);
+      console.log("Printing denom sum");
+      console.log(denom_sum);
+      time_dict[time_unique[i]] = parseFloat(
+        ((num_sum * 100) / denom_sum).toFixed(2)
+      );
     }
   }
 
   return time_dict;
 }
 
-export function processOrgDataTotal(data) {
+export function processOrgDataTotal(data, type = "monthly") {
   if (data.length == 0) {
     return 0;
   }
-  const values = data.map((val) => val[3]);
-  const valuesNumeric = values.map((val) => parseInt(val));
-  const valuesReducer = (accumulator, curr) => accumulator + curr;
-  if (valuesNumeric.length > 0) {
-    return valuesNumeric.reduce(valuesReducer);
-  } else {
-    return 0;
+
+  if (type == "monthly") {
+    const values = data.map((val) => val[3]);
+
+    const valuesNumeric = values.map((val) => parseInt(val));
+    const valuesReducer = (accumulator, curr) => accumulator + curr;
+    if (valuesNumeric.length > 0) {
+      return valuesNumeric.reduce(valuesReducer);
+    } else {
+      return 0;
+    }
+  } else if (type == "quarterly") {
+    const nums = data.map((val) => val[4]);
+    const denoms = data.map((val) => val[5]);
+
+    const valuesNumericNum = nums.map((val) => parseFloat(val));
+    const valuesNumericDenom = denoms.map((val) => parseFloat(val));
+    const valuesReducer = (accumulator, curr) => accumulator + curr;
+    if (valuesNumericNum.length > 0 && valuesNumericDenom.length > 0) {
+      const num = valuesNumericNum.reduce(valuesReducer);
+      const denom = valuesNumericDenom.reduce(valuesReducer);
+      return parseFloat(((num * 100) / denom).toFixed(2));
+    } else {
+      return 0;
+    }
   }
 }
 
@@ -510,6 +576,16 @@ export function computeDistrictTimeSeries(
 
   return processedData;
 }
+
+/**
+ * The function filters the data for all facilities in a selected district. Returning the facility and raw data as key value pairs
+ * @param {*} data - 2d array of data from level 5
+ * @param {*} level - String specifying the organisation level for the data
+ * @param {*} districtFacilitiesMeta
+ * @param {*} selectedDistrict
+ * @param {*} periodType
+ * @returns a dictionary where the key is the facililty and the value is the raw data for that facility
+ */
 
 export function computeFacilityTimeSeries(
   data,
