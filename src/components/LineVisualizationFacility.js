@@ -35,6 +35,8 @@ const LineVisualizationFacility = ({
       ? getKeyByValue(facilitiesMeta, store.currentFacility)
       : "";
 
+  console.log("Printing out facility");
+
   const dataViz = useMemo(() => {
     if (level == "facility") {
       const facilitiesDataDict = computeFacilityTimeSeries(
@@ -44,9 +46,10 @@ const LineVisualizationFacility = ({
         store.selectedDistrict
       );
 
+      // All that this does is help you get the facility with the highest number
       const facilitiesDataTotals = {};
       Object.entries(facilitiesDataDict).forEach(([key, value]) => {
-        facilitiesDataTotals[key] = processOrgDataTotal(value);
+        facilitiesDataTotals[key] = processOrgDataTotal(value, periodType);
       });
 
       const sortedData = sortDictionary(facilitiesDataTotals);
@@ -56,13 +59,14 @@ const LineVisualizationFacility = ({
           : facility;
 
       facilityName = facilitiesMeta[myFacility];
+      // =============================================================
 
       return processOrgRawDataToTimeSeries(
         facilitiesDataDict[myFacility],
         periodType
       );
     }
-  }, [data, store.selectedDistrict, facility]);
+  }, [data, store.selectedDistrict, facility, periodType]);
 
   return (
     <>
