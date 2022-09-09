@@ -366,11 +366,11 @@ export function getOrgUnitDataTotalsNoRenaming(orgUnits, data) {
   });
 }
 
-export function getOrgUnitDataTotals(orgUnits, data) {
+export function getOrgUnitDataTotals(orgUnits, data, periodType = "monthly") {
   const orgUnitData = getDataPerOrgUnits(orgUnits, data);
   const orgUnitDataTotals = {};
   Object.entries(orgUnitData).forEach(([key, value]) => {
-    orgUnitDataTotals[key] = processOrgDataTotal(value);
+    orgUnitDataTotals[key] = processOrgDataTotal(value, periodType);
   });
 
   const orgUnitDataTotalsRenamed = {};
