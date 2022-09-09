@@ -70,8 +70,6 @@ const Overview = () => {
     .filter((i) => i.function == "single")
     .map((i) => i.displayName);
 
-  // console.log(overviewIndicatorsIds);
-
   const nationalQuery = useDataQuery(myQuery, {
     variables: {
       variableId: overviewIndicatorsIds,
@@ -128,9 +126,6 @@ const Overview = () => {
     (i) => i.function == "nansum"
   );
 
-  console.log("Printing nansum overview Indicators");
-  console.log(nansumOverviewIndicators);
-
   const nansumOverviewIndicatorsDataElementIds = nansumOverviewIndicators.map(
     (i) => i.numerator.dataElementId
   );
@@ -160,9 +155,6 @@ const Overview = () => {
     nansumNationalLevelRefetch({ variableId: nansumIds, period: period });
   }, [period]);
 
-  console.log("Printing nansum data");
-  console.log(nansumData);
-
   let processedData = [];
   processedData = useMemo(() => {
     if (
@@ -175,11 +167,7 @@ const Overview = () => {
         const indData = nansumData["results"]["rows"].filter((val) =>
           ind.numerator.dataElementId.includes(val[0])
         );
-        console.log("Printing ind data");
-        console.log(indData);
         const nansumDataProcessed = processNansum(indData, 1);
-        console.log("Printing the processed nansum");
-        console.log(nansumDataProcessed);
         const nansumDataTotal = processOrgDataTotal(
           nansumDataProcessed["results"]["rows"]
         );
@@ -191,7 +179,6 @@ const Overview = () => {
           total: nansumDataTotal,
           percentage: nansumDataPercentage,
         };
-        console.log(obj);
         processedData.push(obj);
       });
 
@@ -199,20 +186,6 @@ const Overview = () => {
     }
     return processedData;
   }, [nansumData]);
-
-  // const nansumIndicatorName = nansumOverviewIndicatorsNames[0];
-  // const nansumIndicator =
-  //   processedData.length != 0
-  //     ? {
-  //         title: nansumIndicatorName,
-  //         total: processedData[0],
-  //         percentage: processedData[1],
-  //       }
-  //     : {
-  //         title: nansumIndicatorName,
-  //         total: "",
-  //         percentage: "",
-  //       };
 
   return (
     <div id="ds-paginator">
