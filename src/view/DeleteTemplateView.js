@@ -28,11 +28,11 @@ const DeleteTemplateView = () => {
 
   return (
     <>
-      <div style={{justifyContent:"left"}}>
+      <div style={{justifyContent:"left" }}>
         {/* <p>Select template to delete: </p> */}
-        <table className="panel" style={{width: '15vw'}}>
+        <table className="panel" style={{ width: "15vw" }}>
           <thead className="header">
-          <tr className="area" style={{gridTemplateColumns: "20% 80%"}}>
+            <tr className="area" style={{ gridTemplateColumns: "20% 80%" }}>
               <th></th>
               <th>Template name</th>
             </tr>
@@ -41,19 +41,20 @@ const DeleteTemplateView = () => {
             {templateIds &&
               templateIds.map((item, index) => {
                 return (
-                  <tr key={index} className='body-area' style={{gridTemplateColumns: "20% 80%"}}>
+                  <tr
+                    key={index}
+                    className="body-area"
+                    style={{ gridTemplateColumns: "20% 80%" }}
+                  >
                     <td>
-                        <label>
-                          <input
-                            key={index}
-                            type="radio"
-                            id={item.template}
-                            value={JSON.stringify(item)}
-                            name="address"
-                            onChange={handleOnChange}
-                          ></input>
-                          {/* {item.name} */}
-                        </label>
+                      <input
+                        key={index}
+                        type="radio"
+                        id={item.template}
+                        value={JSON.stringify(item)}
+                        name="address"
+                        onChange={handleOnChange}
+                      ></input>
                     </td>
                     <td>{item.name}</td>
                   </tr>
@@ -61,7 +62,9 @@ const DeleteTemplateView = () => {
               })}
           </tbody>
         </table>
-        <button style={{float: "right"}} onClick={() => setOpen(true)}>Delete</button>
+        <button className="button" style={{ float: "right" }} onClick={() => setOpen(true)}>
+          Delete
+        </button>
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
@@ -78,7 +81,7 @@ const DeleteTemplateView = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <button
+            <button className="button"
               onClick={() => {
                 EmailClient.deleteTemplate(templateId);
                 window.setTimeout(function () {
@@ -88,7 +91,7 @@ const DeleteTemplateView = () => {
             >
               Delete
             </button>
-            <button autoFocus onClick={() => setOpen(false)}>
+            <button className="button" autoFocus onClick={() => setOpen(false)}>
               Cancel
             </button>
           </DialogActions>

@@ -19,7 +19,7 @@ function NewTemplateView() {
     onChange={handleOnChange}>
     </input>
     <div>
-    <button
+    <button className="button"
         onClick={() => {
             EmailClient.newTemplate(templateName);
             console.log(templateName);

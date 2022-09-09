@@ -102,7 +102,6 @@ const SettingsView = ({ onUpdate }) => {
               {subData.map((key) => (
                 <tr key={key} className="body-area">
                   <td>
-                    <label>
                       <input
                         key={key}
                         type="radio"
@@ -111,7 +110,6 @@ const SettingsView = ({ onUpdate }) => {
                         onChange={handleOnChange}
                         checked={subListId === key}
                       ></input>
-                    </label>
                   </td>
                   <td>{key.replaceAll("_", " ")}</td>
                   <td>
@@ -128,14 +126,14 @@ const SettingsView = ({ onUpdate }) => {
           </table>
         </div>
         {/* <button>create</button>  */}
-        <button
+        <button className="button"
           onClick={() => {
             setOpen(true);
           }}
         >
           Create
         </button>
-        <button
+        <button className="button"
           onClick={() => {
             setEditOpen(true);
           }}
@@ -143,7 +141,7 @@ const SettingsView = ({ onUpdate }) => {
         >
           Edit
         </button>
-        <button
+        <button className="button"
           onClick={() => {
             handleDelete();
             setDeleteOpen(true);
@@ -178,7 +176,7 @@ const SettingsView = ({ onUpdate }) => {
               setDeleteOpen={setDeleteOpen}
               refetch={refetch}
             />
-            <button autoFocus onClick={() => setDeleteOpen(false)}>
+            <button className="button" autoFocus onClick={() => setDeleteOpen(false)}>
               Cancel
             </button>
           </DialogActions>

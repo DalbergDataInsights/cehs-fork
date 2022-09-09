@@ -353,7 +353,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                         );
                       })}
                   </select>
-                  <button
+                  <button className="button"
                     type='submit'
                     style={{ width: "30px", height: "30px",alignItems: "center", display:"inline",
                     backgroundColor:"#3498DB", color:"white",}}
@@ -417,9 +417,8 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                               })}
                           </select>
                           {index ?
-                          <button
+                          <button className="button"
                           // type="button"
-                          className="button-delete"
                             style={{ width: "30px", height: "30px", alignItems:"center", display:"flex",
                         }}
                             onClick={() => handleRemoveRecipient(item)}
@@ -439,7 +438,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
             </form>
           </DialogContent>
           <DialogActions >
-            <button
+            <button className="button"
               onClick={() => {
                 
                 // Only update list if subscriber data exists
@@ -457,7 +456,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
             >
               Save
             </button>
-            <button
+            <button className="button"
               autoFocus
               onClick={() => {
                 document.getElementById("settings-form").reset();

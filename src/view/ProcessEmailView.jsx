@@ -225,7 +225,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
       <div
         id="graph" style={{ display: "none" }}
       ></div>
-      <button disabled={buttonDisabled} onClick={() => history.push("send")}>
+      <button className="button" disabled={buttonDisabled} onClick={() => history.push("send")}>
         Back
       </button>
     </div>

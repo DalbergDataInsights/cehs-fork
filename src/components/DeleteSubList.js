@@ -20,7 +20,7 @@ const DeleteSubList = ({ newSettingsData, onUpdate, setDeleteOpen, refetch }) =>
 
   return (
     <>
-      <button
+      <button className="button"
         onClick={() => {
           mutate({ newSettingsData });
           setTimeout(() => {

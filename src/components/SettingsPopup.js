@@ -380,7 +380,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                         );
                       })}
                   </select>
-                  <button
+                  <button className="button"
                     type='submit'
                     style={{ width: "30px", height: "30px",alignItems: "center", display:"inline",
                     backgroundColor:"#3498DB", color:"white",}}
@@ -443,7 +443,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                               })}
                           </select>
                           {/* {index ? */}
-                          <button
+                          <button className="button"
                             style={{ width: "30px", height: "30px", alignItems:"center", display:"flex",
                         }}
                             onClick={() => handleRemoveRecipient(item)}
@@ -462,7 +462,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
             </form>
           </DialogContent>
           <DialogActions>
-            <button
+            <button className="button"
               onClick={() => {
                 // Only update list if subscriber data exists 
                 if (Object.keys(subscriber).length > 0) {
@@ -480,7 +480,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
             >
               Save
             </button>
-            <button
+            <button className="button"
               autoFocus
               onClick={() => {
                 setOpen(false);

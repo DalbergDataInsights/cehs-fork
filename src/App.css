@@ -221,17 +221,15 @@ body {
   /* font-size: 12px; */
 }
 
-input, textarea, select, button {
+input, textarea, select {
   width : 750px;
-  height: 600px;
+  height: 30px;
   margin: 10px;
   box-sizing: border-box;
-  padding: 0 10px;
   max-width: 100%;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
-  /* box-shadow: 1px 1px 1px #999; */
   justify-content: center;
 }
 
@@ -241,9 +239,9 @@ input[type='radio'] {
   width: 15px;
   height: 15px;
   vertical-align: middle; 
-  margin: '1px';
   border: none;
   box-shadow: none;
+  /* align-items: center; */
 }
 
 input[type='checkbox'] {
@@ -256,7 +254,8 @@ input[type='checkbox'] {
   height: 15px;
   border-radius: 0;
   vertical-align: middle; 
-  /* margin: 10px, */
+  justify-content: center;
+  /* align-items: center; */
 }
 
 input[type='radio']:checked {
@@ -278,24 +277,26 @@ input[type='text']:focus{
   border-color: #3498DB;
 }
 
-button {
+.button {
   width: 100px;
   height: 30px;
   padding: 1px;
-  /* margin: 10px; */
+  margin: 10px;
+  box-sizing: border-box;
   display: 'flex';
   justify-content: center;
   border-radius: 5px;
   justify-items: center;
   align-items: center;
+  border: 1px solid #ccc;
 }
 
-button:hover {
+.button:hover {
 background-color: #3498DB;
 color: #f1f1f1;
 }
 
-button:active {
+.button:active {
 background-color: #3498DB;
 transform: translateY(1px);
 }
@@ -306,7 +307,6 @@ textarea {
 }
 
 select {
-margin: 10px;
 height: 30px;
 width: 200px;
 background-color: transparent;

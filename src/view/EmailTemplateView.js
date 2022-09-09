@@ -65,8 +65,8 @@ const EmailTemplateView = () => {
         </select>
         <div style={{ width: "auto", margin: "0 auto",height:"calc(100% - 90px)"}}>{editor}</div>
         <div>
-          <button style={{ float: "right", marginRight: "0px" }}>Cancel</button>
-          <button
+          <button className="button" style={{ float: "right", marginRight: "0px" }}>Cancel</button>
+          <button className="button"
             style={{ float: "right" }}
             onClick={() => EmailClient.updateTemplateHTML(templateId, template)}
           >
