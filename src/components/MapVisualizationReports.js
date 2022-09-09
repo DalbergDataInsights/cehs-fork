@@ -22,11 +22,7 @@ const MapVisualizationReports = ({
   periodType,
 }) => {
   const store = useStore($store);
-  // console.log(store.selectedVariable);
   const periods = store.period.map((p) => p.format("YYYYMM"));
-  console.log("Printing out the periods in map visualization reports");
-  console.log(periods);
-  // console.log(periodType);
 
   const dataViz = useMemo(() => {
     if (maptype == "total") {
@@ -40,17 +36,10 @@ const MapVisualizationReports = ({
       const quarterPeriods =
         periodType == "quarterly" ? monthsToQuarters(periods) : null;
 
-      console.log(`Printing out the quarters: ${quarterPeriods}`);
-      console.log(`Periods: ${periods}`);
-
       const filteredData =
         periodType == "monthly"
           ? filterStartPeriodEndPeriodData(data, periods)
           : filterStartPeriodEndPeriodData(data, quarterPeriods);
-
-      console.log(`Period type: ${periodType}`);
-      console.log("Printing out the filtered data");
-      console.log(filteredData);
 
       if (filteredData) {
         const startReporting = computeReportingProportions(
