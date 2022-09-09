@@ -14,6 +14,7 @@ import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import overviewIndicatorMeta from "../config/OverviewIndicators";
 import TextVisualization from "./TextVisualization";
+import Loading from "./Loading";
 
 const myQuery = {
   results: {
@@ -194,6 +195,7 @@ const Overview = () => {
         title="Overview of WHO's HIVES indicators"
         subTitle="Health Insights and Visualization for Essential Health Services"
       />
+      {loading && nansumLoading && <Loading />}
       {overview.length > 0 && processedData.length > 0 && (
         <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
           <Col className="m-bot-24">
@@ -201,7 +203,7 @@ const Overview = () => {
               <Col>
                 <TextVisualization
                   info={processedData[0]}
-                  loading={loading}
+                  loading={nansumLoading}
                   color={"rgb(39, 190, 182)"}
                 />
               </Col>
@@ -262,7 +264,7 @@ const Overview = () => {
               <Col>
                 <TextVisualization
                   info={processedData[2]}
-                  loading={loading}
+                  loading={nansumLoading}
                   color={"rgb(103, 191, 107)"}
                 />
               </Col>
