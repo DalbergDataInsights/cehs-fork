@@ -9,7 +9,13 @@ import Loading from "./Loading";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import TreeMapTwo from "./TreeMap";
 
-const TreeMapVisualization = ({ data, loading, error, displayName }) => {
+const TreeMapVisualization = ({
+  data,
+  loading,
+  error,
+  displayName,
+  periodType,
+}) => {
   const store = useStore($store);
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
@@ -46,7 +52,7 @@ const TreeMapVisualization = ({ data, loading, error, displayName }) => {
 
     const facilitiesDataTotals = {};
     Object.entries(facilitiesDataDict).forEach(([key, value]) => {
-      facilitiesDataTotals[key] = processOrgDataTotal(value);
+      facilitiesDataTotals[key] = processOrgDataTotal(value, periodType);
     });
 
     return facilitiesDataTotals;
