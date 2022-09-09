@@ -86,7 +86,7 @@ const SpphNavBar = () => {
           </Col>
         </Row>
       </div>
-      <Button style={{ display: "flex", position: "absolute", bottom: "0px", left:"0.5vw"}}>
+      <Button style={{ display: "flex", position: "absolute", bottom: "15px", left:"15px"}}>
         <Link to="/">GO TO HIVES</Link>
       </Button>
     </div>

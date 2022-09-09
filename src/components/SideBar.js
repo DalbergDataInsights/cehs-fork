@@ -13,7 +13,7 @@ const SideBar = () => {
     <div className="sidebar">
       <Navigation />
       <Controlls />
-      <Button style={{display: "flex", position:"relative", bottom:"0px",left:"0.5vw"}}>
+      <Button style={{display: "flex", position:"relative", bottom:"15px",left:"15px"}}>
         <Link to="/spph/template/edit">GO TO SPPH</Link>
       </Button>
     </div>
