@@ -35,8 +35,6 @@ const LineVisualizationFacility = ({
       ? getKeyByValue(facilitiesMeta, store.currentFacility)
       : "";
 
-  console.log("Printing out facility");
-
   const dataViz = useMemo(() => {
     if (level == "facility") {
       const facilitiesDataDict = computeFacilityTimeSeries(

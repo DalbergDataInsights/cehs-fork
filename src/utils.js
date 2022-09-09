@@ -257,13 +257,14 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
   let values = data_transposed[3].map((val) => parseInt(val)); // Get the raw values
   let time_unique = Array.from(new Set(time)); // Get a list of unique time periods
   let time_dict = {}; // Create an empty dictionary
-  let num_values = data_transposed[4].map((val) => parseFloat(val)); // Get the numerators
-  let denom_values = data_transposed[5].map((val) => parseFloat(val)); // Get the denominators
-
-  console.log("Printing num values");
-  console.log(num_values);
-  console.log("Printing num values");
-  console.log(denom_values);
+  let num_values =
+    periodType == "quarterly"
+      ? data_transposed[4].map((val) => parseFloat(val))
+      : null; // Get the numerators
+  let denom_values =
+    periodType == "quarterly"
+      ? data_transposed[5].map((val) => parseFloat(val))
+      : null; // Get the denominators
 
   // Initalize the time dictionary
   for (let i = 0; i < time_unique.length; i++) {
@@ -294,13 +295,11 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
       const num_sum = x_num_arr.reduce((accumulator, value) => {
         return accumulator + value;
       }, 0);
-      console.log("Printing num sum");
-      console.log(num_sum);
+
       const denom_sum = x_denom_arr.reduce((accumulator, value) => {
         return accumulator + value;
       }, 0);
-      console.log("Printing denom sum");
-      console.log(denom_sum);
+
       time_dict[time_unique[i]] = parseFloat(
         ((num_sum * 100) / denom_sum).toFixed(2)
       );
@@ -442,25 +441,17 @@ export function computeOrgUnitPercentOfAverage(data, orgUnit) {
   if (!data) {
     return 0;
   }
-  console.log(orgUnit);
   const sortedData = sortByColumn(data, 2);
   const periods = [...new Set(sortedData.map((val) => val[2]))].sort();
-  console.log("Printing out the periods");
-  console.log(periods);
 
   const startPeriod = periods[0];
   const endPeriod = periods[periods.length - 1];
   const startData = sortedData.filter((val) => val[2] == startPeriod);
   const endData = sortedData.filter((val) => val[2] == endPeriod);
-
-  console.log("Printing start data and end data");
-  console.log(startData);
-  console.log(endData);
-
   const startAverage = processOrgDataTotal(startData) / startData.length;
   const endAverage = processOrgDataTotal(endData) / endData.length;
-
   let value = null;
+
   if (startAverage && endAverage) {
     const num = ((endAverage - startAverage) * 100) / startAverage;
     value = parseFloat(num.toFixed(2));

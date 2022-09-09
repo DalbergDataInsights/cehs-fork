@@ -27,18 +27,9 @@ const MapVisualization = ({
   const periods = store.period.map((p) => p.format("YYYYMM"));
   const dataViz = useMemo(() => {
     if (maptype == "total") {
-      if (periodType == "monthly") {
-        return getOrgUnitDataTotals(store.districts, data);
-      } else if (periodType == "quarterly") {
-        return getOrgUnitDataTotals(store.districts, data, periodType);
-      }
+      return getOrgUnitDataTotals(store.districts, data, periodType);
     } else {
-      if (periodType == "monthly") {
-        return getOrgUnitDataPercentageChanges(store.districts, data);
-      } else if (periodType == "quarterly") {
-        // return processDataPercentOfAverages(store.districts, data);
-        return getOrgUnitDataPercentageChanges(store.districts, data);
-      }
+      return getOrgUnitDataPercentageChanges(store.districts, data);
     }
   }, [data, periodType]);
 
