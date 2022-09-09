@@ -178,6 +178,7 @@ const Trends = () => {
         loading={facilityLevelLoading}
         error={facilityLevelError}
         displayName={displayName}
+        periodType={periodType}
       />
 
       <LineVisualizationFacility

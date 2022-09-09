@@ -30,13 +30,14 @@ const MapVisualization = ({
       if (periodType == "monthly") {
         return getOrgUnitDataTotals(store.districts, data);
       } else if (periodType == "quarterly") {
-        return getOrgUnitDataAverages(store.districts, data);
+        return getOrgUnitDataTotals(store.districts, data, periodType);
       }
     } else {
       if (periodType == "monthly") {
         return getOrgUnitDataPercentageChanges(store.districts, data);
       } else if (periodType == "quarterly") {
-        return processDataPercentOfAverages(store.districts, data);
+        // return processDataPercentOfAverages(store.districts, data);
+        return getOrgUnitDataPercentageChanges(store.districts, data);
       }
     }
   }, [data, periodType]);
