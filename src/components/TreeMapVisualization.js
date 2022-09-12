@@ -40,7 +40,7 @@ const TreeMapVisualization = ({
     ) {
       dataSelected = {
         results: {
-          rows: data["results"]["rows"].filter((val) => val[2] == period[0]),
+          rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
         },
       };
     }
@@ -94,7 +94,7 @@ const TreeMapVisualization = ({
                   )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
                 )}
                 {selectedContribution == "2" && (
-                  <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} in ${store.period[0].format(
+                  <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} in ${store.period[1].format(
                     "MMM-YYYY"
                   )}`}</h5>
                 )}
@@ -113,7 +113,7 @@ const TreeMapVisualization = ({
                     period
                   </Option>
                   {periodType == "monthly" && (
-                    <Option value="2">Show month of interest</Option>
+                    <Option value="2">Show only month of interest</Option>
                   )}
                   {/* <Option value="3">
                     Show average between month of reference and month of

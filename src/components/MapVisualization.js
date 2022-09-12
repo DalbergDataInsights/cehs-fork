@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useStore } from "effector-react";
 import Plot from "react-plotly.js";
 import { Col, Row } from "react-bootstrap";
@@ -24,14 +24,30 @@ const MapVisualization = ({
   periodType,
 }) => {
   const store = useStore($store);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
+  const period = store.period.map((p) => p.format("YYYYMM"));
+  console.log(period);
+  const [selectedContribution, setSelectedContribution] = useState("1");
   const dataViz = useMemo(() => {
     if (maptype == "total") {
+      let dataSelected = data;
+      if (
+        selectedContribution == "2" &&
+        periodType == "monthly" &&
+        data &&
+        data["results"]["rows"]
+      ) {
+        dataSelected = {
+          results: {
+            rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
+          },
+        };
+        return getOrgUnitDataTotals(store.districts, dataSelected, periodType);
+      }
       return getOrgUnitDataTotals(store.districts, data, periodType);
     } else {
       return getOrgUnitDataPercentageChanges(store.districts, data);
     }
-  }, [data, periodType]);
+  }, [data, periodType, selectedContribution]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
@@ -44,14 +60,19 @@ const MapVisualization = ({
         error === undefined &&
         Object.keys(dataViz).length != 0 && (
           <Row className="data-card mb-5 shadow-sm rounded">
-            <Col>
+            <Col className="m-bot-24">
               <Row style={{ marginBottom: 20 }}>
                 {maptype == "total" && (
                   <Col className="graph">
-                    {periodType == "monthly" && (
+                    {periodType == "monthly" && selectedContribution == "1" && (
                       <h5>{`Total ${displayName} between ${store.period[0].format(
                         "MMM-YYYY"
                       )} and ${store.period[1].format(
+                        "MMM-YYYY"
+                      )} by district`}</h5>
+                    )}
+                    {periodType == "monthly" && selectedContribution == "2" && (
+                      <h5>{`Total ${displayName} in ${store.period[1].format(
                         "MMM-YYYY"
                       )} by district`}</h5>
                     )}
@@ -64,7 +85,6 @@ const MapVisualization = ({
                     )}
                   </Col>
                 )}
-
                 {maptype == "percentage" && (
                   <Col className="graph">
                     {periodType == "monthly" && (
@@ -85,6 +105,31 @@ const MapVisualization = ({
                   </Col>
                 )}
               </Row>
+
+              {maptype == "total" && (
+                <Row>
+                  <Col>
+                    <Select
+                      style={{ width: "100%", backgroundColor: "white" }}
+                      size="large"
+                      value={selectedContribution}
+                      onChange={(val) => setSelectedContribution(val)}
+                    >
+                      <Option value="1">
+                        Show sum between month of reference and month of
+                        interest period
+                      </Option>
+                      {periodType == "monthly" && (
+                        <Option value="2">Show only month of interest</Option>
+                      )}
+                      {/* <Option value="3">
+                    Show average between month of reference and month of
+                    interest period
+                  </Option> */}
+                    </Select>
+                  </Col>
+                </Row>
+              )}
 
               {maptype == "percentage" && (
                 <Row>
