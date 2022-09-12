@@ -140,4 +140,4 @@ const Wrapper = () => {
   );
 };
 
-export default Wrapper;
+export default React.memo(Wrapper);

@@ -23,18 +23,10 @@ const LineVisualizationReports = ({
   periodType,
 }) => {
   const store = useStore($store);
-  // console.log(store.selectedVariable);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
-  // console.log(periods);
-
-  console.log(`Selected district: ${store.selectedDistrict}`);
-
-  const districts = store.districts;
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
-  console.log(districtName);
 
   const dataViz = useMemo(() => {
     if (level == "country") {
@@ -45,9 +37,6 @@ const LineVisualizationReports = ({
         store.selectedDistrict,
         districtFacilitiesMeta
       );
-      // console.log("Printing out district data");
-      // console.log(districtData);
-
       return filterMonthlyYearlyData(
         districtData,
         "district",
@@ -57,12 +46,10 @@ const LineVisualizationReports = ({
     }
   }, [data, store.selectedDistrict]);
 
-  // console.log(dataViz);
-
   return (
     <>
       {loading && <Loading />}
-      {dataViz && (
+      {!loading && dataViz && (
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
             {level == "country" && (
@@ -141,7 +128,16 @@ const LineVisualizationReports = ({
           </Col>
         </Row>
       )}
-      {error && <div>{error.message}</div>}
+      {!dataViz && error === undefined && !loading && (
+        <h5>No data available at facility level for selected period</h5>
+      )}
+
+      {error && (
+        <div>
+          <h5>No data available at facility level for selected time period</h5>
+          {console.log(error.message)}
+        </div>
+      )}
     </>
   );
 };

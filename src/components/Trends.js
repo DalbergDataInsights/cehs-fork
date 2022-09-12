@@ -131,31 +131,6 @@ const Trends = () => {
   facilityLevelData =
     variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
 
-  console.log(districtLevelData);
-  console.log(facilityLevelData);
-
-  // if (variableObject.function == "nansum") {
-  //   if (districtLevelData && districtLevelData["results"]["rows"]) {
-  //     districtLevelData = processNansum(
-  //       districtLevelData["results"]["rows"],
-  //       1
-  //     );
-  //   }
-
-  //   if (facilityLevelData && facilityLevelData["results"]["rows"]) {
-  //     facilityLevelData = processNansum(
-  //       facilityLevelData["results"]["rows"],
-  //       1
-  //     );
-  //   }
-  // }
-
-  console.log(`Variable: ${variableId}`);
-  console.log(`Variable: ${displayName}`);
-  console.log(facilityLevelData);
-  console.log(facilityLevelLoading);
-  console.log(`Period type: ${periodType}`);
-
   return (
     <div id="ds-paginator">
       <VisualizationHeader
@@ -203,6 +178,7 @@ const Trends = () => {
         loading={facilityLevelLoading}
         error={facilityLevelError}
         displayName={displayName}
+        periodType={periodType}
       />
 
       <LineVisualizationFacility

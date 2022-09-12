@@ -45,13 +45,6 @@ const Reports = () => {
     setPage("reports");
   }, []);
 
-  // const displayName = "";
-  // if (variableObject) {
-  //   // console.log(variableObject);
-  //   console.log(`Display name: ${variableObject.displayName}`);
-  //   displayName = variableObject.displayName;
-  // }
-  // console.log(displayName);
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
@@ -60,10 +53,8 @@ const Reports = () => {
   } else if (variableObject.function == "nansum") {
     variableId = variableObject.numerator.dataElementId.join(";");
   }
-  console.log(`Variable Id: ${variableId}`);
 
   const periodType = variableObject.reportingFrequency;
-  console.log(`Period Type: ${periodType}`);
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
@@ -101,9 +92,6 @@ const Reports = () => {
 
   facilityLevelData =
     variableObject.function == "nansum" ? processedData : facilityLevelData;
-
-  console.log("Printing facility level data");
-  console.log(facilityLevelData);
 
   return (
     <div id="ds-paginator">

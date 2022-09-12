@@ -14,6 +14,7 @@ import { monthsBetween } from "../utils";
 import { setPage } from "../models/Events";
 import overviewIndicatorMeta from "../config/OverviewIndicators";
 import TextVisualization from "./TextVisualization";
+import Loading from "./Loading";
 
 const myQuery = {
   results: {
@@ -69,8 +70,6 @@ const Overview = () => {
   const overviewIndicatorsNames = overviewIndicatorMeta
     .filter((i) => i.function == "single")
     .map((i) => i.displayName);
-
-  // console.log(overviewIndicatorsIds);
 
   const nationalQuery = useDataQuery(myQuery, {
     variables: {
@@ -128,9 +127,6 @@ const Overview = () => {
     (i) => i.function == "nansum"
   );
 
-  console.log("Printing nansum overview Indicators");
-  console.log(nansumOverviewIndicators);
-
   const nansumOverviewIndicatorsDataElementIds = nansumOverviewIndicators.map(
     (i) => i.numerator.dataElementId
   );
@@ -160,9 +156,6 @@ const Overview = () => {
     nansumNationalLevelRefetch({ variableId: nansumIds, period: period });
   }, [period]);
 
-  console.log("Printing nansum data");
-  console.log(nansumData);
-
   let processedData = [];
   processedData = useMemo(() => {
     if (
@@ -175,11 +168,7 @@ const Overview = () => {
         const indData = nansumData["results"]["rows"].filter((val) =>
           ind.numerator.dataElementId.includes(val[0])
         );
-        console.log("Printing ind data");
-        console.log(indData);
         const nansumDataProcessed = processNansum(indData, 1);
-        console.log("Printing the processed nansum");
-        console.log(nansumDataProcessed);
         const nansumDataTotal = processOrgDataTotal(
           nansumDataProcessed["results"]["rows"]
         );
@@ -191,7 +180,6 @@ const Overview = () => {
           total: nansumDataTotal,
           percentage: nansumDataPercentage,
         };
-        console.log(obj);
         processedData.push(obj);
       });
 
@@ -200,20 +188,6 @@ const Overview = () => {
     return processedData;
   }, [nansumData]);
 
-  // const nansumIndicatorName = nansumOverviewIndicatorsNames[0];
-  // const nansumIndicator =
-  //   processedData.length != 0
-  //     ? {
-  //         title: nansumIndicatorName,
-  //         total: processedData[0],
-  //         percentage: processedData[1],
-  //       }
-  //     : {
-  //         title: nansumIndicatorName,
-  //         total: "",
-  //         percentage: "",
-  //       };
-
   return (
     <div id="ds-paginator">
       <VisualizationHeader
@@ -221,6 +195,7 @@ const Overview = () => {
         title="Overview of WHO's HIVES indicators"
         subTitle="Health Insights and Visualization for Essential Health Services"
       />
+      {loading && nansumLoading && <Loading />}
       {overview.length > 0 && processedData.length > 0 && (
         <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
           <Col className="m-bot-24">
@@ -228,7 +203,7 @@ const Overview = () => {
               <Col>
                 <TextVisualization
                   info={processedData[0]}
-                  loading={loading}
+                  loading={nansumLoading}
                   color={"rgb(39, 190, 182)"}
                 />
               </Col>
@@ -289,7 +264,7 @@ const Overview = () => {
               <Col>
                 <TextVisualization
                   info={processedData[2]}
-                  loading={loading}
+                  loading={nansumLoading}
                   color={"rgb(103, 191, 107)"}
                 />
               </Col>

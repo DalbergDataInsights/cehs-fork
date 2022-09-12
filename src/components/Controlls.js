@@ -158,4 +158,4 @@ const Controlls = () => {
   );
 };
 
-export default Controlls;
+export default React.memo(Controlls);
