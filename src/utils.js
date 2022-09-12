@@ -917,3 +917,14 @@ export function processNansum(data, multiplicator = 1) {
 
   return { results: { rows: processedData } };
 }
+
+export function findPosition(meta, key) {
+  //takes in results.headers
+  let searchIndex = -1;
+  meta.forEach((d, index) => {
+    if (d.name === key) {
+      searchIndex = index;
+    }
+  });
+  return searchIndex;
+}
