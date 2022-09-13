@@ -36,8 +36,6 @@ const myQuery = {
   },
 };
 
-let timer;
-
 // This component will load the data and send emails, processing the template components 1 by 1
 const ProcessEmailView = ({ payload, setPayload }) => {
   console.log(payload.length);
@@ -45,21 +43,45 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
   const [count, setCount] = useState(0); // imitate process progress
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  // const [facilitiesData, setFacilitiesData] = useState();
+  const [currentPayload, setCurrentPayload] = useState([payload[0]]);
   const history = useHistory();
 
-  // get dates upto previous month
-  var period = [];
-  if (payload.length > 0) {
-    period = [
-      moment(payload[0].dateStart),
-      moment(payload[0].dateEnd),
-    ];
-  }
-  console.log(period);
+  useEffect(() => {
+    // current payload: an email item in the payload list i.e. individual email variables info
+    if (count < payload.length) {
+      setCurrentPayload([...[payload[count]]]);
+    } else {
+      setCurrentPayload([]);
+    }
+  }, [count]);
+
+  // get trends data period
+  const period =
+    currentPayload.length > 0
+      ? [
+          moment(currentPayload[0].trendDateStart),
+          moment(currentPayload[0].trendDateEnd),
+        ]
+      : [];
+  // get reporting data period
+  const reportingPeriod =
+    currentPayload.length > 0
+      ? [
+          moment(currentPayload[0].reportingYear, "YYYY").startOf("year"),
+          currentPayload[0].reportingYear === moment().format("YYYY")
+            ? moment().subtract(1, "months")
+            : moment(currentPayload[0].reportingYear, "YYYY").endOf("year"),
+        ]
+      : [];
+ 
+  // get facilities for the recipients district
+  const districtFacilities =
+    currentPayload.length > 0
+      ? districtFacilitiesMeta[currentPayload[0].orgUnit]["facility_ids"]
+      : [];
 
   const varIds = [];
-  const variables = payload
+  const variables = currentPayload
     .map((p) => p.variables)
     .reduce((current, next) => current.concat(next), []);
 
@@ -75,21 +97,17 @@ const ProcessEmailView = ({ payload, setPayload }) => {
     }
   });
 
-  const districts = payload
+  const districts = currentPayload
     .map((p) => p.orgUnit)
     .reduce((current, next) => [...new Set(current.concat(next))], []);
 
   // --- Facility level data
   // reporting period should be current year
-  const { refetch: datasetsRefetch, data: dataSets } = useDataQuery(
-    dataSetQuery,
-    {
-      variable: {
-        period: [moment().startOf("year"), period[1]],
-      },
-      lazy: true,
-    }
-  );
+  const { data: dataSets } = useDataQuery(dataSetQuery, {
+    variable: {
+      period: reportingPeriod,
+    },
+  });
 
   const {
     loading,
@@ -99,10 +117,9 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   } = useDataQuery(myQuery, {
     variables: {
       variableId: varIds.join(";"),
-      period: [moment().startOf("year"), period[1]],
-      orgLevel: "LEVEL-5",
+      period: reportingPeriod,
+      orgLevel: districtFacilities.join(";"),
     },
-    lazy: true,
   });
 
   if (facilitiesError) {
@@ -110,6 +127,20 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   } else if (loading) {
     console.log("loading...");
   }
+
+  useEffect(() => {
+    // refetch data when the currentPayload changes
+    if (currentPayload.length > 0) {
+      facilitiesRefetch({
+        variableId: varIds.join(";"),
+        period: reportingPeriod,
+        orgLevel:
+          districtFacilities.length < 500
+            ? districtFacilities.join(";")
+            : "LEVEL-5",
+      });
+    }
+  }, [currentPayload]);
 
   const facilitiesData = useMemo(() => {
     if (rData) {
@@ -130,24 +161,63 @@ const ProcessEmailView = ({ payload, setPayload }) => {
       );
       return f;
     }
-  }, [rData]);
+  }, [districts]);
 
-  // --- Line visualizations data
-  const { data } = useDataQuery(myQuery, {
+  // facilities month of interest data
+  const { data: barData, refetch: barRefetch } = useDataQuery(myQuery, {
     variables: {
       variableId: varIds.join(";"),
-      period: period,
-      orgLevel: "LEVEL-3",
-      // lazy: true,
+      period:
+        currentPayload.length > 0
+          ? [
+              moment(currentPayload[0].monthOfInterest),
+              moment(currentPayload[0].monthOfInterest),
+            ]
+          : [],
+      orgLevel: districtFacilities.join(";"),
     },
   });
 
-  console.log(rData);
-  console.log(data);
+  useEffect(() => {
+    // refetch data when the currentPayload changes
+    if (currentPayload.length > 0) {
+      barRefetch({
+        variableId: varIds.join(";"),
+        period: [
+          moment(currentPayload[0].monthOfInterest),
+          moment(currentPayload[0].monthOfInterest),
+        ],
+        orgLevel:
+          districtFacilities.length < 500
+            ? districtFacilities.join(";")
+            : "LEVEL-5",
+      });
+    }
+  }, [districtFacilities]);
+  // --- Trend line visualizations data
+  const { data, refetch } = useDataQuery(myQuery, {
+    variables: {
+      variableId: varIds.join(";"),
+      period: period,
+      orgLevel: districts.join(";"),
+    },
+  });
 
   useEffect(() => {
+    // refetch data when the currentPayload changes
+    if (currentPayload.length > 0) {
+      refetch({
+        variableId: varIds.join(";"),
+        period: period,
+        orgLevel: districts.join(";"),
+      });
+    }
+  }, [period, districts]);
+
+  // ------ process emails ----
+  useEffect(() => {
     let isMounted = true;
-    if (rData && data) {
+    if (rData && data && barData) {
       console.log("start processing");
       const orgUnitIndex = data
         ? findPosition(data.results.headers, "ou")
@@ -158,8 +228,10 @@ const ProcessEmailView = ({ payload, setPayload }) => {
 
       // --- approach email  ---
       // Iterate over each email to filter and fetch necessary variables
-        payload.forEach((mi, index) => {
-          console.log(index);
+      const testPayload = async (mi) => {
+        try {
+          console.log(` --- Processing email ${count + 1} started ---`);
+          console.log(mi);          
           // start building the email payload
           var emailData = {};
           var emailAttachment = [];
@@ -174,12 +246,8 @@ const ProcessEmailView = ({ payload, setPayload }) => {
           const districtName = data.results.metaData.items[mi.orgUnit].name;
           emailData["static_district"] = districtName;
 
-          //  get facilities specific to the district
-          const districtFacilities =
-            districtFacilitiesMeta[mi.orgUnit]["facility_ids"];
-
           // get the images payload i.e., attachments and titles
-          getImagePayload({
+          await getImagePayload({
             varIds,
             scopeData,
             indicatorIndex,
@@ -188,43 +256,39 @@ const ProcessEmailView = ({ payload, setPayload }) => {
             emailAttachment,
             districtName,
             facilitiesData,
+            barData,
             dataSets,
             mi,
-          }).then((r) => console.log(r));
+            setCount,
+          });
 
-          // console.log("------------------ variable data-------------------");
-          // console.log(emailData);
-          // console.log(emailAttachment);
+          // data = undefined;
+          // barData = undefined;
+          // rData = undefined;
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-          setCount((pCount) => pCount + 1);
-        });
-
-      setButtonDisabled(false);
-      if (isMounted) {
+      testPayload(...currentPayload);
+      if (isMounted && currentPayload[0] === payload[payload.length - 1]) {
         setPayload([]);
+        setButtonDisabled(false);
       }
 
       return () => {
         isMounted = false;
       };
-
       // pushing history back to send instead of activating the button?? TEST!
-    } else {
-      facilitiesRefetch({ period: [moment().startOf("year"), period[1]] });
     }
-  }, [data, rData]);
-
-
-
+  }, [data, rData, barData]);
 
   return (
     <div>
       <p>Sending Emails: {" "}
         {count} / {payload.length}
       </p>
-      <div
-        id="graph" style={{ display: "none" }}
-      ></div>
+      <div id="graph" style={{ display: "none" }}></div>
       <button className="button" disabled={buttonDisabled} onClick={() => history.push("send")}>
         Back
       </button>
@@ -252,7 +316,7 @@ function getVisTitle(selectedDistrictData, period, districtName, displayName) {
 
 // function to populate static and dynamic variables from the template
 function populateStaticVars(emailData, mi) {
-  const period = [moment(mi.dateStart), moment(mi.dateEnd)];
+  const period = [moment(mi.trendDateStart), moment(mi.trendDateEnd)];
 
   //  get the meta item specific list of indicators
   const varIds = [];
@@ -273,11 +337,11 @@ function populateStaticVars(emailData, mi) {
     today.toLocaleString("default", { day: "numeric", month: "long" }) +
     " " +
     today.getFullYear();
-  emailData["dynamic_reporting_month"] = period[1].format("MMMM YYYY");
+  emailData["dynamic_reporting_month"] = moment(mi.monthOfInterest).format("MMMM YYYY");
   emailData["dynamic_future_report_date"] = moment()
     .add(0, "months")
     .format("MMMM YYYY");
-  emailData["dynamic_following_reporting_date"] = period[1]
+  emailData["dynamic_following_reporting_date"] = moment(mi.monthOfInterest)
     .clone()
     .add(1, "months")
     .format("MMMM YYYY");
@@ -370,6 +434,7 @@ const reportingLayout = {
   },
 };
 
+// function that generates the visualizations, populates the payload and sends emails
 function getImagePayload({
   varIds,
   scopeData,
@@ -379,17 +444,17 @@ function getImagePayload({
   emailAttachment,
   districtName,
   facilitiesData,
+  barData,
   dataSets,
   mi,
+  setCount,
 }) {
-  const period = [moment(mi.dateStart), moment(mi.dateEnd)];
+  const period = [moment(mi.trendDateStart), moment(mi.trendDateEnd)];
   const periodIndex = findPosition(facilitiesData.results.headers, "pe");
   
   // --- approach variable  ---
   return new Promise((resolve) => {
     varIds.forEach((v, index) => {
-      // console.log("--- 1. Getting trend line visualizations---");
-
       const indicatorScopedData = scopeData
         .filter((i) => v.split(";").includes(i[indicatorIndex]))
         .filter((i) =>
@@ -434,20 +499,23 @@ function getImagePayload({
       lineDistrictData[lineDistrictData.length -1].texttemplate = "%{y}"
 
       // ---facility level (horizontal bars) visualizations data
-      // console.log("--- 2. Getting facility level visualization data---");
       const barVizData = getBarVisData(
-        facilitiesData,
+        barData,
         districtFacilities,
         v,
-        period[1],
+        moment(mi.monthOfInterest),
         variableName
       );
       const horizontalBarData = barVizData.plottingData;
       emailData[`title_bar_${v.replaceAll(";", "_")}`] = barVizData.title;
 
       // ---- Reporting visualizations
-      // console.log("--- 3. Getting reporting visualizations");
-      const reportingPeriod = [moment().startOf("year"), period[1]];
+      const reportingPeriod = [
+        moment(mi.reportingYear, "YYYY").startOf("year"),
+        mi.reportingYear === moment().format("YYYY")
+          ? moment().subtract(1, "months")
+          : moment(mi.reportingYear, "YYYY").endOf("year"),
+      ];
       const reporting = getReportingData(
         facilitiesData,
         dataSets,
@@ -479,9 +547,8 @@ function getImagePayload({
       // for each type of data plot the respective visualization
       visualizations.forEach((i, n) => {
         const vizData = imageType(i);
-
         // setting timeout 0 to win a race condition
-        timer = setTimeout(() => {
+        setTimeout(() => {
           Plotly.react("graph", JSON.parse(JSON.stringify(i)), vizData.layout)
             .then((o) => {
               return Plotly.toImage(o, {
@@ -496,21 +563,25 @@ function getImagePayload({
 
               // send email if all images are received
               if (emailAttachment.length === varIds.length * 3) {
-                Plotly.purge("graph")
                 console.log("------------------ variable data-------------------");
                 console.log(emailData);
+                console.log(emailAttachment);
+                console.log(`EMAIL SENT TO: ${mi.recipientEmail}`);
+
                 EmailClient.sendEmail(
                   mi.recipientEmail,
                   mi.templateId,
                   emailData,
                   emailAttachment
                 );
+                console.log(`---Processing email done ---`);
+                setCount((pCount) => pCount + 1);
               }
             });
         }, 0);
       });
     });
-    resolve("done");
+    resolve();
   });
 }
 
