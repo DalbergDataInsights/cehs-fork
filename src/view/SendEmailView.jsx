@@ -130,8 +130,7 @@ function SendEmailView({ setEmailTargets }) {
                   style={{ gridTemplateColumns: "100%" }}
                 >
                   <td>
-                    <label>
-                      <input
+                    <input
                         key={item}
                         type="checkbox"
                         id={item}
@@ -141,7 +140,6 @@ function SendEmailView({ setEmailTargets }) {
                         checked={template.includes(item)}
                       ></input>
                       {item.replaceAll("_", " ")}
-                    </label>
                   </td>
                 </tr>
               ))}
