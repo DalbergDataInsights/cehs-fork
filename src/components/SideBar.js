@@ -14,7 +14,7 @@ const SideBar = () => {
       <Navigation />
       <Controlls />
       <Button style={{display: "flex", position:"relative", bottom:"15px",left:"15px"}}>
-        <Link to="/spph/template/edit">GO TO SPPH</Link>
+        <Link to="/spph/template/edit">GO TO EMAIL APP</Link>
       </Button>
     </div>
   );
