@@ -8,12 +8,17 @@ function NewTemplateView() {
     setTemplateName(event.target.value);
   }
 
+  const clearFields = () => {
+    document.getElementById("namefield").value = "";
+  }
+
   return (
     <>
     <div>
     New template name:
     <input 
     type="text" 
+    id="namefield"
     placeholder="Write template name here..." 
     style={{height: '30px'}}
     onChange={handleOnChange}>
@@ -23,7 +28,7 @@ function NewTemplateView() {
         onClick={() => {
             EmailClient.newTemplate(templateName);
             console.log(templateName);
-            // window.setTimeout(function(){location.reload()},1000)
+            setTimeout(() => {clearFields()},[1000]);
             
         }}
         style={{float: 'right'}}
