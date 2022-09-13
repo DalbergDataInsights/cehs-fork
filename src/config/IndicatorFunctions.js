@@ -75,19 +75,20 @@ export function aggregate(meta, data, dim, f = weightedAverage, plug = {}) {
   return out;
 }
 
-export function processNansum({ data, multiplicator }) {
+export function processNansum(data, multiplicator = 1) {
   if (!data || data === undefined) {
     return;
   }
-  const rows = JSON.parse(JSON.stringify(data.results.rows));
-  const timePeriods = [...new Set(rows.map((val) => val[2]))];
-  const orgUnits = [...new Set(rows.map((val) => val[1]))];
+  const timePeriods = [...new Set(data.map((val) => val[2]))];
+  const orgUnits = [...new Set(data.map((val) => val[1]))];
+  // const dataElements = [...new Set(data.map((val) => val[0]))];
+  // const d = dataElements.join("_");
 
   //Iterate over the timePeriods and  orgUnits
   const processedData = [];
   timePeriods.forEach((pe, index) => {
     orgUnits.forEach((org, idx) => {
-      const dataPeriodOrg = rows.filter((val) => val[2] == pe && val[1] == org);
+      const dataPeriodOrg = data.filter((val) => val[2] == pe && val[1] == org);
       const dataPeriodOrgValue = dataPeriodOrg.map((val) => parseFloat(val[3]));
       processedData.push([
         "",
@@ -100,15 +101,15 @@ export function processNansum({ data, multiplicator }) {
     });
   });
 
-  return { results: { ...data, rows: processedData } };
+  return { results: { rows: processedData } };
 }
 
 export function processRatioNansum({
   data,
   numeratorIds,
   denominatorIds,
-  multiplicator,
-  divisor,
+  multiplicator = 1,
+  divisor = 1,
 }) {
   const numeratorData = data.filter((val) => numeratorIds.includes(val[0]));
   const denominatorData = data.filter((val) => denominatorIds.includes(val[0]));

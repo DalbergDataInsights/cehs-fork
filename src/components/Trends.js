@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo } from "react";
+import { React, useEffect, useMemo, useState } from "react";
 import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
@@ -40,7 +40,6 @@ const Trends = () => {
   const store = useStore($store);
   const variable = store.selectedVariable;
   const period = store.period;
-  let variableId = "";
   const variableObject = indicatorMeta.filter(
     (i) => i.key == store.selectedVariable
   )[0];
@@ -49,11 +48,16 @@ const Trends = () => {
     setPage("trends");
   }
 
-  if (variableObject.function == "single") {
-    variableId = variableObject.numerator.dataElementId;
-  } else if (variableObject.function == "nansum") {
-    variableId = variableObject.numerator.dataElementId.join(";");
-  }
+  // if (variableObject.function == "single") {
+  //   variableId = variableObject.numerator.dataElementId;
+  // } else if (variableObject.function == "nansum") {
+  //   variableId = variableObject.numerator.dataElementId.join(";");
+  // }
+  let variableId = variableObject.numerator.dataElementId.join(";");
+  variableId =
+    variableObject.denominator.dataElementId != 1
+      ? variableId.concat(";", variableId.dataElementId.join(";"))
+      : variableId;
   console.log(`Variable Id: ${variableId}`);
 
   const displayName =
@@ -69,9 +73,26 @@ const Trends = () => {
       orgLevel: "LEVEL-3",
       periodType: periodType,
     },
+    onComplete: (data) => {
+      const meta = indicatorMeta.filter(
+        (el) => el.key === store.selectedVariable
+      )[0];
+      const func = meta.processingFunction || (({ data }) => data);
+      const args = meta.arguments || {};
+
+      try {
+        setDistricLevelData(func({ data, ...args }));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+    // lazy: true,
   });
 
-  let districtLevelData = districtQuery.data;
+  const [districtLevelData, setDistricLevelData] = useState(undefined);
   const districtLevelError = districtQuery.error;
   const districtLevelLoading = districtQuery.loading;
   const districtLevelRefetch = districtQuery.refetch;
@@ -91,9 +112,26 @@ const Trends = () => {
       orgLevel: "LEVEL-5",
       periodType: periodType,
     },
+    onComplete: (data) => {
+      const meta = indicatorMeta.filter(
+        (el) => el.key === store.selectedVariable
+      )[0];
+      const func = meta.processingFunction || (({ data }) => data);
+      const args = meta.arguments || {};
+
+      try {
+        setFacilityLevelData(func({ data, ...args }));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+    // lazy: true,
   });
 
-  let facilityLevelData = facilityQuery.data;
+  const [facilityLevelData, setFacilityLevelData] = useState(undefined);
   const facilityLevelError = facilityQuery.error;
   const facilityLevelLoading = facilityQuery.loading;
   const facilityLevelRefetch = facilityQuery.refetch;
@@ -106,30 +144,30 @@ const Trends = () => {
     });
   }, [variableId, period, periodType]);
 
-  const processedData = useMemo(() => {
-    if (variableObject.function == "nansum") {
-      if (districtLevelData && districtLevelData["results"]["rows"]) {
-        districtLevelData = processNansum(
-          districtLevelData["results"]["rows"],
-          1
-        );
-      }
+  // const processedData = useMemo(() => {
+  //   if (variableObject.function == "nansum") {
+  //     if (districtLevelData && districtLevelData["results"]["rows"]) {
+  //       districtLevelData = processNansum(
+  //         districtLevelData["results"]["rows"],
+  //         1
+  //       );
+  //     }
 
-      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
-        facilityLevelData = processNansum(
-          facilityLevelData["results"]["rows"],
-          1
-        );
-      }
-    }
-    return [districtLevelData, facilityLevelData];
-  }, [districtLevelData, facilityLevelData]);
+  //     if (facilityLevelData && facilityLevelData["results"]["rows"]) {
+  //       facilityLevelData = processNansum(
+  //         facilityLevelData["results"]["rows"],
+  //         1
+  //       );
+  //     }
+  //   }
+  //   return [districtLevelData, facilityLevelData];
+  // }, [districtLevelData, facilityLevelData]);
 
-  districtLevelData =
-    variableObject.function == "nansum" ? processedData[0] : districtLevelData;
+  // districtLevelData =
+  //   variableObject.function == "nansum" ? processedData[0] : districtLevelData;
 
-  facilityLevelData =
-    variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
+  // facilityLevelData =
+  //   variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
 
   return (
     <div id="ds-paginator">

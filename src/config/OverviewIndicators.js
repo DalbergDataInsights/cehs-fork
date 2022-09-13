@@ -10,6 +10,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "GENERAL",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -20,6 +21,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -30,6 +32,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -40,6 +43,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -50,6 +54,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "MNCH",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -60,6 +65,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "EPI",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -70,6 +76,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "EPI",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -83,6 +90,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -96,6 +104,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "NUT",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
   {
@@ -115,6 +124,7 @@ const overviewIndicatorMeta = [
     denominator: { dataElementId: "1", function: "single" },
     group: "FP",
     reportingFrequency: "monthly",
+    processingFunction: null,
     // meta: {},
   },
 ];

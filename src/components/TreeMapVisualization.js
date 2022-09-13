@@ -82,7 +82,7 @@ const TreeMapVisualization = ({
     <>
       {loading && <Loading />}
 
-      {data && dataViz && error === undefined && !isAllZero && (
+      {data && !loading && dataViz && error === undefined && !isAllZero && (
         // <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
