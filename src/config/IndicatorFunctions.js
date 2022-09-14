@@ -75,7 +75,7 @@ export function aggregate(meta, data, dim, f = weightedAverage, plug = {}) {
   return out;
 }
 
-export function processNansum(data, multiplicator = 1) {
+export function processNansum({ data, multiplicator = 1 }) {
   if (!data || data === undefined) {
     return;
   }
@@ -111,6 +111,9 @@ export function processRatioNansum({
   multiplicator = 1,
   divisor = 1,
 }) {
+  if (!data || data === undefined) {
+    return;
+  }
   const numeratorData = data.filter((val) => numeratorIds.includes(val[0]));
   const denominatorData = data.filter((val) => denominatorIds.includes(val[0]));
 

@@ -48,16 +48,17 @@ const Trends = () => {
     setPage("trends");
   }
 
-  // if (variableObject.function == "single") {
-  //   variableId = variableObject.numerator.dataElementId;
-  // } else if (variableObject.function == "nansum") {
-  //   variableId = variableObject.numerator.dataElementId.join(";");
-  // }
-  let variableId = variableObject.numerator.dataElementId.join(";");
-  variableId =
+  const numeratorIds = variableObject.numerator.dataElementId.join(";");
+  console.log("Printing numerator ids");
+  console.log(numeratorIds);
+  const denominatorIds =
     variableObject.denominator.dataElementId != 1
-      ? variableId.concat(";", variableId.dataElementId.join(";"))
-      : variableId;
+      ? variableObject.denominator.dataElementId.join(";")
+      : null;
+  console.log("Printing denominator ids");
+  console.log(denominatorIds);
+  const variableId =
+    denominatorIds == null ? numeratorIds : numeratorIds + ";" + denominatorIds;
   console.log(`Variable Id: ${variableId}`);
 
   const displayName =
@@ -73,26 +74,9 @@ const Trends = () => {
       orgLevel: "LEVEL-3",
       periodType: periodType,
     },
-    onComplete: (data) => {
-      const meta = indicatorMeta.filter(
-        (el) => el.key === store.selectedVariable
-      )[0];
-      const func = meta.processingFunction || (({ data }) => data);
-      const args = meta.arguments || {};
-
-      try {
-        setDistricLevelData(func({ data, ...args }));
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-    // lazy: true,
   });
 
-  const [districtLevelData, setDistricLevelData] = useState(undefined);
+  let districtLevelData = districtQuery.data;
   const districtLevelError = districtQuery.error;
   const districtLevelLoading = districtQuery.loading;
   const districtLevelRefetch = districtQuery.refetch;
@@ -112,26 +96,9 @@ const Trends = () => {
       orgLevel: "LEVEL-5",
       periodType: periodType,
     },
-    onComplete: (data) => {
-      const meta = indicatorMeta.filter(
-        (el) => el.key === store.selectedVariable
-      )[0];
-      const func = meta.processingFunction || (({ data }) => data);
-      const args = meta.arguments || {};
-
-      try {
-        setFacilityLevelData(func({ data, ...args }));
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-    // lazy: true,
   });
 
-  const [facilityLevelData, setFacilityLevelData] = useState(undefined);
+  let facilityLevelData = facilityQuery.data;
   const facilityLevelError = facilityQuery.error;
   const facilityLevelLoading = facilityQuery.loading;
   const facilityLevelRefetch = facilityQuery.refetch;
@@ -144,30 +111,30 @@ const Trends = () => {
     });
   }, [variableId, period, periodType]);
 
-  // const processedData = useMemo(() => {
-  //   if (variableObject.function == "nansum") {
-  //     if (districtLevelData && districtLevelData["results"]["rows"]) {
-  //       districtLevelData = processNansum(
-  //         districtLevelData["results"]["rows"],
-  //         1
-  //       );
-  //     }
+  const processedData = useMemo(() => {
+    const meta = indicatorMeta.filter(
+      (el) => el.key == store.selectedVariable
+    )[0];
 
-  //     if (facilityLevelData && facilityLevelData["results"]["rows"]) {
-  //       facilityLevelData = processNansum(
-  //         facilityLevelData["results"]["rows"],
-  //         1
-  //       );
-  //     }
-  //   }
-  //   return [districtLevelData, facilityLevelData];
-  // }, [districtLevelData, facilityLevelData]);
+    const func = meta.processingFunction;
+    const args = meta.arguments || {};
 
-  // districtLevelData =
-  //   variableObject.function == "nansum" ? processedData[0] : districtLevelData;
+    const d = func ? func({ districtLevelData, ...args }) : null;
+    const f = func ? func({ facilityLevelData, ...args }) : null;
 
-  // facilityLevelData =
-  //   variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
+    console.log("Printing out district level data");
+    console.log(d);
+
+    console.log("Printing out facility level data");
+    console.log(f);
+
+    return [d, f];
+  }, [districtLevelData, facilityLevelData]);
+
+  districtLevelData =
+    processedData[0] != null ? processedData[0] : districtLevelData;
+  facilityLevelData =
+    processedData[1] != null ? processedData[1] : facilityLevelData;
 
   return (
     <div id="ds-paginator">

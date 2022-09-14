@@ -2281,12 +2281,26 @@ const indicatorMeta = [
       function: "nansum",
     },
     denominator: {
-      dataElementId: ["AUfFbS7cWFd,jHqJsOlZWZG", "uzlQdD84jNj", "eerKMtKyYZt"],
+      dataElementId: [
+        "AUfFbS7cWFd",
+        "jHqJsOlZWZG",
+        "uzlQdD84jNj",
+        "eerKMtKyYZt",
+      ],
       function: "nansum",
     },
     group: "HIV",
     reportingFrequency: "monthly",
     processingFunction: processors.processRatioNansum,
+    arguments: {
+      numeratorIds: ["L4pwIgSDdG6", "KDoEmOjpYnL", "kGC9MVJppnk"],
+      denominatorIds: [
+        "AUfFbS7cWFd",
+        "jHqJsOlZWZG",
+        "uzlQdD84jNj",
+        "eerKMtKyYZt",
+      ],
+    },
   },
   {
     key: "11136",
@@ -2294,7 +2308,11 @@ const indicatorMeta = [
     function: "ratio",
     numerator: {
       dataElementId: [
-        "PV8F3aPDKCu,YBXFadujBCQ,qR6OsOxADKt,sDDBGMsrw6z,S97lGebltuo",
+        "PV8F3aPDKCu",
+        "YBXFadujBCQ",
+        "qR6OsOxADKt",
+        "sDDBGMsrw6z",
+        "S97lGebltuo",
       ],
       function: "nansum",
     },
@@ -2305,6 +2323,16 @@ const indicatorMeta = [
     group: "HIV",
     reportingFrequency: "monthly",
     processingFunction: processors.processRatioNansum,
+    arguments: {
+      numeratorIds: [
+        "PV8F3aPDKCu",
+        "YBXFadujBCQ",
+        "qR6OsOxADKt",
+        "sDDBGMsrw6z",
+        "S97lGebltuo",
+      ],
+      denominatorIds: ["fUflbWWhouR"],
+    },
   },
 ];
 
