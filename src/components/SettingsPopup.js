@@ -93,12 +93,10 @@ function SettingsPopup({ open, setOpen, onCreate }) {
     formData["id"] = count;
     formData["templateId"] = JSON.parse(event.target[0].value).id;
     formData["templateName"] = JSON.parse(event.target[0].value).name;
-    // formData["dateStart"] = event.target[2].value;
-    // formData["dateEnd"] = moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
     formData["trendDateStart"] = event.target[2].value;
     formData["trendDateEnd"] = moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
     formData["monthOfInterest"] = moment(event.target[4].value).endOf("month").format("YYYY-MM-DD");
-    formData["reportingYear"] = moment(event.target[5].value).endOf("month").format("YYYY-MM-DD");
+    formData["reportingYear"] = moment(event.target[5].value).endOf("month").format("YYYY");
     formData["recipientName"] = event.target[6].value;
     formData["recipientEmail"] = event.target[7].value;
     formData["orgUnit"] = JSON.parse(event.target[8].value).id;
@@ -113,8 +111,6 @@ function SettingsPopup({ open, setOpen, onCreate }) {
       for (const i of filteredArr) {
         i.templateId = formData.templateId;
         i.templateName = formData.templateName;
-        // i.dateStart = formData.dateStart;
-        // i.dateEnd = formData.dateEnd;
         i.trendDateStart = formData.trendDateStart;
         i.trendDateEnd = formData.trendDateEnd;
         i.monthOfInterest = formData.monthOfInterest;
@@ -122,7 +118,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
       }
     }
     setSubscriberList(filteredArr);
-    const listName = `${formData.templateName}_${formData.dateStart}_${formData.dateEnd}`;
+    const listName = `${formData.templateName}_${formData.trendDateStart}_${formData.trendDateEnd}`;
     var subDetails = {};
     subDetails[`${listName.replaceAll(" ", "_")}`] = filteredArr;
 
@@ -137,7 +133,6 @@ function SettingsPopup({ open, setOpen, onCreate }) {
   // remove an added recipient
   const handleRemoveRecipient = (item) => {
     console.log('---- removing item -------')
-    console.log(item)
     const newSubList = subscriberList;
     const indexOfObject = newSubList.findIndex(object => {
       return object === item;

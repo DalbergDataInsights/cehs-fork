@@ -9,10 +9,10 @@ export const dataSetQuery = {
       dimension: [
         "dx:RtEYsASU7PG.ACTUAL_REPORTS",
         "ou:LEVEL-5",
-        `pe:${monthsBetween(
-          period.map((p) => p.format("YYYY-MM" + "-01"))[0],
-          period.map((p) => p.format("YYYY-MM" + "-01"))[1]
-        ).join(";")}`,
+        // `pe:${monthsBetween(
+        //   period.map((p) => p.format("YYYY-MM" + "-01"))[0],
+        //   period.map((p) => p.format("YYYY-MM" + "-01"))[1]
+        // ).join(";")}`,
       ],
       skipMeta: false,
       paging: false,

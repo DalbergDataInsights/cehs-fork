@@ -118,8 +118,8 @@ const SettingsView = ({ onUpdate }) => {
                     settingsData[key].map((i) => i.recipientEmail).join(", ")}
                   </td>
                   <td>{settingsData[key][0].templateName}</td>
-                  <td>{settingsData[key][0].dateStart}</td>
-                  <td>{settingsData[key][0].dateEnd}</td>
+                  <td>{settingsData[key][0].trendDateStart}</td>
+                  <td>{settingsData[key][0].trendDateEnd}</td>
                 </tr>
               ))}
             </tbody>
