@@ -16,7 +16,7 @@ const SideBar = () => {
         <Col className="align-self-center">
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>
-              <Link to="/spph/template/edit">
+              <Link to="/spph/send">
                 <p style={{ color: "white" }} className="nav-element text-left">
                   Go to email generator
                 </p>

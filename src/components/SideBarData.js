@@ -12,6 +12,12 @@ export const sideBarData = [
     //     cName: 'nav-text'
     // },
     {
+        title: 'Send Email',
+        path: "/spph/send",
+        icon: <IoIcons.IoMdSend />,
+        cName: 'nav-text'
+    },
+    {
         title: 'Email Template',
         path: "/spph/template/edit",
         icon: <HiIcons.HiTemplate />,
@@ -40,15 +46,9 @@ export const sideBarData = [
         ]
     },
     {
-        title: 'Settings',
+        title: 'Subscriber settings',
         path: "/spph/settings",
         icon: <IoIcons.IoIosSettings />,
-        cName: 'nav-text'
-    },
-    {
-        title: 'Send Email',
-        path: "/spph/send",
-        icon: <IoIcons.IoMdSend />,
         cName: 'nav-text'
     },
 ]
