@@ -86,9 +86,19 @@ const SpphNavBar = () => {
           </Col>
         </Row>
       </div>
-      <Button style={{ display: "flex", position: "absolute", bottom: "15px", left:"15px"}}>
-        <Link to="/">GO TO HIVES</Link>
-      </Button>
+      <Row style={{display: "flex", position:"absolute", bottom:"0%",left:"15px"}}>
+        <Col className="align-self-center">
+          <Row id="overview-info">
+            <Col style={{ width: "80%" }}>
+              <Link to="/">
+                <p style={{ color: "white" }} className="nav-element text-left">
+                  Go to HIVES
+                </p>
+              </Link>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </div>
     </IconContext.Provider>
     </>
