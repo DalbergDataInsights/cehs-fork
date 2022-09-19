@@ -95,7 +95,12 @@ export function processCountryData(data, periodType = "monthly") {
     });
   }
 }
-
+/**
+ * Function that returns a react plotly time series plot.
+ * @param {*} data - data dictionary of values over time
+ * @param {*} periodType - time period type either monthly or quarterly
+ * @returns
+ */
 export function processTimeSeriesDataDict(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
   const yearSet = new Set(yearList);
@@ -861,6 +866,13 @@ export function monthsToQuarters(months) {
   return [...new Set(y)].sort();
 }
 
+/**
+ * Function to return the list of months or quarters between the start month and end month
+ * @param {*} startPeriod
+ * @param {*} endPeriod
+ * @param {*} periodType - string denoting whether months or quarters
+ * @returns list
+ */
 export function periodBetween(startPeriod, endPeriod, periodType) {
   const months = monthsBetween(startPeriod, endPeriod);
   if (periodType == "monthly") {
@@ -871,8 +883,14 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
   }
 }
 
+/**
+ * Function to get the time period from the start of current calendar year
+ * to the current month
+ * @returns period - list of start month and end month
+ */
 export function getTimePeriodRange() {
   const d = new Date();
+  console.log(`Printing out the month:${d.getMonth()}`);
   const mth = d.getMonth() == 1 ? 12 : d.getMonth() - 1;
   const yr = d.getMonth() == 1 ? d.getFullYear() - 1 : d.getFullYear();
   const currMth = mth < 10 ? "0" + mth : mth;
