@@ -122,12 +122,6 @@ const Trends = () => {
     const d = func ? func({ districtLevelData, ...args }) : null;
     const f = func ? func({ facilityLevelData, ...args }) : null;
 
-    console.log("Printing out district level data");
-    console.log(d);
-
-    console.log("Printing out facility level data");
-    console.log(f);
-
     return [d, f];
   }, [districtLevelData, facilityLevelData]);
 
