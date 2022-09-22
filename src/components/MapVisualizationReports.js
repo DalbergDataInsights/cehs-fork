@@ -149,9 +149,9 @@ const MapVisualizationReports = ({
                         useResizeHandler={true}
                         style={{ width: "100%", height: "100%" }}
                         config={{
-                          scrollZoom: false,
-                          displaylogo: false,
                           displayModeBar: true,
+                          displaylogo: false,
+                          scrollZoom: false,
                           toImageButtonOptions: {
                             filename: "hives_download",
                             format: "png",
@@ -165,6 +165,13 @@ const MapVisualizationReports = ({
                             "lasso2d",
                             "resetScale2d",
                             "toggleHover",
+                            "zoom2d",
+                            "zoomIn2d",
+                            "zoomOut2d",
+                            "resetGeo",
+                            "zoomInGeo",
+                            "zoomOutGeo",
+                            "resetViews",
                           ],
                         }}
                       />
