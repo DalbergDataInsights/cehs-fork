@@ -950,14 +950,17 @@ export function findPosition(meta, key) {
 /**
  *  Function that adds districts and null values as key value pairs for districts
  *  where no data is reported
- * @param {*} districts
- * @param {*} data
+ * @param {*} districts - list of district objects
+ * @param {*} data - dictionary of the districts and their associated values
  */
 export function postProcessData(districts, data) {
+  if (!data || data == null) {
+    return;
+  }
   districts.forEach((district) => {
     if (
       data[district.name] === undefined ||
-      data[district.name] == Number.NaN ||
+      isNaN(data[district.name]) ||
       data[district.name] == null
     ) {
       data[district.name] = 0;

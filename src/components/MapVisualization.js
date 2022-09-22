@@ -8,6 +8,7 @@ import {
   getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
+  postProcessData,
   processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
@@ -28,6 +29,7 @@ const MapVisualization = ({
   console.log(period);
   const [selectedContribution, setSelectedContribution] = useState("1");
   const dataViz = useMemo(() => {
+    let finalData = null;
     if (maptype == "total") {
       let dataSelected = data;
       if (
@@ -41,16 +43,30 @@ const MapVisualization = ({
             rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
           },
         };
-        return getOrgUnitDataTotals(store.districts, dataSelected, periodType);
+        finalData = getOrgUnitDataTotals(
+          store.districts,
+          dataSelected,
+          periodType
+        );
       }
-      return getOrgUnitDataTotals(store.districts, data, periodType);
+      finalData = getOrgUnitDataTotals(store.districts, data, periodType);
     } else {
-      return getOrgUnitDataPercentageChanges(store.districts, data);
+      finalData = getOrgUnitDataPercentageChanges(store.districts, data);
     }
+
+    console.log(`Maptype: ${maptype}`);
+    console.log(finalData);
+
+    const processedFinalData = postProcessData(store.districts, finalData);
+    return processedFinalData;
   }, [data, periodType, selectedContribution]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
+
+  console.log("After processing");
+  console.log(`Maptype: ${maptype}`);
+  console.log(dataViz);
 
   return (
     <>
