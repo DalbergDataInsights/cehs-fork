@@ -947,4 +947,21 @@ export function findPosition(meta, key) {
   return searchIndex;
 }
 
-export function postProcessData(districts, data) {}
+/**
+ *  Function that adds districts and null values as key value pairs for districts
+ *  where no data is reported
+ * @param {*} districts
+ * @param {*} data
+ */
+export function postProcessData(districts, data) {
+  districts.forEach((district) => {
+    if (
+      data[district.name] === undefined ||
+      data[district.name] == Number.NaN ||
+      data[district.name] == null
+    ) {
+      data[district.name] = 0;
+    }
+  });
+  return data;
+}
