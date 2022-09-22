@@ -913,10 +913,6 @@ export function processNansum(data, multiplicator = 1) {
   }
   const timePeriods = [...new Set(data.map((val) => val[2]))];
   const orgUnits = [...new Set(data.map((val) => val[1]))];
-  // const dataElements = [...new Set(data.map((val) => val[0]))];
-  // const d = dataElements.join("_");
-
-  //Iterate over the timePeriods and  orgUnits
   const processedData = [];
   timePeriods.forEach((pe, index) => {
     orgUnits.forEach((org, idx) => {

@@ -26,7 +26,6 @@ const MapVisualization = ({
 }) => {
   const store = useStore($store);
   const period = store.period.map((p) => p.format("YYYYMM"));
-  console.log(period);
   const [selectedContribution, setSelectedContribution] = useState("1");
   const dataViz = useMemo(() => {
     let finalData = null;
@@ -54,19 +53,12 @@ const MapVisualization = ({
       finalData = getOrgUnitDataPercentageChanges(store.districts, data);
     }
 
-    console.log(`Maptype: ${maptype}`);
-    console.log(finalData);
-
     const processedFinalData = postProcessData(store.districts, finalData);
     return processedFinalData;
   }, [data, periodType, selectedContribution]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
-
-  console.log("After processing");
-  console.log(`Maptype: ${maptype}`);
-  console.log(dataViz);
 
   return (
     <>
