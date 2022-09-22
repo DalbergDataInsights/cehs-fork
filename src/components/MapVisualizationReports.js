@@ -148,7 +148,25 @@ const MapVisualizationReports = ({
                         }}
                         useResizeHandler={true}
                         style={{ width: "100%", height: "100%" }}
-                        config={{ displayModeBar: false, scrollZoom: false }}
+                        config={{
+                          scrollZoom: false,
+                          displaylogo: false,
+                          displayModeBar: true,
+                          toImageButtonOptions: {
+                            filename: "hives_download",
+                            format: "png",
+                            scale: 1,
+                            width: 700,
+                            height: 500,
+                          },
+                          modeBarButtonsToRemove: [
+                            "pan2d",
+                            "select2d",
+                            "lasso2d",
+                            "resetScale2d",
+                            "toggleHover",
+                          ],
+                        }}
                       />
                     </Col>
                   </Row>

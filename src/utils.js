@@ -946,3 +946,5 @@ export function findPosition(meta, key) {
   });
   return searchIndex;
 }
+
+export function postProcessData(districts, data) {}
