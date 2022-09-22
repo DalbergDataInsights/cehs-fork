@@ -18,9 +18,7 @@ const TreeMapVisualization = ({
 }) => {
   const store = useStore($store);
   const period = store.period.map((p) => p.format("YYYYMM"));
-  console.log(period);
   const [selectedContribution, setSelectedContribution] = useState("1");
-  console.log(`Selected contribution: ${selectedContribution}`);
 
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)

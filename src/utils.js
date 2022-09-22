@@ -913,10 +913,6 @@ export function processNansum(data, multiplicator = 1) {
   }
   const timePeriods = [...new Set(data.map((val) => val[2]))];
   const orgUnits = [...new Set(data.map((val) => val[1]))];
-  // const dataElements = [...new Set(data.map((val) => val[0]))];
-  // const d = dataElements.join("_");
-
-  //Iterate over the timePeriods and  orgUnits
   const processedData = [];
   timePeriods.forEach((pe, index) => {
     orgUnits.forEach((org, idx) => {
@@ -945,4 +941,26 @@ export function findPosition(meta, key) {
     }
   });
   return searchIndex;
+}
+
+/**
+ *  Function that adds districts and null values as key value pairs for districts
+ *  where no data is reported
+ * @param {*} districts - list of district objects
+ * @param {*} data - dictionary of the districts and their associated values
+ */
+export function postProcessData(districts, data) {
+  if (!data || data == null) {
+    return;
+  }
+  districts.forEach((district) => {
+    if (
+      data[district.name] === undefined ||
+      isNaN(data[district.name]) ||
+      data[district.name] == null
+    ) {
+      data[district.name] = 0;
+    }
+  });
+  return data;
 }

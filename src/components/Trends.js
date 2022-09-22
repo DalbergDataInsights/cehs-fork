@@ -49,23 +49,18 @@ const Trends = () => {
   }
 
   const numeratorIds = variableObject.numerator.dataElementId.join(";");
-  console.log("Printing numerator ids");
-  console.log(numeratorIds);
   const denominatorIds =
     variableObject.denominator.dataElementId != 1
       ? variableObject.denominator.dataElementId.join(";")
       : null;
-  console.log("Printing denominator ids");
-  console.log(denominatorIds);
+
   const variableId =
     denominatorIds == null ? numeratorIds : numeratorIds + ";" + denominatorIds;
-  console.log(`Variable Id: ${variableId}`);
 
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
   const periodType = variableObject.reportingFrequency;
-  console.log(`Period Type: ${periodType}`);
 
   const districtQuery = useDataQuery(myQuery, {
     variables: {

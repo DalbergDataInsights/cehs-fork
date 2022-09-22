@@ -120,7 +120,31 @@ const LineVisualizationReports = ({
                     },
                   }}
                   style={{ width: "100%", height: "100%" }}
-                  config={{ displayModeBar: false }}
+                  config={{
+                    displayModeBar: "hover",
+                    displaylogo: false,
+                    toImageButtonOptions: {
+                      filename: "hives_download",
+                      format: "png",
+                      scale: 1,
+                      width: 700,
+                      height: 500,
+                    },
+                    modeBarButtonsToRemove: [
+                      "pan2d",
+                      "select2d",
+                      "lasso2d",
+                      "resetScale2d",
+                      "toggleHover",
+                      "zoom2d",
+                      "zoomIn2d",
+                      "zoomOut2d",
+                      "autoScale2d",
+                      "hoverClosestCartesian",
+                      "hoverCompareCartesian",
+                      "toggleSpikelines",
+                    ],
+                  }}
                 />
               </Col>
             </Row>

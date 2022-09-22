@@ -8,6 +8,7 @@ import {
   getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
+  postProcessData,
   processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
@@ -25,9 +26,9 @@ const MapVisualization = ({
 }) => {
   const store = useStore($store);
   const period = store.period.map((p) => p.format("YYYYMM"));
-  console.log(period);
   const [selectedContribution, setSelectedContribution] = useState("1");
   const dataViz = useMemo(() => {
+    let finalData = null;
     if (maptype == "total") {
       let dataSelected = data;
       if (
@@ -41,12 +42,19 @@ const MapVisualization = ({
             rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
           },
         };
-        return getOrgUnitDataTotals(store.districts, dataSelected, periodType);
+        finalData = getOrgUnitDataTotals(
+          store.districts,
+          dataSelected,
+          periodType
+        );
       }
-      return getOrgUnitDataTotals(store.districts, data, periodType);
+      finalData = getOrgUnitDataTotals(store.districts, data, periodType);
     } else {
-      return getOrgUnitDataPercentageChanges(store.districts, data);
+      finalData = getOrgUnitDataPercentageChanges(store.districts, data);
     }
+
+    const processedFinalData = postProcessData(store.districts, finalData);
+    return processedFinalData;
   }, [data, periodType, selectedContribution]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
@@ -166,6 +174,7 @@ const MapVisualization = ({
                               geojson: store.rawGeojson,
                               colorscale: colorScaleValue,
                               reversescale: reversedScaleValue,
+                              hoverinfo: "all",
                             },
                           ]}
                           layout={{
@@ -188,8 +197,30 @@ const MapVisualization = ({
                           useResizeHandler={true}
                           style={{ width: "100%", height: "100%" }}
                           config={{
-                            displayModeBar: false,
+                            displayModeBar: true,
+                            displaylogo: false,
                             scrollZoom: false,
+                            toImageButtonOptions: {
+                              filename: "hives_download",
+                              format: "png",
+                              scale: 1,
+                              width: 700,
+                              height: 500,
+                            },
+                            modeBarButtonsToRemove: [
+                              "pan2d",
+                              "select2d",
+                              "lasso2d",
+                              "resetScale2d",
+                              "toggleHover",
+                              "zoom2d",
+                              "zoomIn2d",
+                              "zoomOut2d",
+                              "resetGeo",
+                              "zoomInGeo",
+                              "zoomOutGeo",
+                              "resetViews",
+                            ],
                           }}
                         />
                       </Col>
