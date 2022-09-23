@@ -33,14 +33,10 @@ const Reports = () => {
   const store = useStore($store);
   const variable = store.selectedVariable;
   const period = store.period;
-  let variableId = "";
   const variableObject = indicatorMeta.filter(
     (i) => i.key == store.selectedVariable
   )[0];
 
-  // if (store.page != "reports") {
-  //   setPage("reports");
-  // }
   useEffect(() => {
     setPage("reports");
   }, []);
@@ -48,13 +44,16 @@ const Reports = () => {
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
-  if (variableObject.function == "single") {
-    variableId = variableObject.numerator.dataElementId;
-  } else if (variableObject.function == "nansum") {
-    variableId = variableObject.numerator.dataElementId.join(";");
-  }
-
   const periodType = variableObject.reportingFrequency;
+
+  const numeratorIds = variableObject.numerator.dataElementId.join(";");
+  const denominatorIds =
+    variableObject.denominator.dataElementId != 1
+      ? variableObject.denominator.dataElementId.join(";")
+      : null;
+
+  const variableId =
+    denominatorIds == null ? numeratorIds : numeratorIds + ";" + denominatorIds;
 
   const facilityQuery = useDataQuery(myQuery, {
     variables: {
@@ -79,19 +78,18 @@ const Reports = () => {
   }, [variableId, period, periodType]);
 
   const processedData = useMemo(() => {
-    if (variableObject.function == "nansum") {
-      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
-        facilityLevelData = processNansum(
-          facilityLevelData["results"]["rows"],
-          1
-        );
-      }
-    }
-    return facilityLevelData;
+    const meta = indicatorMeta.filter(
+      (el) => el.key == store.selectedVariable
+    )[0];
+
+    const func = meta.processingFunction;
+    const args = meta.arguments || {};
+    const f = func ? func({ facilityLevelData, ...args }) : null;
+
+    return f;
   }, [facilityLevelData]);
 
-  facilityLevelData =
-    variableObject.function == "nansum" ? processedData : facilityLevelData;
+  facilityLevelData = processedData != null ? processedData : facilityLevelData;
 
   return (
     <div id="ds-paginator">

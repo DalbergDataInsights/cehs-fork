@@ -1,4 +1,4 @@
-import { React, useEffect, useMemo } from "react";
+import { React, useEffect, useMemo, useState } from "react";
 import { Select } from "antd";
 import VisualizationHeader from "./VisualizationHeader";
 import { useStore } from "effector-react";
@@ -40,7 +40,6 @@ const Trends = () => {
   const store = useStore($store);
   const variable = store.selectedVariable;
   const period = store.period;
-  let variableId = "";
   const variableObject = indicatorMeta.filter(
     (i) => i.key == store.selectedVariable
   )[0];
@@ -49,18 +48,19 @@ const Trends = () => {
     setPage("trends");
   }
 
-  if (variableObject.function == "single") {
-    variableId = variableObject.numerator.dataElementId;
-  } else if (variableObject.function == "nansum") {
-    variableId = variableObject.numerator.dataElementId.join(";");
-  }
-  console.log(`Variable Id: ${variableId}`);
+  const numeratorIds = variableObject.numerator.dataElementId.join(";");
+  const denominatorIds =
+    variableObject.denominator.dataElementId != 1
+      ? variableObject.denominator.dataElementId.join(";")
+      : null;
+
+  const variableId =
+    denominatorIds == null ? numeratorIds : numeratorIds + ";" + denominatorIds;
 
   const displayName =
     variableObject !== undefined ? variableObject.displayName : "";
 
   const periodType = variableObject.reportingFrequency;
-  console.log(`Period Type: ${periodType}`);
 
   const districtQuery = useDataQuery(myQuery, {
     variables: {
@@ -107,29 +107,23 @@ const Trends = () => {
   }, [variableId, period, periodType]);
 
   const processedData = useMemo(() => {
-    if (variableObject.function == "nansum") {
-      if (districtLevelData && districtLevelData["results"]["rows"]) {
-        districtLevelData = processNansum(
-          districtLevelData["results"]["rows"],
-          1
-        );
-      }
+    const meta = indicatorMeta.filter(
+      (el) => el.key == store.selectedVariable
+    )[0];
 
-      if (facilityLevelData && facilityLevelData["results"]["rows"]) {
-        facilityLevelData = processNansum(
-          facilityLevelData["results"]["rows"],
-          1
-        );
-      }
-    }
-    return [districtLevelData, facilityLevelData];
+    const func = meta.processingFunction;
+    const args = meta.arguments || {};
+
+    const d = func ? func({ districtLevelData, ...args }) : null;
+    const f = func ? func({ facilityLevelData, ...args }) : null;
+
+    return [d, f];
   }, [districtLevelData, facilityLevelData]);
 
   districtLevelData =
-    variableObject.function == "nansum" ? processedData[0] : districtLevelData;
-
+    processedData[0] != null ? processedData[0] : districtLevelData;
   facilityLevelData =
-    variableObject.function == "nansum" ? processedData[1] : facilityLevelData;
+    processedData[1] != null ? processedData[1] : facilityLevelData;
 
   return (
     <div id="ds-paginator">

@@ -95,7 +95,12 @@ export function processCountryData(data, periodType = "monthly") {
     });
   }
 }
-
+/**
+ * Function that returns a react plotly time series plot.
+ * @param {*} data - data dictionary of values over time
+ * @param {*} periodType - time period type either monthly or quarterly
+ * @returns
+ */
 export function processTimeSeriesDataDict(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
   const yearSet = new Set(yearList);
@@ -861,6 +866,13 @@ export function monthsToQuarters(months) {
   return [...new Set(y)].sort();
 }
 
+/**
+ * Function to return the list of months or quarters between the start month and end month
+ * @param {*} startPeriod
+ * @param {*} endPeriod
+ * @param {*} periodType - string denoting whether months or quarters
+ * @returns list
+ */
 export function periodBetween(startPeriod, endPeriod, periodType) {
   const months = monthsBetween(startPeriod, endPeriod);
   if (periodType == "monthly") {
@@ -871,8 +883,14 @@ export function periodBetween(startPeriod, endPeriod, periodType) {
   }
 }
 
+/**
+ * Function to get the time period from the start of current calendar year
+ * to the current month
+ * @returns period - list of start month and end month
+ */
 export function getTimePeriodRange() {
   const d = new Date();
+  console.log(`Printing out the month:${d.getMonth()}`);
   const mth = d.getMonth() == 1 ? 12 : d.getMonth() - 1;
   const yr = d.getMonth() == 1 ? d.getFullYear() - 1 : d.getFullYear();
   const currMth = mth < 10 ? "0" + mth : mth;
@@ -895,10 +913,6 @@ export function processNansum(data, multiplicator = 1) {
   }
   const timePeriods = [...new Set(data.map((val) => val[2]))];
   const orgUnits = [...new Set(data.map((val) => val[1]))];
-  // const dataElements = [...new Set(data.map((val) => val[0]))];
-  // const d = dataElements.join("_");
-
-  //Iterate over the timePeriods and  orgUnits
   const processedData = [];
   timePeriods.forEach((pe, index) => {
     orgUnits.forEach((org, idx) => {
@@ -927,4 +941,26 @@ export function findPosition(meta, key) {
     }
   });
   return searchIndex;
+}
+
+/**
+ *  Function that adds districts and null values as key value pairs for districts
+ *  where no data is reported
+ * @param {*} districts - list of district objects
+ * @param {*} data - dictionary of the districts and their associated values
+ */
+export function postProcessData(districts, data) {
+  if (!data || data == null) {
+    return;
+  }
+  districts.forEach((district) => {
+    if (
+      data[district.name] === undefined ||
+      isNaN(data[district.name]) ||
+      data[district.name] == null
+    ) {
+      data[district.name] = 0;
+    }
+  });
+  return data;
 }

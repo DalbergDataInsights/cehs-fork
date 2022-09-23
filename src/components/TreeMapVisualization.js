@@ -1,4 +1,4 @@
-import { React, useMemo } from "react";
+import { React, useMemo, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Select } from "antd";
 import Download from "./Download";
@@ -17,6 +17,9 @@ const TreeMapVisualization = ({
   periodType,
 }) => {
   const store = useStore($store);
+  const period = store.period.map((p) => p.format("YYYYMM"));
+  const [selectedContribution, setSelectedContribution] = useState("1");
+
   const districtName = store.districts
     .filter((i) => i.id == store.selectedDistrict)
     .map((ou) => ou.name)[0];
@@ -26,17 +29,30 @@ const TreeMapVisualization = ({
     districtFacilitiesMeta[selectedDistrict]["facility_ids"];
 
   const dataViz = useMemo(() => {
+    let dataSelected = data;
+    if (
+      selectedContribution == "2" &&
+      periodType == "monthly" &&
+      data &&
+      data["results"]["rows"]
+    ) {
+      dataSelected = {
+        results: {
+          rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
+        },
+      };
+    }
     let districtFacilitiesData = null;
-    if (data) {
-      if (data["results"]["rows"]) {
-        districtFacilitiesData = data["results"]["rows"].filter((val) =>
+    if (dataSelected) {
+      if (dataSelected["results"]["rows"]) {
+        districtFacilitiesData = dataSelected["results"]["rows"].filter((val) =>
           districtFacilities.includes(val[1])
         );
       }
     }
 
     const facilitiesDataDict = computeFacilityTimeSeries(
-      data,
+      dataSelected,
       "facility",
       districtFacilitiesMeta,
       store.selectedDistrict
@@ -56,7 +72,7 @@ const TreeMapVisualization = ({
     });
 
     return facilitiesDataTotals;
-  }, [data, store.selectedDistrict]);
+  }, [data, store.selectedDistrict, selectedContribution]);
 
   const isAllZero = Object.values(dataViz).every((item) => item === 0);
 
@@ -64,15 +80,22 @@ const TreeMapVisualization = ({
     <>
       {loading && <Loading />}
 
-      {data && dataViz && error === undefined && !isAllZero && (
+      {data && !loading && dataViz && error === undefined && !isAllZero && (
         // <Row className="data-card shadow-sm p-3 mb-5 rounded m-top-24">
         <Row className="data-card shadow-sm mb-5 rounded">
           <Col className="m-bot-24">
             <Row style={{ marginBottom: 20 }}>
               <Col className="graph">
-                <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} between ${store.period[0].format(
-                  "MMM-YYYY"
-                )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
+                {selectedContribution == "1" && (
+                  <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} between ${store.period[0].format(
+                    "MMM-YYYY"
+                  )} and ${store.period[1].format("MMM-YYYY")}`}</h5>
+                )}
+                {selectedContribution == "2" && (
+                  <h5>{`Contribution of individual facilities in ${districtName} to the  ${displayName} in ${store.period[1].format(
+                    "MMM-YYYY"
+                  )}`}</h5>
+                )}
               </Col>
             </Row>
             <Row style={{ marginBottom: 20 }}>
@@ -80,15 +103,17 @@ const TreeMapVisualization = ({
                 <Select
                   style={{ width: "100%" }}
                   size="large"
-                  value={store.selectedContributionOption}
-                  onChange={store.onContributionOptionChange}
+                  value={selectedContribution}
+                  onChange={(val) => setSelectedContribution(val)}
                 >
                   <Option value="1">
                     Show sum between month of reference and month of interest
                     period
                   </Option>
-                  {/* <Option value="2">Show month of interest</Option>
-                  <Option value="3">
+                  {periodType == "monthly" && (
+                    <Option value="2">Show only month of interest</Option>
+                  )}
+                  {/* <Option value="3">
                     Show average between month of reference and month of
                     interest period
                   </Option> */}

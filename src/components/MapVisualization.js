@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useStore } from "effector-react";
 import Plot from "react-plotly.js";
 import { Col, Row } from "react-bootstrap";
@@ -8,6 +8,7 @@ import {
   getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
+  postProcessData,
   processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
@@ -24,14 +25,38 @@ const MapVisualization = ({
   periodType,
 }) => {
   const store = useStore($store);
-  const periods = store.period.map((p) => p.format("YYYYMM"));
+  const period = store.period.map((p) => p.format("YYYYMM"));
+  const [selectedContribution, setSelectedContribution] = useState("1");
   const dataViz = useMemo(() => {
+    let finalData = null;
     if (maptype == "total") {
-      return getOrgUnitDataTotals(store.districts, data, periodType);
+      let dataSelected = data;
+      if (
+        selectedContribution == "2" &&
+        periodType == "monthly" &&
+        data &&
+        data["results"]["rows"]
+      ) {
+        dataSelected = {
+          results: {
+            rows: data["results"]["rows"].filter((val) => val[2] == period[1]),
+          },
+        };
+        finalData = getOrgUnitDataTotals(
+          store.districts,
+          dataSelected,
+          periodType
+        );
+      } else {
+        finalData = getOrgUnitDataTotals(store.districts, data, periodType);
+      }
     } else {
-      return getOrgUnitDataPercentageChanges(store.districts, data);
+      finalData = getOrgUnitDataPercentageChanges(store.districts, data);
     }
-  }, [data, periodType]);
+
+    const processedFinalData = postProcessData(store.districts, finalData);
+    return processedFinalData;
+  }, [data, periodType, selectedContribution]);
 
   const colorScaleValue = maptype == "total" ? "Blues" : "RdBu";
   const reversedScaleValue = true;
@@ -44,14 +69,19 @@ const MapVisualization = ({
         error === undefined &&
         Object.keys(dataViz).length != 0 && (
           <Row className="data-card mb-5 shadow-sm rounded">
-            <Col>
+            <Col className="m-bot-24">
               <Row style={{ marginBottom: 20 }}>
                 {maptype == "total" && (
                   <Col className="graph">
-                    {periodType == "monthly" && (
+                    {periodType == "monthly" && selectedContribution == "1" && (
                       <h5>{`Total ${displayName} between ${store.period[0].format(
                         "MMM-YYYY"
                       )} and ${store.period[1].format(
+                        "MMM-YYYY"
+                      )} by district`}</h5>
+                    )}
+                    {periodType == "monthly" && selectedContribution == "2" && (
+                      <h5>{`Total ${displayName} in ${store.period[1].format(
                         "MMM-YYYY"
                       )} by district`}</h5>
                     )}
@@ -64,7 +94,6 @@ const MapVisualization = ({
                     )}
                   </Col>
                 )}
-
                 {maptype == "percentage" && (
                   <Col className="graph">
                     {periodType == "monthly" && (
@@ -85,6 +114,31 @@ const MapVisualization = ({
                   </Col>
                 )}
               </Row>
+
+              {maptype == "total" && (
+                <Row>
+                  <Col>
+                    <Select
+                      style={{ width: "100%", backgroundColor: "white" }}
+                      size="large"
+                      value={selectedContribution}
+                      onChange={(val) => setSelectedContribution(val)}
+                    >
+                      <Option value="1">
+                        Show sum between month of reference and month of
+                        interest period
+                      </Option>
+                      {periodType == "monthly" && (
+                        <Option value="2">Show only month of interest</Option>
+                      )}
+                      {/* <Option value="3">
+                    Show average between month of reference and month of
+                    interest period
+                  </Option> */}
+                    </Select>
+                  </Col>
+                </Row>
+              )}
 
               {maptype == "percentage" && (
                 <Row>
@@ -121,6 +175,7 @@ const MapVisualization = ({
                               geojson: store.rawGeojson,
                               colorscale: colorScaleValue,
                               reversescale: reversedScaleValue,
+                              hoverinfo: "all",
                             },
                           ]}
                           layout={{
@@ -143,8 +198,30 @@ const MapVisualization = ({
                           useResizeHandler={true}
                           style={{ width: "100%", height: "100%" }}
                           config={{
-                            displayModeBar: false,
+                            displayModeBar: true,
+                            displaylogo: false,
                             scrollZoom: false,
+                            toImageButtonOptions: {
+                              filename: "hives_download",
+                              format: "png",
+                              scale: 1,
+                              width: 700,
+                              height: 500,
+                            },
+                            modeBarButtonsToRemove: [
+                              "pan2d",
+                              "select2d",
+                              "lasso2d",
+                              "resetScale2d",
+                              "toggleHover",
+                              "zoom2d",
+                              "zoomIn2d",
+                              "zoomOut2d",
+                              "resetGeo",
+                              "zoomInGeo",
+                              "zoomOutGeo",
+                              "resetViews",
+                            ],
                           }}
                         />
                       </Col>
