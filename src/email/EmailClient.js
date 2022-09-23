@@ -19,7 +19,7 @@ class Email {
     image.disposition = "inline";
 
     return image;
-    }
+  };
 
   // function to get all template ids
   async getTemplateIds() {
@@ -196,8 +196,9 @@ class Email {
   }
 }
 
-const EmailClient = new Email(
-  process.env.REACT_APP_SENDGRID_API_KEY
-);
+const EmailClient = new Email(process.env.REACT_APP_SENDGRID_API_KEY);
+
+console.log(process.env.REACT_APP_SENDGRID_API_KEY);
+console.log(EmailClient);
 
 export default EmailClient;
