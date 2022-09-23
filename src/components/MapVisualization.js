@@ -47,8 +47,9 @@ const MapVisualization = ({
           dataSelected,
           periodType
         );
+      } else {
+        finalData = getOrgUnitDataTotals(store.districts, data, periodType);
       }
-      finalData = getOrgUnitDataTotals(store.districts, data, periodType);
     } else {
       finalData = getOrgUnitDataPercentageChanges(store.districts, data);
     }
