@@ -24,21 +24,30 @@ const Navigation = () => {
     <div className="navbar">
       <Row style={{ width: "100%" }}>
         <Col className="align-self-center" xs={12}>
-          <p className="text-left infotext">
-            HIVES APP DASHBOARD
-            <Popover content={<span>Click for more information</span>}>
-              <span
-                className="material-icons align-middle infoicon"
-                onClick={() => showModal()}
-              >
-                info
-              </span>
-            </Popover>
-          </p>
+          <p className="text-left infotext">HIVES APP DASHBOARD</p>
         </Col>
       </Row>
       <Row>
         <Col className="align-self-center">
+          <Row>
+            <Col style={{ width: "80%" }}>
+              <Link>
+                <p
+                  style={{ color: "white" }}
+                  className="nav-element text-left"
+                  onClick={() => showModal()}
+                >
+                  <span
+                    className="material-icons align-middle"
+                    style={{ fontSize: "1.5rem" }}
+                  >
+                    info
+                  </span>{" "}
+                  About
+                </p>
+              </Link>
+            </Col>
+          </Row>
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>
               <Link to="/hives/overview">
@@ -107,7 +116,14 @@ const Navigation = () => {
           </Button>,
         ]}
       >
-        <img src={info} />
+        <Col>
+          <img src={info} />
+          <p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScdo6rwminrZ4TA1r6ts7GHux74TpOmEo5CEEGbsiwet8mb7g/viewform">
+              Feedback Survey Form
+            </a>
+          </p>
+        </Col>
       </Modal>
     </div>
   );
