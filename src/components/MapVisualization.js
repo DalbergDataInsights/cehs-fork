@@ -123,13 +123,16 @@ const MapVisualization = ({
                       size="large"
                       value={selectedContribution}
                       onChange={(val) => setSelectedContribution(val)}
+                      className="dropdown-text"
                     >
-                      <Option value="1">
+                      <Option value="1" className="dropdown-text-select">
                         Show sum between month of reference and month of
                         interest period
                       </Option>
                       {periodType == "monthly" && (
-                        <Option value="2">Show only month of interest</Option>
+                        <Option value="2" className="dropdown-text-select">
+                          Show only month of interest
+                        </Option>
                       )}
                       {/* <Option value="3">
                     Show average between month of reference and month of
@@ -148,8 +151,9 @@ const MapVisualization = ({
                       size="large"
                       value={store.selectedPercentageOption}
                       onChange={(val) => onPercentageOptionChange(val)}
+                      className="dropdown-text"
                     >
-                      <Option value="1">
+                      <Option value="1" className="dropdown-text-select">
                         Compare month of interest and month of reference
                       </Option>
                       {/* <Option value="2">
