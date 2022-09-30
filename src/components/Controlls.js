@@ -11,9 +11,6 @@ import {
 } from "../models/Events";
 import indicatorMeta from "../config/Indicators";
 
-// TODO: Make a dropdown text responsive to page size. Maybe use the same styling as the dropdown section header.
-// TODO: The code here needs to be cleaned up
-
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
