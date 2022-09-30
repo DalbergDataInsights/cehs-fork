@@ -364,4 +364,11 @@ table {
   font-size: calc(0.4vw + 0.4vh + 0.4vmin);
 }
 
+.dropdown-text-select {
+  text-align: left;
+  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
+}
 
+.range-picker{
+  
+}
