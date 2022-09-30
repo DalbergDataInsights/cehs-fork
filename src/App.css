@@ -190,7 +190,7 @@
 
 .h5,
 h5 {
-  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
+  font-size: calc(0.5vw + 0.5vh + 0.5vmin);
   color: rgb(34, 94, 140);
   text-align: center;
   width: 100%;
@@ -349,3 +349,4 @@ table {
   text-align: center;
   font-size: calc(0.6vw + 0.6vh + 0.6vmin);
 }
+
