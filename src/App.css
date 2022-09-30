@@ -183,6 +183,7 @@
 
 .ant-picker-large .ant-picker-input > input {
   color: white;
+  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
 }
 
 .anticon {
@@ -370,5 +371,7 @@ table {
 }
 
 .range-picker{
-  
+  width: 100%;
+  height: 40px;
+  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
 }
