@@ -12,8 +12,8 @@ const VisualizationTitle = ({
     <Row>
       <Col className="data-card__header-container">
         <h3
-          className="w-100"
-          style={{ color: "white", textAlign: "center", fontSize: "1.2rem" }}
+          className="viz-title"
+          // style={{ color: "white", textAlign: "center", fontSize: "1.2rem" }}
         >
           {title}
         </h3>
