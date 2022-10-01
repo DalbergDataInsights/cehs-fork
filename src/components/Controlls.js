@@ -26,7 +26,7 @@ const Controlls = () => {
   return (
     <Row className="p-3">
       <Col>
-        <Row style={{ marginBottom: 20 }}>
+        <Row style={{ marginBottom: 0 }}>
           <Col>
             {store.page != "overview" && (
               <>
@@ -104,7 +104,7 @@ const Controlls = () => {
 
         {store.page != "overview" && (
           <>
-            <Row style={{ marginBottom: 20 }}>
+            <Row style={{ marginBottom: 0 }}>
               <Col>
                 <Row>
                   <Col style={{ width: "100%" }}>
