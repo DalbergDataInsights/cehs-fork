@@ -12,7 +12,7 @@ const SideBar = () => {
     <div className="sidebar">
       <Navigation />
       <Controlls />
-      <Row style={{display: "inline-block", position:"absolute", bottom:"0px",left:"15px"}}>
+      <Row className="p-3" style={{display: "inline-block", position:"absolute", bottom:"0px"}}>
         <Col className="align-self-center">
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>

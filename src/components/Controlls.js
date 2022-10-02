@@ -40,7 +40,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={variableGroup}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setVariableGroup(val)}
                     >
                       {variableGroupSetList.map((i) => (
@@ -62,7 +62,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedVariable}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setSelectedVariable(val)}
                     >
                       {variableGroup != "ALL"
@@ -117,7 +117,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedDistrict}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setSelectedDistrict(val)}
                     >
                       {store.districts.map((i) => (

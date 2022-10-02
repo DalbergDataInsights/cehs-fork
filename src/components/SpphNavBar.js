@@ -86,7 +86,7 @@ const SpphNavBar = () => {
           </Col>
         </Row>
       </div>
-      <Row style={{display: "flex", position:"absolute", bottom:"0%",left:"15px"}}>
+      <Row className="p-3" style={{display: "inline-block", position:"absolute", bottom:"0%"}}>
         <Col className="align-self-center">
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>

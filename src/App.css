@@ -113,7 +113,7 @@
   /* margin-right: 5px; */
   margin-bottom: 10px;
   color: white;
-  font-size: 1.6vh;
+  /* font-size: 1.6vh; */
 }
 
 .logo-controll {
@@ -190,7 +190,7 @@
 
 .h5,
 h5 {
-  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
+  font-size: calc(0.4vw + 0.4vh + 0.7vmin);
   color: rgb(34, 94, 140);
   text-align: center;
   width: 100%;
@@ -218,7 +218,7 @@ body {
   overflow: hidden; /* remove scroll bars */
   height: 100vh;
   width: 100vw;
-  /* font-size: 12px; */
+  font-size: calc(0.4vw + 0.4vh + 0.7vmin);
 }
 
 input, textarea, select {
