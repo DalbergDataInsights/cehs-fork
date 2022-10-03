@@ -33,7 +33,7 @@ const settingsQuery = {
 };
 
 const fetchJobs = async () => {
-  const res = await fetch("http://localhost:8080/schedule");
+  const res = await fetch("https://selenium-scheduler.herokuapp.com/schedule");
   return res.json();
 };
 
@@ -61,7 +61,7 @@ const ScheduleView = () => {
   };
 
   const deleteJob = async (id) => {
-    await fetch(`http://localhost:8080/schedule/${id}`, {
+    await fetch(`https://selenium-scheduler.herokuapp.com/schedule/${id}`, {
       method: "DELETE",
     });
     setJobs([]);
