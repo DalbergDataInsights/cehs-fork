@@ -159,6 +159,7 @@
   align-items: center;
   font-weight: bold;
   font-style: italic;
+  font-size:calc(0.6vw + 0.6vh + 0.6vmin)
 }
 
 .crd-num {
@@ -166,13 +167,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: calc(0.5vw + 0.5vh + 0.5vmin)
+  /* font-size: 1.2rem; */
 }
 
 .crd-per {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: calc(0.5vw + 0.5vh + 0.5vmin)
 }
 
 .data-card__download-button {
