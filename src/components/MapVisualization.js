@@ -5,6 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
 import {
+  customColorScale,
   getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
