@@ -4,7 +4,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-function SchedulePopup({ open, setOpen, setJobs, refetch }) {
+function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
   const publishJob = async (id, on, timeout) => {
     await fetch(`http://localhost:8080/schedule/`, {
       method: "PUT",
@@ -57,16 +57,26 @@ function SchedulePopup({ open, setOpen, setJobs, refetch }) {
                 <p style={{ textAlign: "left", fontWeight: "bold" }}>
                   Specify subscriber list ID
                 </p>
-                <label>
-                  <input
-                    type="text"
-                    id="nametextfield"
-                    placeholder="Template id"
-                    onChange={(e) => handleChange(e, setTemplateId)}
-                    style={{ marginLeft: "0px" }}
-                    required
-                  ></input>
-                </label>
+                <select style={{ textAlign: "left", marginLeft:"0px"}} onChange={(e) => handleChange(e, setTemplateId)}required>
+                  <option>Select ID</option>
+                  {subList &&
+                    Object.keys(subList).map((obj, index) => {
+                      return (
+                        <option
+                          style={{
+                            backgroundColor: "#fff",
+                            font: "lato",
+                            padding: "16px",
+                            margin: "10px",
+                          }}
+                          key={index}
+                          value={JSON.stringify(obj)}
+                        >
+                          {obj}
+                        </option>
+                      );
+                    })}
+                </select>
                 <p style={{ textAlign: "left", fontWeight: "bold" }}>
                   Specify send date
                 </p>
