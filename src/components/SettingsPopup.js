@@ -42,6 +42,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [dateType, setDateType] = useState("");
   const [count, setCount] = useState(0);
+  const [subListName, setSubListName] = useState("");
 
   const { loading, error, data, refetch } = useDataQuery(settingsQuery);
 
@@ -209,9 +210,17 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
             <p className="grap-header">Create a subscriber list</p>
           </DialogTitle>
           <DialogContent>
+            <h5 style={{ textAlign: "left" }}>New subscriber list name:</h5>
+            <input
+              type="text"
+              id="namefield"
+              placeholder="Write name here..."
+              style={{ height: "30px" }}
+              onChange={(e) => setSubListName(e.target.value)}
+            ></input>
             <form onSubmit={handleSubmit} id="settings-form">
               <div style={{ fontSize: "12px" }}>
-                <select style={{ textAlign: "center" }} required>
+                <select style={{ textAlign: "left" }} required>
                   <option>Select template</option>
                   {templateIds &&
                     templateIds.map((obj, index) => {
@@ -240,120 +249,157 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                   }}
                 >
                   <p className="graph-subheader">Set email data dates</p>
-                  <select style={{ justifyItems: "center", marginLeft:"0px" }} onChange={(handleDateType)}>
+                  <select
+                    style={{ justifyItems: "center", marginLeft: "0px" }}
+                    onChange={handleDateType}
+                  >
                     <option>Select date type</option>
                     <option>Months (MM YYYY)</option>
                     <option>Number of months from current </option>
                   </select>
                   <br></br>
-                  <h5 style={{textAlign:"left"}}>Trend line dates:</h5>
-                  <select onChange={handleStartDate} style={{display: "inline", marginLeft:"0px"}} required>
+                  <h5 style={{ textAlign: "left" }}>Trend line dates:</h5>
+                  <select
+                    onChange={handleStartDate}
+                    style={{ display: "inline", marginLeft: "0px" }}
+                    required
+                  >
                     <option>Input start date</option>
-                    {
-                    startDates &&
-                    startDates.map((obj, index) => {
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          // value={moment(obj).format("YYYY-MM-DD")}
-                          value={
-                            dateType === "Months (MM YYYY)"
-                              ? moment(obj).format("YYYY-MM-DD")
+                    {startDates &&
+                      startDates.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? obj
                               : parseInt(
                                   moment(obj).diff(moment(), "months", true)
-                                )
-                          }
-                        >
-                          {dateType === "Months (MM YYYY)"
-                            ? obj
-                            : parseInt(
-                                moment(obj).diff(moment(), "months", true)
-                              )}
-                        </option>
-                      );
-                    })
-                  }
+                                )}
+                          </option>
+                        );
+                      })}
                   </select>
                   <select required>
                     <option>Input end date</option>
                     {endDates &&
-                    endDates.map((obj, index) => {
-                      const dateObj = dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          // value={moment(obj).format("YYYY-MM-DD")}
-                          value={
-                            dateType === "Months (MM YYYY)"
-                              ? moment(obj).format("YYYY-MM-DD")
-                              : parseInt(
-                                  moment(obj).diff(moment(), "months", true)
-                                )
-                          }
-                        >
-                          {dateObj}
-                        </option>
-                      );
-                    })}
+                      endDates.map((obj, index) => {
+                        const dateObj =
+                          dateType === "Months (MM YYYY)"
+                            ? obj
+                            : parseInt(
+                                moment(obj).diff(moment(), "months", true)
+                              );
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
+                          >
+                            {dateObj}
+                          </option>
+                        );
+                      })}
                   </select>
                   {/* </span> */}
                   <br></br>
-                  <h5 style={{textAlign:"left"}}>Facility level month of interest:</h5>
-                  <select required style={{marginLeft:"0px"}}>
+                  <h5 style={{ textAlign: "left" }}>
+                    Facility level month of interest:
+                  </h5>
+                  <select required style={{ marginLeft: "0px" }}>
                     <option>Select month</option>
                     {startDates &&
-                    startDates.map((obj, index) => {
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          // value={moment(obj).format("YYYY-MM-DD")}
-                          value={dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY-MM-DD"): parseInt(moment(obj).diff(moment(), 'months', true))}
-                        >
-                          {dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))}
-                        </option>
-                      );
-                    })}
+                      startDates.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? obj
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )}
+                          </option>
+                        );
+                      })}
                   </select>
                   <br></br>
-                  <h5 style={{textAlign:"left"}}>Reporting year of interest:</h5>
-                  <select required style={{marginLeft:"0px", marginBottom:"10px"}}>
+                  <h5 style={{ textAlign: "left" }}>
+                    Reporting year of interest:
+                  </h5>
+                  <select
+                    required
+                    style={{ marginLeft: "0px", marginBottom: "10px" }}
+                  >
                     <option>Select year</option>
                     {years &&
-                    years.map((obj, index) => {
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          // value={moment(obj).format("YYYY")}
-                          value={dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY"): parseInt(moment(obj).diff(moment(), 'year', true))}
-                        >
-                          {dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY"): parseInt(moment(obj).diff(moment(), 'year', true))}
-                        </option>
-                      );
-                    })}
+                      years.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "year", true)
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? moment(obj).format("YYYY")
+                              : parseInt(
+                                  moment(obj).diff(moment(), "year", true)
+                                )}
+                          </option>
+                        );
+                      })}
                   </select>
                   <p className="graph-subheader">Email recipients</p>
                   <label>
@@ -362,7 +408,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                       id="nametextfield"
                       placeholder="Input name ..."
                       onChange={handleOnNameChange}
-                      style={{marginLeft:"0px"}}
+                      style={{ marginLeft: "0px" }}
                       required
                     ></input>
                   </label>
@@ -394,91 +440,108 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                         );
                       })}
                   </select>
-                  <button className="button"
-                    type='submit'
-                    style={{ width: "30px", height: "30px",alignItems: "center", display:"inline",
-                    backgroundColor:"#3498DB", color:"white",}}
+                  <button
+                    className="button"
+                    type="submit"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      alignItems: "center",
+                      display: "inline",
+                      backgroundColor: "#3498DB",
+                      color: "white",
+                    }}
                     onClick={() => {
                       setCount((pCount) => pCount + 1);
-                      setTimeout(() => {clearFields()},[0]);
+                      setTimeout(() => {
+                        clearFields();
+                      }, [0]);
                     }}
                   >
-                    <FaIcons.FaPlus fontSize={"inherit"}/>
+                    <FaIcons.FaPlus fontSize={"inherit"} />
                   </button>
                   {subscriberList &&
                     [...subscriberList].reverse().map((item, index) => {
                       return (
-                          <tr key={item.id} >
-                          <td style={{backgroundColor:"white", marginLeft:"-15px"}}>
-                          <label>
-                            <input
-                              type="text"
-                              // id="nametextfield"
-                              name="recipientName"
-                              placeholder="Input name..."
-                              defaultValue={item.recipientName}
-                              onChange={handleOnNameChange}
-                            ></input>
-                          </label>
-                          <label>
-                            <input
-                              type="text"
-                              name="recipientEmail"
-                              // id="emailtextfield"
-                              placeholder="Input email..."
-                              defaultValue={item.recipientEmail}
-                              onChange={handleOnEmailChange}
-                              style={{verticalAlign:"middle"}}
-                            ></input>
-                          </label>
-                          <select
-                            defaultValue={item.orgUnit}
-                            onChange={handleDistrictChange}
-                            required
+                        <tr key={item.id}>
+                          <td
+                            style={{
+                              backgroundColor: "white",
+                              marginLeft: "-15px",
+                            }}
                           >
-                            <option>
-                              Select district
-                            </option>
-                            {districts &&
-                              districts.map((obj, index) => {
-                                return (
-                                  <option
-                                    style={{
-                                      backgroundColor: "#fff",
-                                      font: "lato",
-                                      padding: "16px",
-                                    }}
-                                    key={index}
-                                    value={obj.id}
-                                  >
-                                    {obj.name}
-                                  </option>
-                                );
-                              })}
-                          </select>
-                          {/* {index ? */}
-                          <button className="button"
-                            style={{ width: "30px", height: "30px", alignItems:"center", display:"flex",
-                        }}
-                            onClick={() => handleRemoveRecipient(item)}
-                          >
-                            <FaIcons.FaMinus fontSize={"inherit"} />
-                          </button>
-                          {/* : null} */}
+                            <label>
+                              <input
+                                type="text"
+                                // id="nametextfield"
+                                name="recipientName"
+                                placeholder="Input name..."
+                                defaultValue={item.recipientName}
+                                onChange={handleOnNameChange}
+                              ></input>
+                            </label>
+                            <label>
+                              <input
+                                type="text"
+                                name="recipientEmail"
+                                // id="emailtextfield"
+                                placeholder="Input email..."
+                                defaultValue={item.recipientEmail}
+                                onChange={handleOnEmailChange}
+                                style={{ verticalAlign: "middle" }}
+                              ></input>
+                            </label>
+                            <select
+                              defaultValue={item.orgUnit}
+                              onChange={handleDistrictChange}
+                              required
+                            >
+                              <option>Select district</option>
+                              {districts &&
+                                districts.map((obj, index) => {
+                                  return (
+                                    <option
+                                      style={{
+                                        backgroundColor: "#fff",
+                                        font: "lato",
+                                        padding: "16px",
+                                      }}
+                                      key={index}
+                                      value={obj.id}
+                                    >
+                                      {obj.name}
+                                    </option>
+                                  );
+                                })}
+                            </select>
+                            {/* {index ? */}
+                            <button
+                              className="button"
+                              style={{
+                                width: "30px",
+                                height: "30px",
+                                alignItems: "center",
+                                display: "flex",
+                              }}
+                              onClick={() => handleRemoveRecipient(item)}
+                            >
+                              <FaIcons.FaMinus fontSize={"inherit"} />
+                            </button>
+                            {/* : null} */}
                           </td>
-                          </tr>
+                        </tr>
                         // </div>
                       );
                     })}
-
                 </div>
               </div>
             </form>
           </DialogContent>
           <DialogActions>
-            <button className="button"
+            <button
+              className="button"
               onClick={() => {
-                // Only update list if subscriber data exists 
+                // Only update list if subscriber data exists
                 if (Object.keys(subscriber).length > 0) {
                   mutate({ subscriber });
                 }
@@ -486,24 +549,25 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                 setSubscriberList([]);
                 setSubscriber({});
                 setTimeout(() => {
-                  setOpen(false); 
+                  setOpen(false);
                   listRefetch();
                 }, 2000);
               }}
-              style={{ fontSize: "12px"}}
+              style={{ fontSize: "12px" }}
             >
               Save
             </button>
-            <button className="button"
+            <button
+              className="button"
               autoFocus
               onClick={() => {
                 setOpen(false);
                 setSubscriberList([]);
                 setSubscriber({});
               }}
-              style={{ fontSize: "12px", marginRight:"35px"}}
+              style={{ fontSize: "12px", marginRight: "35px" }}
             >
-              Cancel 
+              Cancel
             </button>
           </DialogActions>
         </Dialog>
