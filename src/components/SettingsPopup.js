@@ -206,7 +206,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
           }}
         >
           <DialogTitle id="alert-dialog-title">
-            {"Create a subscriber list"}
+            <p className="grap-header">Create a subscriber list</p>
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
@@ -239,18 +239,14 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                     padding: "10px",
                   }}
                 >
-                  <p style={{ textAlign: "left", fontWeight: "bold" }}>
-                    Set email data dates:
-                  </p>
+                  <p className="graph-subheader">Set email data dates</p>
                   <select style={{ justifyItems: "center", marginLeft:"0px" }} onChange={(handleDateType)}>
                     <option>Select date type</option>
                     <option>Months (MM YYYY)</option>
                     <option>Number of months from current </option>
                   </select>
                   <br></br>
-                  Trend line dates:
-                  <br></br>
-                  {/* <span style={{display: "inline", marginLeft:"0px"}}> */}
+                  <h5 style={{textAlign:"left"}}>Trend line dates:</h5>
                   <select onChange={handleStartDate} style={{display: "inline", marginLeft:"0px"}} required>
                     <option>Input start date</option>
                     {
@@ -284,9 +280,6 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                     })
                   }
                   </select>
-                  {/* </span> */}
-
-                  {/* <span style={{display: "inline", margin:"0px"}}> */}
                   <select required>
                     <option>Input end date</option>
                     {endDates &&
@@ -317,8 +310,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                   </select>
                   {/* </span> */}
                   <br></br>
-                  Facility level month of interest:
-                  <br></br>
+                  <h5 style={{textAlign:"left"}}>Facility level month of interest:</h5>
                   <select required style={{marginLeft:"0px"}}>
                     <option>Select month</option>
                     {startDates &&
@@ -341,8 +333,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                     })}
                   </select>
                   <br></br>
-                  Reporting year of interest:
-                  <br></br>
+                  <h5 style={{textAlign:"left"}}>Reporting year of interest:</h5>
                   <select required style={{marginLeft:"0px", marginBottom:"10px"}}>
                     <option>Select year</option>
                     {years &&
@@ -364,9 +355,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                       );
                     })}
                   </select>
-                  <p style={{ textAlign: "left", fontWeight: "bold" }}>
-                    Email recipients:
-                  </p>
+                  <p className="graph-subheader">Email recipients</p>
                   <label>
                     <input
                       type="text"
