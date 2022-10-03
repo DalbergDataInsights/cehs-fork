@@ -16,15 +16,17 @@ function TemplateGuidelines() {
   return (
     <div
       style={{
-        width: "auto",
+        width: "40vw",
         boxSizing: "border-box",
         boxShadow: "1px 1px 1px 1px #999",
         borderRadius: "10px",
         marginLeft: "20px",
         padding: "5px",
         overflow: 'auto',
-        // overflowX: 'hidden',
+        overflowX: 'hidden',
         // height: '67vh',
+        flexDirection: "column",
+        display:"flex",
         marginTop: '50px',
         lineHeight: '1.5'
       }}

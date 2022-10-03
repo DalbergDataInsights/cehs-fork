@@ -37,20 +37,44 @@ const createQuery = {
   data: ({ subscriber }) => subscriber,
 };
 
-
-function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, listRefetch }) {
+function EditSubList({
+  editOpen,
+  setEditOpen,
+  onUpdate,
+  subList,
+  setSubList,
+  listRefetch,
+}) {
   const [templateIds, setTemplateIds] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [emails, setEmails] = useState("");
   const [names, setName] = useState("");
   const [subscriber, setSubscriber] = useState({});
-  const [selectedStartDate, setSelectedStartDate] = useState(subList[0].trendDateStart);
-  const [selectedEndDate, setSelectedEndDate] = useState(subList[0].trendDateEnd);
-  const [dateType, setDateType] = useState("Months (MM YYYY)");
-  const [template, setTemplate] = useState({"id": subList[0].templateId, "name": subList[0].templateName});
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [dateType, setDateType] = useState("");
+  const [template, setTemplate] = useState({});
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [count, setCount] = useState(Math.max(...subList.map(i => i.id)) + 1);
+  const [count, setCount] = useState(Math.max(...subList.map((i) => i.id)) + 1);
 
+  useEffect(() => {
+    setSelectedStartDate(subList[0].trendDateStart);
+    setSelectedEndDate(subList[0].trendDateEnd);
+    setDateType(
+      isNumeric(subList[0].trendDateStart)
+        ? "Number of months from current"
+        : "Months (MM YYYY)"
+    );
+    setTemplate({
+      id: subList[0].templateId,
+      name: subList[0].templateName,
+    });
+    setSelectedMonth(subList[0].monthOfInterest);
+    setSelectedYear(subList[0].reportingYear);
+    setCount(Math.max(...subList.map((i) => i.id)) + 1);
+  }, [subList]);
 
   const { loading, error, data, refetch } = useDataQuery(settingsQuery);
   // update query
@@ -79,23 +103,30 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
     (i) => i.id === subList[0].templateId
   )[0];
 
-  
-  // ------- dates 
+
+  // ------- dates
   // create start dates
   const startDates = getMonths(moment("2021-01-01", "YYYY-MM-DD"), moment());
 
   const getYears = (start, end) =>
-    Array.from({ length: end.diff(start, 'year') + 1 }).map((_, index) =>
-      moment(start).add(index, 'year').format('YYYY'),
+    Array.from({ length: end.diff(start, "year") + 1 }).map((_, index) =>
+      moment(start).add(index, "year").format("YYYY")
     );
-  const years = getYears(moment("2018", "YYYY"),moment())
+  const years = getYears(moment("2018", "YYYY"), moment());
 
   // create end dates dependent on the selected start date
   const endDates = selectedStartDate
-    ? getMonths(moment(selectedStartDate), moment())
+    ? getMonths(
+        moment(
+          isNumeric(selectedStartDate) ? moment().add(selectedStartDate, 'month') : selectedStartDate
+        ),
+        moment()
+      )
     : [];
-  const currentEndDate = moment(subList[0].trendDateEnd).format("YYYY-MM" +"-01")
 
+  const currentEndDate = isNumeric(subList[0].trendDateEnd)
+      ? subList[0].trendDateEnd
+      : moment(subList[0].trendDateEnd).format("YYYY-MM" + "-01");
 
   // event handlers
   const handleStartDate = (e) => {
@@ -120,21 +151,25 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     const formData = {};
     formData["id"] = count;
     formData["templateId"] = JSON.parse(event.target[0].value).id;
     formData["templateName"] = JSON.parse(event.target[0].value).name;
     formData["trendDateStart"] = event.target[2].value;
-    formData["trendDateEnd"] = moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
-    formData["monthOfInterest"] = moment(event.target[4].value).endOf("month").format("YYYY-MM-DD");
-    formData["reportingYear"] = moment(event.target[5].value).endOf("month").format("YYYY");
+    formData["trendDateEnd"] = isNumeric(event.target[3].value)
+      ? event.target[3].value
+      : moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
+    formData["monthOfInterest"] = event.target[4].value
+    formData["reportingYear"] = event.target[3].value;
     formData["recipientName"] = event.target[6].value;
     formData["recipientEmail"] = event.target[7].value;
     formData["orgUnit"] = event.target[8].value;
 
     var filteredArr = [];
-    filteredArr = [...new Set([...subList, formData])].filter(obj => isEmpty(obj) === true)
+    filteredArr = [...new Set([...subList, formData])].filter(
+      (obj) => isEmpty(obj) === true
+    );
     if (Object.keys(formData).length > 0) {
       // update other recipients with selected template and reporting dates
       for (const i of filteredArr) {
@@ -160,14 +195,15 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
     }
   };
 
-  console.log('---- subList ------')
-  console.log(subList)
+  console.log("---- subList ------");
+  console.log(subList);
+  console.log(subscriber);
 
-  // remove recipient and update sub list 
+  // remove recipient and update sub list
   const handleRemoveRecipient = (item) => {
-    console.log('---- removing item -------')
+    console.log("---- removing item -------");
     const newSubList = subList;
-    const indexOfObject = newSubList.findIndex(object => {
+    const indexOfObject = newSubList.findIndex((object) => {
       return object === item;
     });
     newSubList.splice(indexOfObject, 1);
@@ -189,11 +225,47 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
   const clearFields = () => {
     document.getElementById("nametextfield").value = "";
     document.getElementById("emailtextfield").value = "";
-  }  
+  };
+
+  // update static variables on save
+  const updateOnSave = (subList) => {
+    // update other recipients with selected template and reporting dates
+    for (const i of subList) {
+      i.templateId = template.id;
+      i.templateName = template.name;
+      i.trendDateStart = selectedStartDate;
+      i.trendDateEnd = selectedEndDate;
+      i.monthOfInterest = selectedMonth;
+      i.reportingYear = selectedYear;
+    }
+
+    console.log(subList[0].templateName);
+
+    const listName = `${subList[0].templateName}_${subList[0].trendDateStart}_${subList[0].trendDateEnd}`;
+    var subDetails = {};
+    subDetails[`${listName.replaceAll(" ", "_")}`] = subList;
+
+    // add new list to existing data
+    if (data) {
+      setSubscriber({ ...data["results"], ...subDetails });
+    } else {
+      setSubscriber(subDetails);
+    }
+  };
+
+  useEffect(() => {
+    updateOnSave(subList);
+  }, [
+    template,
+    selectedStartDate,
+    selectedEndDate,
+    selectedMonth,
+    selectedYear,
+  ]);
 
   return (
     <>
-      <div style={{display:"inline-block"}}>
+      <div style={{ display: "inline-block" }}>
         <Dialog
           open={editOpen}
           onClose={() => setEditOpen(false)}
@@ -206,16 +278,16 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
               backgroundColor: "white",
               boxShadow: "none",
               textColor: "white",
-              // width: "100%"  
+              // width: "100%"
             },
           }}
         >
           <DialogTitle id="alert-dialog-title">
-            {"Edit a subscriber list"}
+            <p className="grap-header">{"Edit a subscriber list"}</p>
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
-              <div style={{ fontSize: "12px"}}>
+              <div style={{ fontSize: "12px" }}>
                 <select
                   style={{ textAlign: "center" }}
                   defaultValue={JSON.stringify(initialTemplate)}
@@ -248,13 +320,15 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                     padding: "10px",
                   }}
                 >
-                  <p style={{ textAlign: "left", fontWeight: "bold" }}>
-                    Set email data dates:
-                  </p>
+                  <p className="graph-subheader">Set email data dates</p>
                   <select
                     style={{ justifyItems: "center", marginLeft: "0px" }}
                     onChange={handleDateType}
-                    defaultValue={"Months (MM YYYY)"}
+                    defaultValue={
+                      isNumeric(subList[0].trendDateStart)
+                        ? "Number of months from current"
+                        : "Months (MM YYYY)"
+                    }
                   >
                     <option>Select date type</option>
                     <option value="Months (MM YYYY)">Months (MM YYYY)</option>
@@ -262,122 +336,170 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                       Number of months from current
                     </option>
                   </select>
-                    <br></br>
-                    Trend line dates:
-                    <br></br>
-                    {/* <span style={{display: "inline", marginLeft:"0px"}}> */}
-                    <select onChange={handleStartDate} defaultValue={subList[0].trendDateStart} 
-                    style={{display: "inline", marginLeft:"0px"}} required>                      
+                  <br></br>
+                  <h5 style={{textAlign:"left"}}>Trend line dates:</h5>
+                  <select
+                    onChange={handleStartDate}
+                    defaultValue={subList[0].trendDateStart}
+                    style={{ display: "inline", marginLeft: "0px" }}
+                    required
+                  >
                     <option>Input date</option>
-                      {startDates &&
-                        startDates.map((obj, index) => {
-                          return (
-                            <option
-                              style={{
-                                backgroundColor: "#fff",
-                                font: "lato",
-                                padding: "16px",
-                                margin: "10px",
-                              }}
-                              key={index}
-                              value={moment(obj).format("YYYY-MM-DD")}
-                            >
-                              {dateType === "Months (MM YYYY)"
-                                ? obj
+                    {startDates &&
+                      startDates.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
                                 : parseInt(
                                     moment(obj).diff(moment(), "months", true)
-                                  )}
-                            </option>
-                          );
-                        })}
-                    </select>
-                  {/* </span> */}
-                  {/* <span style={{ display: "inline-block", margin: "0px" }}> */}
-                    <select defaultValue={currentEndDate} onChange={(e) => setSelectedEndDate(e.target.value)}>
-                      <option disabled hidden>Input date</option>
-                      {endDates &&
-                        endDates.map((obj, index) => {
-                          return (
-                            <option
-                              style={{
-                                backgroundColor: "#fff",
-                                font: "lato",
-                                padding: "16px",
-                                margin: "10px",
-                              }}
-                              key={index}
-                              value={moment(obj).format("YYYY-MM-DD")}
-                            >
-                              {dateType === "Months (MM YYYY)"
-                                ? obj
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? obj
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )}
+                          </option>
+                        );
+                      })}
+                  </select>
+                  <select
+                    defaultValue={currentEndDate}
+                    onChange={(e) => setSelectedEndDate(e.target.value)}
+                  >
+                    <option disabled hidden>
+                      Input date
+                    </option>
+                    {endDates &&
+                      endDates.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
                                 : parseInt(
                                     moment(obj).diff(moment(), "months", true)
-                                  )}
-                            </option>
-                          );
-                        })}
-                    </select>
-                  {/* </span> */}
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? obj
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )}
+                          </option>
+                        );
+                      })}
+                  </select>
                   <br></br>
-                  Facility level month of interest:
-                  <br></br>
-                  <select required style={{marginLeft:"0px"}} defaultValue={moment(subList[0].monthOfInterest).format("YYYY-MM" +"-01")}
-                  onChange={(e) => console.log(e.target.value)}>
+                  <h5 style={{textAlign:"left"}}>Facility level month of interest:</h5>
+                  <select
+                    required
+                    style={{ marginLeft: "0px" }}
+                    defaultValue={
+                      isNumeric(subList[0].monthOfInterest)
+                        ? subList[0].monthOfInterest
+                        : moment(subList[0].monthOfInterest).format(
+                            "YYYY-MM" + "-01"
+                          )
+                    }
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                  >
                     <option>Select month</option>
                     {startDates &&
-                    startDates.map((obj, index) => {
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          value={moment(obj).format("YYYY-MM-DD")}
-                        >
-                          {dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))}
-                        </option>
-                      );
-                    })}
+                      startDates.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? obj
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )}
+                          </option>
+                        );
+                      })}
                   </select>
                   <br></br>
-                  Reporting year of interest:
-                  <br></br>
-                  <select required style={{marginLeft:"0px"}} 
-                  defaultValue={subList[0].reportingYear} 
-                  onChange={() => {}}>
+                  <h5 style={{textAlign:"left"}}>Reporting year of interest:</h5>
+                  <select
+                    required
+                    style={{ marginLeft: "0px" }}
+                    defaultValue={subList[0].reportingYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                  >
                     <option>Select year</option>
                     {years &&
-                    years.map((obj, index) => {
-                      return (
-                        <option
-                          style={{
-                            backgroundColor: "#fff",
-                            font: "lato",
-                            padding: "16px",
-                            margin: "10px",
-                          }}
-                          key={index}
-                          value={moment(obj).format("YYYY")}
-                        >
-                          {dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY"): parseInt(moment(obj).diff(moment(), 'year', true))}
-                        </option>
-                      );
-                    })}
+                      years.map((obj, index) => {
+                        return (
+                          <option
+                            style={{
+                              backgroundColor: "#fff",
+                              font: "lato",
+                              padding: "16px",
+                              margin: "10px",
+                            }}
+                            key={index}
+                            // value={moment(obj).format("YYYY")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "year", true)
+                                  )
+                            }
+                          >
+                            {dateType === "Months (MM YYYY)"
+                              ? moment(obj).format("YYYY")
+                              : parseInt(
+                                  moment(obj).diff(moment(), "year", true)
+                                )}
+                          </option>
+                        );
+                      })}
                   </select>
-
-                  <p style={{ textAlign: "left", fontWeight: "bold" }}>
-                    Email recipients:
-                  </p>
+                  <p className="graph-subheader">Email recipients</p>
                   <label>
                     <input
                       type="text"
                       id="nametextfield"
                       placeholder="Input name ..."
                       onChange={handleOnNameChange}
-                      style={{marginLeft:"0px"}}
+                      style={{ marginLeft: "0px" }}
                       required
                     ></input>
                   </label>
@@ -409,94 +531,109 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                         );
                       })}
                   </select>
-                  <button className="button"
-                    type='submit'
-                    style={{ width: "30px", height: "30px",alignItems: "center", display:"inline",
-                    backgroundColor:"#3498DB", color:"white",}}
+                  <button
+                    className="button"
+                    type="submit"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      alignItems: "center",
+                      display: "inline",
+                      backgroundColor: "#3498DB",
+                      color: "white",
+                    }}
                     onClick={() => {
                       setCount((pCount) => pCount + 1);
-                      setTimeout(() => {clearFields()},[0]);
+                      setTimeout(() => {
+                        clearFields();
+                      }, [0]);
                     }}
                   >
-                    <FaIcons.FaPlus fontSize={"inherit"}/>
+                    <FaIcons.FaPlus fontSize={"inherit"} />
                   </button>
                   {subList &&
                     subList.map((item, index) => {
                       return (
                         // <div style={{display:"flex", alignItems:"center", flexFlow:"row wrap"}}>
-                          <tr key={item.id} >
-                          <td style={{backgroundColor:"white", marginLeft:"-15px"}}>
-                            
-                          <label>
-                            <input
-                              type="text"
-                              // id="nametextfield"
-                              name="recipientName"
-                              placeholder="Input name..."
-                              defaultValue={item.recipientName}
-                              onChange={handleOnNameChange}
-                            ></input>
-                          </label>
-                          <label>
-                            <input
-                              type="text"
-                              name="recipientEmail"
-                              // id="emailtextfield"
-                              placeholder="Input email..."
-                              defaultValue={item.recipientEmail}
-                              onChange={handleOnEmailChange}
-                              style={{verticalAlign:"middle"}}
-                            ></input>
-                          </label>
-                          <select
-                            defaultValue={item.orgUnit}
-                            onChange={handleDistrictChange}
+                        <tr key={item.id}>
+                          <td
+                            style={{
+                              backgroundColor: "white",
+                              marginLeft: "-15px",
+                            }}
                           >
-                            <option>
-                              Select district
-                            </option>
-                            {districts &&
-                              districts.map((obj, index) => {
-                                return (
-                                  <option
-                                    style={{
-                                      backgroundColor: "#fff",
-                                      font: "lato",
-                                      padding: "16px",
-                                    }}
-                                    key={index}
-                                    value={obj.id}
-                                  >
-                                    {obj.name}
-                                  </option>
-                                );
-                              })}
-                          </select>
-                          {index ?
-                          <button className="button"
-                          // type="button"
-                            style={{ width: "30px", height: "30px", alignItems:"center", display:"flex",
-                        }}
-                            onClick={() => handleRemoveRecipient(item)}
-                          >
-                            <FaIcons.FaMinus fontSize={"inherit"} />
-                          </button>
-                          : null}
+                            <label>
+                              <input
+                                type="text"
+                                // id="nametextfield"
+                                name="recipientName"
+                                placeholder="Input name..."
+                                defaultValue={item.recipientName}
+                                onChange={handleOnNameChange}
+                              ></input>
+                            </label>
+                            <label>
+                              <input
+                                type="text"
+                                name="recipientEmail"
+                                // id="emailtextfield"
+                                placeholder="Input email..."
+                                defaultValue={item.recipientEmail}
+                                onChange={handleOnEmailChange}
+                                style={{ verticalAlign: "middle" }}
+                              ></input>
+                            </label>
+                            <select
+                              defaultValue={item.orgUnit}
+                              onChange={handleDistrictChange}
+                            >
+                              <option>Select district</option>
+                              {districts &&
+                                districts.map((obj, index) => {
+                                  return (
+                                    <option
+                                      style={{
+                                        backgroundColor: "#fff",
+                                        font: "lato",
+                                        padding: "16px",
+                                      }}
+                                      key={index}
+                                      value={obj.id}
+                                    >
+                                      {obj.name}
+                                    </option>
+                                  );
+                                })}
+                            </select>
+                            {index ? (
+                              <button
+                                className="button"
+                                // type="button"
+                                style={{
+                                  width: "30px",
+                                  height: "30px",
+                                  alignItems: "center",
+                                  display: "flex",
+                                }}
+                                onClick={() => handleRemoveRecipient(item)}
+                              >
+                                <FaIcons.FaMinus fontSize={"inherit"} />
+                              </button>
+                            ) : null}
                           </td>
-                          </tr>
+                        </tr>
                         // </div>
                       );
                     })}
                   <br></br>
-                  
                 </div>
               </div>
             </form>
           </DialogContent>
-          <DialogActions >
-            <button className="button"
+          <DialogActions>
+            <button
+              className="button"
               onClick={() => {
-                
                 // Only update list if subscriber data exists
                 if (Object.keys(subscriber).length > 0) {
                   mutate({ subscriber });
@@ -505,28 +642,27 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                 setTimeout(() => {
                   setSubscriber({});
                   setEditOpen(false);
-                  listRefetch()
+                  listRefetch();
                 }, 2000);
               }}
-              style={{ fontSize: "12px"}}
+              style={{ fontSize: "12px" }}
             >
               Save
             </button>
-            <button className="button"
+            <button
+              className="button"
               autoFocus
               onClick={() => {
                 document.getElementById("settings-form").reset();
                 setSubscriber({});
                 setEditOpen(false);
-                location.reload();
+                // location.reload();
               }}
-              style={{ fontSize: "12px", marginRight: "5%" 
-            }}
+              style={{ fontSize: "12px", marginRight: "5%" }}
             >
               Cancel
             </button>
           </DialogActions>
-          
         </Dialog>
       </div>
     </>
@@ -539,6 +675,10 @@ const getMonths = (start, end) =>
     moment(start).add(index, "month").format("MMM YYYY")
   );
 
-const isEmpty = (object) => Object.values(object).every(value => !!value);
+const isEmpty = (object) => Object.values(object).every((value) => !!value);
+
+const isNumeric = (value) => {
+  return /^-?\d+$/.test(value);
+}
 
 export default EditSubList;

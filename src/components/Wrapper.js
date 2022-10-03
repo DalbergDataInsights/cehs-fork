@@ -100,7 +100,7 @@ const SpphWrapper = () => {
                 padding: "0% 3%  10px 2% ",
                 flex: 1,
                 overflow: "auto",
-                fontSize: "12px",
+                // fontSize: "12px",
               }}
             >
               <Switch>

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Popover, Modal, Button } from "antd";
-
 import info from "./info-pane.png";
+
+//TODO: Look at the inline styling here and see how to correct it. Font size is hardcoded here
 
 const Navigation = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,7 +44,7 @@ const Navigation = () => {
                   >
                     info
                   </span>{" "}
-                  About
+                  Instructions
                 </p>
               </Link>
             </Col>

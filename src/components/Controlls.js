@@ -26,7 +26,7 @@ const Controlls = () => {
   return (
     <Row className="p-3">
       <Col>
-        <Row style={{ marginBottom: 20 }}>
+        <Row style={{ marginBottom: 0 }}>
           <Col>
             {store.page != "overview" && (
               <>
@@ -40,11 +40,16 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={variableGroup}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setVariableGroup(val)}
+                      className="dropdown-text"
                     >
                       {variableGroupSetList.map((i) => (
-                        <Option key={i} value={i}>
+                        <Option
+                          key={i}
+                          value={i}
+                          className="dropdown-text-select"
+                        >
                           {i}
                         </Option>
                       ))}
@@ -62,38 +67,31 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedVariable}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setSelectedVariable(val)}
+                      className="dropdown-text"
                     >
                       {variableGroup != "ALL"
                         ? indicatorMeta
                             .filter((i) => i.group == variableGroup)
-                            .map((i) =>
-                              i.function == "single" || true ? (
-                                <Option key={i.id} value={i.key}>
-                                  {i.displayName}
-                                </Option>
-                              ) : (
-                                <Option
-                                  key={i.id}
-                                  value={i.key}
-                                  disabled={true}
-                                >
-                                  {i.displayName}
-                                </Option>
-                              )
-                            )
-                        : indicatorMeta.map((i) =>
-                            i.function == "single" || true ? (
-                              <Option key={i.id} value={i.key}>
+                            .map((i) => (
+                              <Option
+                                key={i.id}
+                                value={i.key}
+                                className="dropdown-text-select"
+                              >
                                 {i.displayName}
                               </Option>
-                            ) : (
-                              <Option key={i.id} value={i.key} disabled={true}>
-                                {i.displayName}
-                              </Option>
-                            )
-                          )}
+                            ))
+                        : indicatorMeta.map((i) => (
+                            <Option
+                              key={i.id}
+                              value={i.key}
+                              className="dropdown-text-select"
+                            >
+                              {i.displayName}
+                            </Option>
+                          ))}
                     </Select>
                   </Col>
                 </Row>
@@ -104,7 +102,7 @@ const Controlls = () => {
 
         {store.page != "overview" && (
           <>
-            <Row style={{ marginBottom: 20 }}>
+            <Row style={{ marginBottom: 0 }}>
               <Col>
                 <Row>
                   <Col style={{ width: "100%" }}>
@@ -117,11 +115,16 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedDistrict}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
                       onChange={(val) => setSelectedDistrict(val)}
+                      className="dropdown-text"
                     >
                       {store.districts.map((i) => (
-                        <Option key={i.id} value={i.id}>
+                        <Option
+                          key={i.id}
+                          value={i.id}
+                          className="dropdown-text-select"
+                        >
                           {i.name}
                         </Option>
                       ))}
@@ -143,11 +146,13 @@ const Controlls = () => {
             <Row style={{ marginBottom: 10 }}>
               <Col>
                 <RangePicker
-                  style={{ width: "100%", height: "40px" }}
+                  // style={{ width: "100%", height: "40px" }}
                   size="large"
-                  picker="month"
                   value={store.period}
+                  style={{ width: "100%" }}
+                  picker="month"
                   onChange={(val) => onPeriodChange(val)}
+                  className="range-picker"
                 />
               </Col>
             </Row>

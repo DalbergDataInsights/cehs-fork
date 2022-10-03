@@ -22,7 +22,7 @@ const EmailTemplate = ({ body, setTemplate}) => {
         initialValue={body}
         init={{ 
           height: "100%",
-          width: '60vw',
+          width: '52vw',
           menubar: true,
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image','charmap','preview', 'anchor',
