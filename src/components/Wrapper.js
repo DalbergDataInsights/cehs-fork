@@ -82,8 +82,8 @@ const SpphWrapper = () => {
     <>
       <DataStoreProvider namespace="spph_app_08082022">
         <Router>
-        <div id="spph-wrapper">
-        <div className="left" style={{ width: open ? "20.5vw" : "1.5vw" }}>
+          <div id="spph-wrapper">
+            <div className="left" style={{ width: open ? "20.5vw" : "1.5vw" }}>
               {open ? <SpphNavBar /> : null}
               <div style={{ paddingLeft: 10 }}>
                 {open ? (
@@ -93,34 +93,37 @@ const SpphWrapper = () => {
                 )}
               </div>
             </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "0% 3%  10px 2% ",
-              flex: 1, 
-              overflow: "auto",
-              // fontSize:"12px"
-            }}
-          >
-            <Switch>
-              <Route path="/spph/template/edit" component={EmailTemplateView} />
-              <Route path="/spph/template/new" component={NewTemplateView} />
-              <Route
-                path="/spph/template/delete"
-                component={DeleteTemplateView}
-              />
-              <Route path="/spph/settings" component={SettingsView} />
-              <Route path="/spph/send">
-                <SendEmailView setEmailTargets={setEmailTargets} />
-              </Route>
-              <Route path="/spph/process">
-                <ProcessEmailView
-                  payload={emailTargets}
-                  setPayload={setEmailTargets}
+            <div
+              style={{
+                display: "flex",
+                padding: "0% 3%  10px 2% ",
+                flex: 1,
+                overflow: "auto",
+                // fontSize: "12px",
+              }}
+            >
+              <Switch>
+                <Route
+                  path="/spph/template/edit"
+                  component={EmailTemplateView}
                 />
-              </Route>
-            </Switch>
-          </div>
+                <Route path="/spph/template/new" component={NewTemplateView} />
+                <Route
+                  path="/spph/template/delete"
+                  component={DeleteTemplateView}
+                />
+                <Route path="/spph/settings" component={SettingsView} />
+                <Route path="/spph/send">
+                  <SendEmailView setEmailTargets={setEmailTargets} />
+                </Route>
+                <Route path="/spph/process">
+                  <ProcessEmailView
+                    payload={emailTargets}
+                    setPayload={setEmailTargets}
+                  />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </Router>
       </DataStoreProvider>
