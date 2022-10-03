@@ -150,7 +150,7 @@ const SettingsView = ({ onUpdate }) => {
         >
           Delete
         </button>
-        <SettingsPopup open={open} setOpen={setOpen} />
+        <SettingsPopup open={open} setOpen={setOpen} listRefetch={refetch} />
         <Dialog
           open={deleteOpen}
           onClose={() => setDeleteOpen(false)}
