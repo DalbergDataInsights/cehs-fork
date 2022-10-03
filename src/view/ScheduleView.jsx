@@ -37,7 +37,7 @@ const fetchJobs = async () => {
   return res.json();
 };
 
-const SettingsView = () => {
+const ScheduleView = () => {
   const { loading, error, data, refetch } = useDataQuery(settingsQuery);
 
   const [jobs, setJobs] = useState([]);
@@ -124,15 +124,18 @@ const SettingsView = () => {
           Delete
         </button>
 
-        <SchedulePopup
-          open={open}
-          setOpen={setOpen}
-          setJobs={setJobs}
-          refetch={jobRefetch}
-        />
+        {data && 
+          <SchedulePopup
+            open={open}
+            setOpen={setOpen}
+            setJobs={setJobs}
+            refetch={jobRefetch}
+            subList={data.results}
+          />
+        }
       </div>
     </>
   );
 };
 
-export default SettingsView;
+export default ScheduleView;
