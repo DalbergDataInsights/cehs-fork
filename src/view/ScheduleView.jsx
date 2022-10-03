@@ -3,6 +3,13 @@ import "../components/TableBody.css";
 import SchedulePopup from "../components/SchedulePopup";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useQuery } from "react-query";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
+
 
 const TableHead = () => {
   return (
@@ -42,6 +49,7 @@ const ScheduleView = () => {
 
   const [jobs, setJobs] = useState([]);
   const [open, setOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const { isLoading: isJobLoading, refetch: jobRefetch } = useQuery(
     "jobs",
@@ -117,12 +125,20 @@ const ScheduleView = () => {
         <button
           className="button"
           onClick={() => {
-            deleteJob(subListId);
+            // deleteJob(subListId);
+            setDeleteOpen(true);
           }}
           style={{ float: "right" }}
         >
           Delete
         </button>
+
+        <DeleteScheduledJob 
+          deleteOpen={deleteOpen}
+          setDeleteOpen={setDeleteOpen}
+          deleteJob={deleteJob}
+          subListId={subListId}
+        />
 
         {data && 
           <SchedulePopup
@@ -137,5 +153,44 @@ const ScheduleView = () => {
     </>
   );
 };
+
+const DeleteScheduledJob = ({deleteOpen, setDeleteOpen, deleteJob, subListId}) => {
+  return (
+    <Dialog
+      open={deleteOpen}
+      onClose={() => setDeleteOpen(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Delete Confirmation"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Do you really want to delete this job:{" "}
+          <span style={{ fontWeight: "bold" }}>
+            {subListId.replaceAll("_", " ")}
+          </span>{" "}
+          ?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <button className="button"
+          onClick={() => {
+            deleteJob(subListId);
+            setTimeout(() => {
+              setDeleteOpen(false);
+            }, 0);
+          }}
+        >
+          Delete
+        </button>
+        <button className="button" autoFocus onClick={() => setDeleteOpen(false)}>
+          Cancel
+        </button>
+      </DialogActions>
+    </Dialog>
+  )
+}
 
 export default ScheduleView;
