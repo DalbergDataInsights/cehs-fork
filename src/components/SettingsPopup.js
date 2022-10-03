@@ -31,7 +31,7 @@ const settingsQuery = {
 };
 
 
-function SettingsPopup({ open, setOpen, onCreate }) {
+function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
   const [templateIds, setTemplateIds] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState();
@@ -94,9 +94,11 @@ function SettingsPopup({ open, setOpen, onCreate }) {
     formData["templateId"] = JSON.parse(event.target[0].value).id;
     formData["templateName"] = JSON.parse(event.target[0].value).name;
     formData["trendDateStart"] = event.target[2].value;
-    formData["trendDateEnd"] = moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
-    formData["monthOfInterest"] = moment(event.target[4].value).endOf("month").format("YYYY-MM-DD");
-    formData["reportingYear"] = moment(event.target[5].value).endOf("month").format("YYYY");
+    formData["trendDateEnd"] = isNumeric(event.target[3].value)
+      ? event.target[3].value
+      : moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
+    formData["monthOfInterest"] = event.target[4].value;
+    formData["reportingYear"] = event.target[5].value;
     formData["recipientName"] = event.target[6].value;
     formData["recipientEmail"] = event.target[7].value;
     formData["orgUnit"] = JSON.parse(event.target[8].value).id;
@@ -161,7 +163,14 @@ function SettingsPopup({ open, setOpen, onCreate }) {
   const years = getYears(moment("2018", "YYYY"),moment())
 
   // create end dates dependent on the selected start date
-  const endDates = selectedStartDate ? getMonths(moment(selectedStartDate), moment()) : [];
+  const endDates = selectedStartDate
+    ? getMonths(
+        moment(
+          isNumeric(selectedStartDate) ? moment().add(selectedStartDate, 'month') : selectedStartDate
+        ),
+        moment()
+      )
+    : [];
 
   const handleStartDate = (e) => {
     setSelectedStartDate(e.target.value);
@@ -256,9 +265,20 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                             margin: "10px",
                           }}
                           key={index}
-                          value={moment(obj).format("YYYY-MM-DD")}
+                          // value={moment(obj).format("YYYY-MM-DD")}
+                          value={
+                            dateType === "Months (MM YYYY)"
+                              ? moment(obj).format("YYYY-MM-DD")
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )
+                          }
                         >
-                          {dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))}
+                          {dateType === "Months (MM YYYY)"
+                            ? obj
+                            : parseInt(
+                                moment(obj).diff(moment(), "months", true)
+                              )}
                         </option>
                       );
                     })
@@ -271,6 +291,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                     <option>Input end date</option>
                     {endDates &&
                     endDates.map((obj, index) => {
+                      const dateObj = dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))
                       return (
                         <option
                           style={{
@@ -280,9 +301,16 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                             margin: "10px",
                           }}
                           key={index}
-                          value={moment(obj).format("YYYY-MM-DD")}
+                          // value={moment(obj).format("YYYY-MM-DD")}
+                          value={
+                            dateType === "Months (MM YYYY)"
+                              ? moment(obj).format("YYYY-MM-DD")
+                              : parseInt(
+                                  moment(obj).diff(moment(), "months", true)
+                                )
+                          }
                         >
-                          {dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))}
+                          {dateObj}
                         </option>
                       );
                     })}
@@ -304,7 +332,8 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                             margin: "10px",
                           }}
                           key={index}
-                          value={moment(obj).format("YYYY-MM-DD")}
+                          // value={moment(obj).format("YYYY-MM-DD")}
+                          value={dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY-MM-DD"): parseInt(moment(obj).diff(moment(), 'months', true))}
                         >
                           {dateType === "Months (MM YYYY)" ? obj: parseInt(moment(obj).diff(moment(), 'months', true))}
                         </option>
@@ -314,7 +343,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                   <br></br>
                   Reporting year of interest:
                   <br></br>
-                  <select required style={{marginLeft:"0px"}}>
+                  <select required style={{marginLeft:"0px", marginBottom:"10px"}}>
                     <option>Select year</option>
                     {years &&
                     years.map((obj, index) => {
@@ -327,7 +356,8 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                             margin: "10px",
                           }}
                           key={index}
-                          value={moment(obj).format("YYYY")}
+                          // value={moment(obj).format("YYYY")}
+                          value={dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY"): parseInt(moment(obj).diff(moment(), 'year', true))}
                         >
                           {dateType === "Months (MM YYYY)" ? moment(obj).format("YYYY"): parseInt(moment(obj).diff(moment(), 'year', true))}
                         </option>
@@ -468,7 +498,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                 setSubscriber({});
                 setTimeout(() => {
                   setOpen(false); 
-                  refetch();
+                  listRefetch();
                 }, 2000);
               }}
               style={{ fontSize: "12px"}}
@@ -484,7 +514,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
               }}
               style={{ fontSize: "12px", marginRight:"35px"}}
             >
-              Cancel
+              Cancel 
             </button>
           </DialogActions>
         </Dialog>
@@ -494,5 +524,9 @@ function SettingsPopup({ open, setOpen, onCreate }) {
 }
 
 const isEmpty = (object) => Object.values(object).every(value => !!value);
+
+const isNumeric = (value) => {
+  return /^-?\d+$/.test(value);
+}
 
 export default SettingsPopup;

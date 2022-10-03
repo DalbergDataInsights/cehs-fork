@@ -50,17 +50,31 @@ function EditSubList({
   const [emails, setEmails] = useState("");
   const [names, setName] = useState("");
   const [subscriber, setSubscriber] = useState({});
-  const [selectedStartDate, setSelectedStartDate] = useState(subList[0].trendDateStart);
-  const [selectedEndDate, setSelectedEndDate] = useState(subList[0].trendDateEnd);
-  const [dateType, setDateType] = useState("Months (MM YYYY)");
-  const [template, setTemplate] = useState({
-    id: subList[0].templateId,
-    name: subList[0].templateName,
-  });
-  const [selectedMonth, setSelectedMonth] = useState(subList[0].monthOfInterest);
-  const [selectedYear, setSelectedYear] = useState(subList[0].reportingYear);
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [dateType, setDateType] = useState("");
+  const [template, setTemplate] = useState({});
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [count, setCount] = useState(Math.max(...subList.map((i) => i.id)) + 1);
+
+  useEffect(() => {
+    setSelectedStartDate(subList[0].trendDateStart);
+    setSelectedEndDate(subList[0].trendDateEnd);
+    setDateType(
+      isNumeric(subList[0].trendDateStart)
+        ? "Number of months from current"
+        : "Months (MM YYYY)"
+    );
+    setTemplate({
+      id: subList[0].templateId,
+      name: subList[0].templateName,
+    });
+    setSelectedMonth(subList[0].monthOfInterest);
+    setSelectedYear(subList[0].reportingYear);
+    setCount(Math.max(...subList.map((i) => i.id)) + 1);
+  }, [subList]);
 
   const { loading, error, data, refetch } = useDataQuery(settingsQuery);
   // update query
@@ -102,11 +116,17 @@ function EditSubList({
 
   // create end dates dependent on the selected start date
   const endDates = selectedStartDate
-    ? getMonths(moment(selectedStartDate), moment())
+    ? getMonths(
+        moment(
+          isNumeric(selectedStartDate) ? moment().add(selectedStartDate, 'month') : selectedStartDate
+        ),
+        moment()
+      )
     : [];
-  const currentEndDate = moment(subList[0].trendDateEnd).format(
-    "YYYY-MM" + "-01"
-  );
+
+  const currentEndDate = isNumeric(subList[0].trendDateEnd)
+      ? subList[0].trendDateEnd
+      : moment(subList[0].trendDateEnd).format("YYYY-MM" + "-01");
 
   // event handlers
   const handleStartDate = (e) => {
@@ -137,15 +157,11 @@ function EditSubList({
     formData["templateId"] = JSON.parse(event.target[0].value).id;
     formData["templateName"] = JSON.parse(event.target[0].value).name;
     formData["trendDateStart"] = event.target[2].value;
-    formData["trendDateEnd"] = moment(event.target[3].value)
-      .endOf("month")
-      .format("YYYY-MM-DD");
-    formData["monthOfInterest"] = moment(event.target[4].value)
-      .endOf("month")
-      .format("YYYY-MM-DD");
-    formData["reportingYear"] = moment(event.target[5].value)
-      .endOf("month")
-      .format("YYYY");
+    formData["trendDateEnd"] = isNumeric(event.target[3].value)
+      ? event.target[3].value
+      : moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
+    formData["monthOfInterest"] = event.target[4].value
+    formData["reportingYear"] = event.target[3].value;
     formData["recipientName"] = event.target[6].value;
     formData["recipientEmail"] = event.target[7].value;
     formData["orgUnit"] = event.target[8].value;
@@ -249,7 +265,7 @@ function EditSubList({
 
   return (
     <>
-      <div style={{display:"inline-block"}}>
+      <div style={{ display: "inline-block" }}>
         <Dialog
           open={editOpen}
           onClose={() => setEditOpen(false)}
@@ -310,7 +326,11 @@ function EditSubList({
                   <select
                     style={{ justifyItems: "center", marginLeft: "0px" }}
                     onChange={handleDateType}
-                    defaultValue={"Months (MM YYYY)"}
+                    defaultValue={
+                      isNumeric(subList[0].trendDateStart)
+                        ? "Number of months from current"
+                        : "Months (MM YYYY)"
+                    }
                   >
                     <option>Select date type</option>
                     <option value="Months (MM YYYY)">Months (MM YYYY)</option>
@@ -340,7 +360,14 @@ function EditSubList({
                               margin: "10px",
                             }}
                             key={index}
-                            value={moment(obj).format("YYYY-MM-DD")}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
                           >
                             {dateType === "Months (MM YYYY)"
                               ? obj
@@ -371,7 +398,14 @@ function EditSubList({
                               margin: "10px",
                             }}
                             key={index}
-                            value={moment(obj).format("YYYY-MM-DD")}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
                           >
                             {dateType === "Months (MM YYYY)"
                               ? obj
@@ -389,9 +423,13 @@ function EditSubList({
                   <select
                     required
                     style={{ marginLeft: "0px" }}
-                    defaultValue={moment(subList[0].monthOfInterest).format(
-                      "YYYY-MM" + "-01"
-                    )}
+                    defaultValue={
+                      isNumeric(subList[0].monthOfInterest)
+                        ? subList[0].monthOfInterest
+                        : moment(subList[0].monthOfInterest).format(
+                            "YYYY-MM" + "-01"
+                          )
+                    }
                     onChange={(e) => setSelectedMonth(e.target.value)}
                   >
                     <option>Select month</option>
@@ -406,7 +444,14 @@ function EditSubList({
                               margin: "10px",
                             }}
                             key={index}
-                            value={moment(obj).format("YYYY-MM-DD")}
+                            // value={moment(obj).format("YYYY-MM-DD")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY-MM-DD")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "months", true)
+                                  )
+                            }
                           >
                             {dateType === "Months (MM YYYY)"
                               ? obj
@@ -438,7 +483,14 @@ function EditSubList({
                               margin: "10px",
                             }}
                             key={index}
-                            value={moment(obj).format("YYYY")}
+                            // value={moment(obj).format("YYYY")}
+                            value={
+                              dateType === "Months (MM YYYY)"
+                                ? moment(obj).format("YYYY")
+                                : parseInt(
+                                    moment(obj).diff(moment(), "year", true)
+                                  )
+                            }
                           >
                             {dateType === "Months (MM YYYY)"
                               ? moment(obj).format("YYYY")
@@ -615,7 +667,7 @@ function EditSubList({
                 document.getElementById("settings-form").reset();
                 setSubscriber({});
                 setEditOpen(false);
-                location.reload();
+                // location.reload();
               }}
               style={{ fontSize: "12px", marginRight: "5%" }}
             >
@@ -635,5 +687,9 @@ const getMonths = (start, end) =>
   );
 
 const isEmpty = (object) => Object.values(object).every((value) => !!value);
+
+const isNumeric = (value) => {
+  return /^-?\d+$/.test(value);
+}
 
 export default EditSubList;
