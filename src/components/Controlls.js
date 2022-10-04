@@ -40,7 +40,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={variableGroup}
-                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
+                      style={{ width: "100%"}}
                       onChange={(val) => setVariableGroup(val)}
                       className="dropdown-text"
                     >
@@ -67,7 +67,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedVariable}
-                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
+                      style={{ width: "100%" }}
                       onChange={(val) => setSelectedVariable(val)}
                       className="dropdown-text"
                     >
@@ -115,7 +115,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={store.selectedDistrict}
-                      style={{ width: "100%", fontSize:"calc(0.4vw + 0.4vh + 0.7vmin)" }}
+                      style={{ width: "100%" }}
                       onChange={(val) => setSelectedDistrict(val)}
                       className="dropdown-text"
                     >

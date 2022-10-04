@@ -315,7 +315,7 @@ function EditSubList({
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
-              <div style={{ fontSize: "12px" }}>
+              <div>
               <h5 style={{ textAlign: "left", marginLeft: "10px" }}>
                   Specify subscriber list name:{" "}
                   <i style={{ color: "black", fontWeight: "300" }}>
@@ -695,7 +695,7 @@ function EditSubList({
                   listRefetch();
                 }, 2000);
               }}
-              style={{ fontSize: "12px" }}
+              style={{ fontSize: ""}}
             >
               Save
             </button>
@@ -708,7 +708,8 @@ function EditSubList({
                 setEditOpen(false);
                 // location.reload();
               }}
-              style={{ fontSize: "12px", marginRight: "5%" }}
+              style={{ fontSize: "", marginRight: "5%" 
+            }}
             >
               Cancel
             </button>

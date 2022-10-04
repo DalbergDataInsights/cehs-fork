@@ -234,7 +234,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
-              <div style={{ fontSize: "12px" }}>
+              <div>
                 <h5 style={{ textAlign: "left", marginLeft: "10px" }}>
                   Specify subscriber list name:{" "}
                   <i style={{ color: "black", fontWeight: "300" }}>
@@ -589,7 +589,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                   listRefetch();
                 }, 2000);
               }}
-              style={{ fontSize: "12px" }}
+              style={{ fontSize: ""}}
             >
               Save
             </button>
@@ -601,7 +601,7 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
                 setSubscriberList([]);
                 setSubscriber({});
               }}
-              style={{ fontSize: "12px", marginRight: "35px" }}
+              style={{ fontSize: "", marginRight:"35px"}}
             >
               Cancel
             </button>
