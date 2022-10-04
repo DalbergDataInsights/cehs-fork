@@ -17,11 +17,12 @@ const TableHead = () => {
       <tr
         style={{
           display: "grid",
-          gridTemplateColumns: "10% 30% 30% 30%",
+          gridTemplateColumns: "6% 30% 30% 17% 17%",
         }}
       >
         <th></th>
-        <th>ID</th>
+        <th>JOB NAME</th>
+        <th>SUBSCRIBER LIST NAME</th>
         <th>ON</th>
         <th>TIMEOUT</th>
       </tr>
@@ -76,6 +77,8 @@ const ScheduleView = () => {
     jobRefetch();
   };
 
+  if (jobs) {console.log(jobs)}
+
   return (
     <>
       <div
@@ -89,21 +92,22 @@ const ScheduleView = () => {
               {jobs &&
                 jobs.map((job) => (
                   <tr
-                    key={job.id}
+                    key={job.name}
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "10% 30% 30% 30%",
+                      gridTemplateColumns: "6% 30% 30% 17% 17%",
                     }}
                   >
                     <td>
                       <input
-                        key={job.id}
+                        key={job.name}
                         type="radio"
-                        id={job.id}
+                        id={job.name}
                         onChange={handleOnChange}
-                        checked={subListId === job.id}
+                        checked={subListId === job.name}
                       ></input>
                     </td>
+                    <td>{job.name}</td>
                     <td>{job.id.replaceAll("_", " ")}</td>
                     <td>{job.on}</td>
                     <td>{job.timeout}</td>
@@ -147,6 +151,7 @@ const ScheduleView = () => {
             setJobs={setJobs}
             refetch={jobRefetch}
             subList={data.results}
+            jobs={jobs}
           />
         }
       </div>

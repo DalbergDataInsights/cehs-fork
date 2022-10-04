@@ -4,14 +4,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
-  const publishJob = async (id, on, timeout) => {
+function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
+  const publishJob = async (name, id, on, timeout) => {
     await fetch(`https://selenium-scheduler.herokuapp.com/schedule/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        name: String(name),
         id: String(id),
         timeout: Number(timeout),
         on: Number(on),
@@ -22,13 +23,37 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
     setOpen(false);
   };
 
-  const [tempalteId, setTemplateId] = useState("");
+  const [templateId, setTemplateId] = useState("");
   const [onTime, setOnTime] = useState("28");
   const [timeOut, setTimeOut] = useState("300");
+  const [jobName, setJobName] = useState("");
 
   const handleChange = (e, setter) => {
     setter(e.target.value);
   };
+
+  // validate job name, if exists then invalid
+  const validateName = (e) => {
+    e.preventDefault();
+
+    const subListNameField = document.getElementById("sublistname");
+    const nameError = document.getElementById("nameError");
+    let valid = true;
+
+    for (let i = 0; i < jobs.length; i++) {
+      if (jobs[i].name === subListNameField.value) {
+        nameError.classList.add("visible");
+        subListNameField.classList.add("invalid");
+        nameError.setAttribute("aria-hidden", false);
+        nameError.setAttribute("aria-invalid", true);
+      } else {
+        nameError.classList.remove("visible");
+        subListNameField.classList.remove("invalid");
+      }
+    }
+    return valid;
+  };
+
 
   return (
     <>
@@ -53,12 +78,29 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
           </DialogTitle>
           <DialogContent>
             <form onSubmit={() => {}} id="settings-form">
-              <div style={{ fontSize: "12px" }}>
-                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
-                  Specify subscriber list ID
+              <div>
+              <h5 style={{ textAlign: "left" }}>
+                  Specify scheduled job name
+                </h5>
+                <input
+                  type="text"
+                  id="sublistname"
+                  placeholder="Scheduled job name"
+                  style={{ height: "30px", marginLeft:"0px" }}
+                  pattern="[A-Za-z0-9 ]+"
+                  title="Subscriber list name cannot contain special characters"
+                  required
+                  onChange={(e) => handleChange(e, setJobName)}
+                  onBlur={validateName}
+                ></input>
+                <span role="alert" id="nameError" aria-hidden="true">
+                  This name already exists
+                </span>
+                <h5 style={{ textAlign: "left" }}>
+                  Specify subscriber list name
                 </h5>
                 <select style={{ textAlign: "left", marginLeft:"0px"}} onChange={(e) => handleChange(e, setTemplateId)}required>
-                  <option>Select ID</option>
+                  <option>Select list</option>
                   {subList &&
                     Object.keys(subList).map((obj, index) => {
                       return (
@@ -77,7 +119,7 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
                       );
                     })}
                 </select>
-                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
+                <h5 style={{ textAlign: "left" }}>
                   Specify send date
                 </h5>
                 <label>
@@ -91,7 +133,7 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
                     required
                   ></input>
                 </label>
-                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
+                <h5 style={{ textAlign: "left" }}>
                   Specify timeout (in seconds)
                 </h5>
                 <label>
@@ -112,7 +154,7 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
             <button
               className="button"
               onClick={() => {
-                publishJob(tempalteId, onTime, timeOut);
+                publishJob(jobName,templateId, onTime, timeOut);
               }}
               style={{ fontSize: "12px" }}
             >
