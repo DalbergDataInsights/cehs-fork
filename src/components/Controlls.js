@@ -26,7 +26,7 @@ const Controlls = () => {
   return (
     <Row className="p-3">
       <Col>
-        <Row style={{ marginBottom: 20 }}>
+        <Row style={{ marginBottom: 0 }}>
           <Col>
             {store.page != "overview" && (
               <>
@@ -40,7 +40,7 @@ const Controlls = () => {
                     <Select
                       size="large"
                       value={variableGroup}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%"}}
                       onChange={(val) => setVariableGroup(val)}
                       className="dropdown-text"
                     >
@@ -102,7 +102,7 @@ const Controlls = () => {
 
         {store.page != "overview" && (
           <>
-            <Row style={{ marginBottom: 20 }}>
+            <Row style={{ marginBottom: 0 }}>
               <Col>
                 <Row>
                   <Col style={{ width: "100%" }}>

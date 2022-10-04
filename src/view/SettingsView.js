@@ -114,7 +114,7 @@ const SettingsView = ({ onUpdate }) => {
                   <td>{key.replaceAll("_", " ")}</td>
                   <td>
                     {settingsData[key].map((i) => i.recipientEmail).join(", ").length >  100 
-                    ? settingsData[key].map((i) => i.recipientEmail).join(", ").slice(0, 100).concat('...'):
+                    ? settingsData[key].map((i) => i.recipientEmail).join(", ").slice(0, 50).concat('...'):
                     settingsData[key].map((i) => i.recipientEmail).join(", ")}
                   </td>
                   <td>{settingsData[key][0].templateName}</td>

@@ -224,7 +224,7 @@ body {
   overflow: hidden; /* remove scroll bars */
   height: 100vh;
   width: 100vw;
-  /* font-size: 12px; */
+  font-size: calc(0.4vw + 0.4vh + 0.4vmin);
 }
 
 input, textarea, select {

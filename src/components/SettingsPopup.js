@@ -201,7 +201,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
-              <div style={{ fontSize: "12px" }}>
+              <div style={{ fontSize: "" }}>
                 <select style={{ textAlign: "center" }} required>
                   <option>Select template</option>
                   {templateIds &&
@@ -471,7 +471,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                   refetch();
                 }, 2000);
               }}
-              style={{ fontSize: "12px"}}
+              style={{ fontSize: ""}}
             >
               Save
             </button>
@@ -482,7 +482,7 @@ function SettingsPopup({ open, setOpen, onCreate }) {
                 setSubscriberList([]);
                 setSubscriber({});
               }}
-              style={{ fontSize: "12px", marginRight:"35px"}}
+              style={{ fontSize: "", marginRight:"35px"}}
             >
               Cancel
             </button>
