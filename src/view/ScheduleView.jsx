@@ -132,7 +132,7 @@ const ScheduleView = () => {
             // deleteJob(subListId);
             setDeleteOpen(true);
           }}
-          style={{ float: "right" }}
+          style={{ float: "right", marginRight:"0px" }}
         >
           Delete
         </button>
