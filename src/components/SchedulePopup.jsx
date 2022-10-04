@@ -49,14 +49,14 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
           }}
         >
           <DialogTitle id="alert-dialog-title">
-            {"Create a subscriber list"}
+            {"Schedule an email"}
           </DialogTitle>
           <DialogContent>
             <form onSubmit={() => {}} id="settings-form">
               <div style={{ fontSize: "12px" }}>
-                <p style={{ textAlign: "left", fontWeight: "bold" }}>
+                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
                   Specify subscriber list ID
-                </p>
+                </h5>
                 <select style={{ textAlign: "left", marginLeft:"0px"}} onChange={(e) => handleChange(e, setTemplateId)}required>
                   <option>Select ID</option>
                   {subList &&
@@ -77,9 +77,9 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
                       );
                     })}
                 </select>
-                <p style={{ textAlign: "left", fontWeight: "bold" }}>
+                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
                   Specify send date
-                </p>
+                </h5>
                 <label>
                   <input
                     type="text"
@@ -91,9 +91,9 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList }) {
                     required
                   ></input>
                 </label>
-                <p style={{ textAlign: "left", fontWeight: "bold" }}>
+                <h5 style={{ textAlign: "left", fontWeight: "bold" }}>
                   Specify timeout (in seconds)
-                </p>
+                </h5>
                 <label>
                   <input
                     type="text"
