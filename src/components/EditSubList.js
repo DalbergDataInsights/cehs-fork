@@ -41,6 +41,7 @@ function EditSubList({
   editOpen,
   setEditOpen,
   onUpdate,
+  subListId,
   subList,
   setSubList,
   listRefetch,
@@ -58,6 +59,8 @@ function EditSubList({
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [count, setCount] = useState(Math.max(...subList.map((i) => i.id)) + 1);
+  const [subListName, setSubListName] = useState(subListId);
+
 
   useEffect(() => {
     setSelectedStartDate(subList[0].trendDateStart);
@@ -183,7 +186,8 @@ function EditSubList({
     }
     setSubList(filteredArr);
 
-    const listName = `${filteredArr[0].templateName}_${filteredArr[0].trendDateStart}_${filteredArr[0].trendDateEnd}`;
+    // const listName = `${filteredArr[0].templateName}_${filteredArr[0].trendDateStart}_${filteredArr[0].trendDateEnd}`;
+    const listName = subListName;
     var subDetails = {};
     subDetails[`${listName.replaceAll(" ", "_")}`] = filteredArr;
 
@@ -209,7 +213,8 @@ function EditSubList({
     newSubList.splice(indexOfObject, 1);
     setSubList([...newSubList]);
 
-    const listName = `${newSubList[0].templateName}_${newSubList[0].trendDStart}_${newSubList[0].trendDateEnd}`;
+    // const listName = `${newSubList[0].templateName}_${newSubList[0].trendDStart}_${newSubList[0].trendDateEnd}`;
+    const listName = subListName;
     var subDetails = {};
     subDetails[`${listName.replaceAll(" ", "_")}`] = newSubList;
 
@@ -241,7 +246,8 @@ function EditSubList({
 
     console.log(subList[0].templateName);
 
-    const listName = `${subList[0].templateName}_${subList[0].trendDateStart}_${subList[0].trendDateEnd}`;
+    // const listName = `${subList[0].templateName}_${subList[0].trendDateStart}_${subList[0].trendDateEnd}`;
+    const listName = subListName;
     var subDetails = {};
     subDetails[`${listName.replaceAll(" ", "_")}`] = subList;
 
@@ -262,6 +268,28 @@ function EditSubList({
     selectedMonth,
     selectedYear,
   ]);
+
+  // validate subscriber list name, if exists then invalid
+  const validateName = (e) => {
+    e.preventDefault();
+
+    const subListNameField = document.getElementById("sublistname");
+    const nameError = document.getElementById("nameError");
+    let valid = true;
+
+    if (data) {
+      if (Object.keys(data.results).includes(subListNameField.value)) {
+        nameError.classList.add("visible");
+        subListNameField.classList.add("invalid");
+        nameError.setAttribute("aria-hidden", false);
+        nameError.setAttribute("aria-invalid", true);
+      } else {
+        nameError.classList.remove("visible");
+        subListNameField.classList.remove("invalid");
+      }
+    }
+    return valid;
+  };
 
   return (
     <>
@@ -288,8 +316,30 @@ function EditSubList({
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
               <div style={{ fontSize: "12px" }}>
+              <h5 style={{ textAlign: "left", marginLeft: "10px" }}>
+                  Specify subscriber list name:{" "}
+                  <i style={{ color: "black", fontWeight: "300" }}>
+                    {"(Cannot contain special characters)"}
+                  </i>
+                </h5>
+                <input
+                  type="text"
+                  id="sublistname"
+                  placeholder="Write name here..."
+                  style={{ height: "30px" }}
+                  pattern="[A-Za-z0-9 ]+"
+                  title="Subscriber list name cannot contain special characters"
+                  required
+                  onChange={(e) => setSubListName(e.target.value)}
+                  defaultValue={subListId}
+                  onBlur={validateName}
+                ></input>
+                <span role="alert" id="nameError" aria-hidden="true">
+                  This name already exists
+                </span>
+                <br></br>
                 <select
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: "left" }}
                   defaultValue={JSON.stringify(initialTemplate)}
                   onChange={(e) => setTemplate(JSON.parse(e.target.value))}
                 >
