@@ -215,7 +215,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
           </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit} id="settings-form">
-              <div style={{ fontSize: "12px"}}>
+              <div style={{ fontSize: ""}}>
                 <select
                   style={{ textAlign: "center" }}
                   defaultValue={JSON.stringify(initialTemplate)}
@@ -508,7 +508,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                   listRefetch()
                 }, 2000);
               }}
-              style={{ fontSize: "12px"}}
+              style={{ fontSize: ""}}
             >
               Save
             </button>
@@ -520,7 +520,7 @@ function EditSubList({ editOpen, setEditOpen, onUpdate, subList, setSubList, lis
                 setEditOpen(false);
                 location.reload();
               }}
-              style={{ fontSize: "12px", marginRight: "5%" 
+              style={{ fontSize: "", marginRight: "5%" 
             }}
             >
               Cancel
