@@ -103,7 +103,7 @@ const LineVisualizationReports = ({
                       x: 1,
                     },
                     coloraxis: { colorbar_len: 1 },
-                    margin: { r: 0, t: 0, b: 25, l: 50 },
+                    margin: { r: 0, t: 0, b: 25, l: 0 },
                     plot_bgcolor: "rgba(255, 255, 255, 1)",
                     paper_bgcolor: "rgba(255, 255, 255, 1)",
                     xaxis: {
@@ -112,6 +112,7 @@ const LineVisualizationReports = ({
                     },
                     yaxis: {
                       autorange: true,
+                      automargin: true,
                       showgrid: true,
                       zeroline: true,
                       zerolinecolor: "lightgray",
