@@ -92,17 +92,17 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
     event.preventDefault();
     const formData = {};
     formData["id"] = count;
-    formData["templateId"] = JSON.parse(event.target[0].value).id;
-    formData["templateName"] = JSON.parse(event.target[0].value).name;
-    formData["trendDateStart"] = event.target[2].value;
-    formData["trendDateEnd"] = isNumeric(event.target[3].value)
-      ? event.target[3].value
-      : moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
-    formData["monthOfInterest"] = event.target[4].value;
-    formData["reportingYear"] = event.target[5].value;
-    formData["recipientName"] = event.target[6].value;
-    formData["recipientEmail"] = event.target[7].value;
-    formData["orgUnit"] = JSON.parse(event.target[8].value).id;
+    formData["templateId"] = JSON.parse(event.target[1].value).id;
+    formData["templateName"] = JSON.parse(event.target[1].value).name;
+    formData["trendDateStart"] = event.target[3].value;
+    formData["trendDateEnd"] = isNumeric(event.target[4].value)
+      ? event.target[4].value
+      : moment(event.target[4].value).endOf("month").format("YYYY-MM-DD");
+    formData["monthOfInterest"] = event.target[5].value;
+    formData["reportingYear"] = event.target[6].value;
+    formData["recipientName"] = event.target[7].value;
+    formData["recipientEmail"] = event.target[8].value;
+    formData["orgUnit"] = JSON.parse(event.target[9].value).id;
     console.log(formData);
 
 
@@ -121,7 +121,8 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
       }
     }
     setSubscriberList(filteredArr);
-    const listName = `${formData.templateName}_${formData.trendDateStart}_${formData.trendDateEnd}`;
+    // const listName = `${formData.templateName}_${formData.trendDateStart}_${formData.trendDateEnd}`;
+    const listName = subListName;
     var subDetails = {};
     subDetails[`${listName.replaceAll(" ", "_")}`] = filteredArr;
 
@@ -188,6 +189,28 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
     document.getElementById("emailtextfield").value = "";
   }
 
+  // validate subscriber list name, if exists then invalid
+  const validateName = (e) => {
+    e.preventDefault();
+
+    const subListNameField = document.getElementById("sublistname");
+    const nameError = document.getElementById("nameError");
+    let valid = true;
+
+    if (data) {
+      if (Object.keys(data.results).includes(subListNameField.value)) {
+        nameError.classList.add("visible");
+        subListNameField.classList.add("invalid");
+        nameError.setAttribute("aria-hidden", false);
+        nameError.setAttribute("aria-invalid", true);
+      } else {
+        nameError.classList.remove("visible");
+        subListNameField.classList.remove("invalid");
+      }
+    }
+    return valid;
+  };
+
   return (
     <>
       <div>
@@ -210,16 +233,29 @@ function SettingsPopup({ open, setOpen, onCreate, listRefetch }) {
             <p className="grap-header">Create a subscriber list</p>
           </DialogTitle>
           <DialogContent>
-            <h5 style={{ textAlign: "left" }}>New subscriber list name:</h5>
-            <input
-              type="text"
-              id="namefield"
-              placeholder="Write name here..."
-              style={{ height: "30px" }}
-              onChange={(e) => setSubListName(e.target.value)}
-            ></input>
             <form onSubmit={handleSubmit} id="settings-form">
               <div style={{ fontSize: "12px" }}>
+                <h5 style={{ textAlign: "left", marginLeft: "10px" }}>
+                  Specify subscriber list name:{" "}
+                  <i style={{ color: "black", fontWeight: "300" }}>
+                    {"(Should not contain special characters)"}
+                  </i>
+                </h5>
+                <input
+                  type="text"
+                  id="sublistname"
+                  placeholder="Write name here..."
+                  style={{ height: "30px" }}
+                  pattern="[A-Za-z0-9 ]+"
+                  title="Subscriber list name cannot contain special characters"
+                  required
+                  onChange={(e) => setSubListName(e.target.value)}
+                  onBlur={validateName}
+                ></input>
+                <span role="alert" id="nameError" aria-hidden="true">
+                  This name already exists
+                </span>
+                <br></br>
                 <select style={{ textAlign: "left" }} required>
                   <option>Select template</option>
                   {templateIds &&
