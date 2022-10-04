@@ -523,7 +523,7 @@ function getImagePayload({
         barData,
         districtFacilities,
         v,
-        isNumeric(mi.monthOfInterest) ? moment().add(mi.monthOfInterest): moment(mi.monthOfInterest),
+        isNumeric(mi.monthOfInterest) ? moment().add(mi.monthOfInterest, "months"): moment(mi.monthOfInterest),
         variableName
       );
       const horizontalBarData = barVizData.plottingData;
