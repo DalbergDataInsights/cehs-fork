@@ -6,15 +6,15 @@
     color: white;
     text-align: left;
   }
-  
+
 .area {
     background-color: rgb(34, 94, 140);
     padding: 5px;
     display: grid;
-    grid-template-columns: 5% 20% 25% 20% 15% 15%;
+    grid-template-columns: 5% 25% 35% 15% 10% 10%;
     /* text-align: center; */
-    width: 100%;  
-    align-items: center; 
+    width: 100%;
+    align-items: center;
     color: white;
 }
 
@@ -25,7 +25,7 @@
 
     .area {
         display: grid;
-        grid-template-columns: 5% 20% 25% 20% 15% 15%;
+        grid-template-columns: 5% 25% 35% 15% 10% 10%;
         text-align: left;
     }
 }

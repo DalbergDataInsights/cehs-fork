@@ -8,8 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-
+import ScheduleGuidelines from "../components/ScheduleGuidelines";
 
 const TableHead = () => {
   return (
@@ -17,13 +16,12 @@ const TableHead = () => {
       <tr
         style={{
           display: "grid",
-          gridTemplateColumns: "6% 30% 30% 17% 17%",
+          gridTemplateColumns: "10% 60% 15% 15%",
         }}
       >
         <th></th>
-        <th>JOB NAME</th>
         <th>SUBSCRIBER LIST NAME</th>
-        <th>ON</th>
+        <th>ON DAY</th>
         <th>TIMEOUT</th>
       </tr>
     </thead>
@@ -41,7 +39,13 @@ const settingsQuery = {
 };
 
 const fetchJobs = async () => {
-  const res = await fetch("https://selenium-scheduler.herokuapp.com/schedule");
+  const res = await fetch("https://selenium-scheduler.herokuapp.com/schedule", {
+    // const res = await fetch(`http://localhost:8080/schedule`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.REACT_APP_SCHEDULER_API_KEY}`,
+    },
+  });
   return res.json();
 };
 
@@ -71,18 +75,26 @@ const ScheduleView = () => {
 
   const deleteJob = async (id) => {
     await fetch(`https://selenium-scheduler.herokuapp.com/schedule/${id}`, {
+      // await fetch(`http://localhost:8080/schedule/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_SCHEDULER_API_KEY}`,
+      },
     });
     setJobs([]);
     jobRefetch();
   };
 
-  if (jobs) {console.log(jobs)}
-
   return (
     <>
       <div
-        style={{ alignItems: "center", verticalAlign: "right", width: "70%" }}
+        style={{
+          alignItems: "center",
+          verticalAlign: "right",
+          width: "70%",
+          marginTop: "40px",
+        }}
       >
         <div className="table-wrapper">
           {!jobs && <div>Loading...</div>}
@@ -95,20 +107,19 @@ const ScheduleView = () => {
                     key={job.name}
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "6% 30% 30% 17% 17%",
+                      gridTemplateColumns: "10% 60% 15% 15%",
                     }}
                   >
                     <td>
                       <input
-                        key={job.name}
+                        key={job.list_id}
                         type="radio"
-                        id={job.name}
+                        id={job.list_id}
                         onChange={handleOnChange}
-                        checked={subListId === job.name}
+                        checked={subListId === job.list_id}
                       ></input>
                     </td>
-                    <td>{job.name}</td>
-                    <td>{job.id.replaceAll("_", " ")}</td>
+                    <td>{job.list_id.replaceAll("_", " ")}</td>
                     <td>{job.on}</td>
                     <td>{job.timeout}</td>
                   </tr>
@@ -129,22 +140,24 @@ const ScheduleView = () => {
         <button
           className="button"
           onClick={() => {
-            // deleteJob(subListId);
-            setDeleteOpen(true);
+            if (subListId != "") {
+              setDeleteOpen(true);
+            }
           }}
-          style={{ float: "right", marginRight:"0px" }}
+          style={{ float: "right", marginRight: "0px" }}
         >
           Delete
         </button>
 
-        <DeleteScheduledJob 
+        <DeleteScheduledJob
           deleteOpen={deleteOpen}
           setDeleteOpen={setDeleteOpen}
           deleteJob={deleteJob}
           subListId={subListId}
+          setSubListId={setSubListId}
         />
 
-        {data && 
+        {data && (
           <SchedulePopup
             open={open}
             setOpen={setOpen}
@@ -153,13 +166,20 @@ const ScheduleView = () => {
             subList={data.results}
             jobs={jobs}
           />
-        }
+        )}
       </div>
+      <ScheduleGuidelines />
     </>
   );
 };
 
-const DeleteScheduledJob = ({deleteOpen, setDeleteOpen, deleteJob, subListId}) => {
+const DeleteScheduledJob = ({
+  deleteOpen,
+  setDeleteOpen,
+  deleteJob,
+  subListId,
+  setSubListId,
+}) => {
   return (
     <Dialog
       open={deleteOpen}
@@ -167,9 +187,7 @@ const DeleteScheduledJob = ({deleteOpen, setDeleteOpen, deleteJob, subListId}) =
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {"Delete Confirmation"}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{"Delete Confirmation"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           Do you really want to delete this job:{" "}
@@ -180,9 +198,18 @@ const DeleteScheduledJob = ({deleteOpen, setDeleteOpen, deleteJob, subListId}) =
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <button className="button"
+        <button
+          className="button"
+          autoFocus
+          onClick={() => setDeleteOpen(false)}
+        >
+          Cancel
+        </button>
+        <button
+          className="button"
           onClick={() => {
             deleteJob(subListId);
+            setSubListId("");
             setTimeout(() => {
               setDeleteOpen(false);
             }, 0);
@@ -190,12 +217,9 @@ const DeleteScheduledJob = ({deleteOpen, setDeleteOpen, deleteJob, subListId}) =
         >
           Delete
         </button>
-        <button className="button" autoFocus onClick={() => setDeleteOpen(false)}>
-          Cancel
-        </button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
 export default ScheduleView;

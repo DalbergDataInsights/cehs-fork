@@ -6,14 +6,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
   const publishJob = async (name, id, on, timeout) => {
-    await fetch(`https://selenium-scheduler.herokuapp.com/schedule/`, {
+    // await fetch(`https://selenium-scheduler.herokuapp.com/schedule/`, {
+    await fetch(`http://localhost:8080/schedule`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_SCHEDULER_API_KEY}`,
       },
       body: JSON.stringify({
-        name: String(name),
-        id: String(id),
+        list_id: String(id),
         timeout: Number(timeout),
         on: Number(on),
       }),
@@ -54,7 +55,6 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
     return valid;
   };
 
-
   return (
     <>
       <div>
@@ -79,27 +79,14 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
           <DialogContent>
             <form onSubmit={() => {}} id="settings-form">
               <div>
-              <h5 style={{ textAlign: "left" }}>
-                  Specify scheduled job name
-                </h5>
-                <input
-                  type="text"
-                  id="sublistname"
-                  placeholder="Scheduled job name"
-                  style={{ height: "30px", marginLeft:"0px" }}
-                  pattern="[A-Za-z0-9 ]+"
-                  title="Subscriber list name cannot contain special characters"
-                  required
-                  onChange={(e) => handleChange(e, setJobName)}
-                  onBlur={validateName}
-                ></input>
-                <span role="alert" id="nameError" aria-hidden="true">
-                  This name already exists
-                </span>
                 <h5 style={{ textAlign: "left" }}>
                   Specify subscriber list name
                 </h5>
-                <select style={{ textAlign: "left", marginLeft:"0px"}} onChange={(e) => handleChange(e, setTemplateId)}required>
+                <select
+                  style={{ textAlign: "left", marginLeft: "0px" }}
+                  onChange={(e) => handleChange(e, setTemplateId)}
+                  required
+                >
                   <option>Select list</option>
                   {subList &&
                     Object.keys(subList).map((obj, index) => {
@@ -119,9 +106,7 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
                       );
                     })}
                 </select>
-                <h5 style={{ textAlign: "left" }}>
-                  Specify send date
-                </h5>
+                <h5 style={{ textAlign: "left" }}>Specify send date</h5>
                 <label>
                   <input
                     type="text"
@@ -154,7 +139,7 @@ function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
             <button
               className="button"
               onClick={() => {
-                publishJob(jobName,templateId, onTime, timeOut);
+                publishJob(jobName, templateId, onTime, timeOut);
               }}
               style={{ fontSize: "12px" }}
             >

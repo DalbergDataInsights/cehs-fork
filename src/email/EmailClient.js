@@ -198,7 +198,4 @@ class Email {
 
 const EmailClient = new Email(process.env.REACT_APP_SENDGRID_API_KEY);
 
-console.log(process.env.REACT_APP_SENDGRID_API_KEY);
-console.log(EmailClient);
-
 export default EmailClient;
