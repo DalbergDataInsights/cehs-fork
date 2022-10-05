@@ -9,6 +9,8 @@ import Loading from "./Loading";
 import districtFacilitiesMeta from "../config/DistrictFacilities";
 import TreeMapTwo from "./TreeMap";
 
+// TODO: If selectedContribution != 1 even if the value are zero it should show.
+
 const TreeMapVisualization = ({
   data,
   loading,
@@ -74,7 +76,9 @@ const TreeMapVisualization = ({
     return facilitiesDataTotals;
   }, [data, store.selectedDistrict, selectedContribution]);
 
-  const isAllZero = Object.values(dataViz).every((item) => item === 0);
+  const isAllZero =
+    Object.values(dataViz).every((item) => item === 0) &&
+    selectedContribution == "1";
 
   return (
     <>
