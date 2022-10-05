@@ -6,8 +6,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 function SchedulePopup({ open, setOpen, setJobs, refetch, subList, jobs }) {
   const publishJob = async (name, id, on, timeout) => {
-    // await fetch(`https://selenium-scheduler.herokuapp.com/schedule/`, {
-    await fetch(`http://localhost:8080/schedule`, {
+    await fetch(`https://selenium-scheduler.herokuapp.com/schedule`, {
+      // await fetch(`http://localhost:8080/schedule`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
