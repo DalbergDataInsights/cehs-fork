@@ -50,6 +50,7 @@ const HorizontalBar = ({ data, type }) => {
         },
       }}
       style={{ width: "100%", height: "100%" }}
+      useResizeHandler={true}
       config={{
         displayModeBar: "hover",
         displaylogo: false,
