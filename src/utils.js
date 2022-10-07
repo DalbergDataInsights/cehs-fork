@@ -19,6 +19,12 @@ export function processMapData(data, districts, startMonth, endMonth) {
   });
 }
 
+/**
+ * Function that returns a react plotly time series plot for country data.
+ * @param {*} data - data dictionary of values over time
+ * @param {*} periodType - time period type either monthly or quarterly
+ * @returns
+ */
 export function processCountryData(data, periodType = "monthly") {
   const yearList = Object.keys(data).map((val) => val.substr(0, 4));
   const yearSet = new Set(yearList);
@@ -234,6 +240,11 @@ export function monthsBetween(...args) {
   );
 }
 
+/**
+ *  This function tranposes a 2d array of data values
+ * @param {*} data - 2d data array of fetched raw data values
+ * @returns - Array
+ */
 export function transpose(data) {
   if (data !== undefined && data.length > 0) {
     return data[0].map((x, i) => data.map((x) => x[i]));
@@ -314,6 +325,12 @@ export function processOrgRawDataToTimeSeries(data, periodType = "monthly") {
   return time_dict;
 }
 
+/**
+ * The function computes indicator totals for a single organization unit
+ * @param {*} data - data from a single organization unit
+ * @param {*} type - variable denoting whether dealing with monthly or quarterly data
+ * @returns - Number
+ */
 export function processOrgDataTotal(data, type = "monthly") {
   if (data.length == 0) {
     return 0;
@@ -346,6 +363,13 @@ export function processOrgDataTotal(data, type = "monthly") {
   }
 }
 
+/**
+ * The function filters out data per organization unit
+ * @param {*} orgUnits - array of objects of organization units
+ * @param {*} data - 2d array
+ * @returns - dictionary containing organization unit id as key and the associated raw data
+ *            fetched as the value
+ */
 export function getDataPerOrgUnits(orgUnits, data) {
   const orgUnitIds = orgUnits.map((val) => val.id);
   const orgUnitData = {};
@@ -362,14 +386,13 @@ export function getDataPerOrgUnits(orgUnits, data) {
   return orgUnitData;
 }
 
-export function getOrgUnitDataTotalsNoRenaming(orgUnits, data) {
-  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
-  const orgUnitDataTotals = {};
-  Object.entries(orgUnitData).forEach(([key, value]) => {
-    orgUnitDataTotals[key] = processOrgDataTotal(value);
-  });
-}
-
+/**
+ * Function to compute aggregated values (e.g totals) for all the organization units
+ * @param {*} orgUnits - Array of objects of organization units
+ * @param {*} data
+ * @param {*} periodType - variable denoting whether a period is quarterly or monthly
+ * @returns - dictionary of key value pairs of organization unit and associated totals
+ */
 export function getOrgUnitDataTotals(orgUnits, data, periodType = "monthly") {
   const orgUnitData = getDataPerOrgUnits(orgUnits, data);
   const orgUnitDataTotals = {};
@@ -389,27 +412,12 @@ export function getOrgUnitDataTotals(orgUnits, data, periodType = "monthly") {
   return orgUnitDataTotalsRenamed;
 }
 
-export function getOrgUnitDataAverages(orgUnits, data) {
-  const orgUnitData = getDataPerOrgUnits(orgUnits, data);
-  const orgUnitDataTotals = {};
-  Object.entries(orgUnitData).forEach(([key, value]) => {
-    orgUnitDataTotals[key] = parseFloat(
-      (processOrgDataTotal(value) / value.length).toFixed(2)
-    );
-  });
-
-  const orgUnitDataTotalsRenamed = {};
-  Object.entries(orgUnitDataTotals).forEach(([key, value]) => {
-    const orgUnitName = orgUnits
-      .filter((i) => i.id == key)
-      .map((ou) => ou.name)[0];
-
-    orgUnitDataTotalsRenamed[orgUnitName] = value;
-  });
-
-  return orgUnitDataTotalsRenamed;
-}
-
+/**
+ * Function to sort the values in a 2d array by a particular column
+ * @param {*} a  - 2d array to be sorted
+ * @param {*} colIndex - index of the column whose values are used to sort the 2d array
+ * @returns - sorted 2d array
+ */
 function sortByColumn(a, colIndex) {
   a.sort(sortFunction);
 
@@ -631,6 +639,13 @@ export function objectToArray(obj) {
   return res;
 }
 
+/**
+ * Function to get the data
+ * @param {*} orgUnitIds
+ * @param {*} data
+ * @returns
+ */
+
 export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
   const orgUnitData = {};
 
@@ -646,6 +661,12 @@ export function getDataPerOrgUnitsTwo(orgUnitIds, data) {
   return orgUnitData;
 }
 
+/**
+ * Function to compute organization data totals - without renaming the organization units
+ * @param {*} orgUnitIds
+ * @param {*} data
+ * @returns
+ */
 export function getOrgUnitDataTotalsTwo(orgUnitIds, data) {
   const orgUnitData = getDataPerOrgUnitsTwo(orgUnitIds, data);
   const orgUnitDataTotals = {};
@@ -656,6 +677,13 @@ export function getOrgUnitDataTotalsTwo(orgUnitIds, data) {
   return orgUnitDataTotals;
 }
 
+/**
+ * Function to compute the reporting totals for all districts
+ * @param {*} facilitiesIdsList
+ * @param {*} data
+ * @param {*} districtFacilitiesMeta
+ * @returns
+ */
 export function computeReportingTotals(
   facilitiesIdsList,
   data,
@@ -675,6 +703,14 @@ export function computeReportingTotals(
   return districtFacilitiesReportingTotals;
 }
 
+/**
+ *
+ * @param {*} data
+ * @param {*} maptype
+ * @param {*} districtFacilitiesMeta
+ * @param {*} districts
+ * @returns
+ */
 export function computeReportingProportions(
   data,
   maptype,
@@ -725,6 +761,12 @@ export function computeReportingProportions(
   }
 }
 
+/**
+ * Function to extract data from the start and end of a specified period
+ * @param {*} data
+ * @param {*} periods
+ * @returns
+ */
 export function filterStartPeriodEndPeriodData(data, periods) {
   if (data && data["results"]["rows"]) {
     const startPeriodData = data["results"]["rows"].filter(
@@ -743,6 +785,14 @@ export function filterStartPeriodEndPeriodData(data, periods) {
   }
 }
 
+/**
+ * Function to compute the percentage change in reporting proportions for districts
+ * @param {*} data
+ * @param {*} periods
+ * @param {*} districtFacilitiesMeta
+ * @param {*} districts
+ * @returns
+ */
 export function computeReportingPercentages(
   data,
   periods,
@@ -835,6 +885,13 @@ export function filterMonthlyYearlyData(
   }
 }
 
+/**
+ * Function to extract data for a particular district
+ * @param {*} data
+ * @param {*} district - district of interest
+ * @param {*} districtFacilitiesMeta - meta data of the facilities in districts
+ * @returns
+ */
 export function extractDistrictData(data, district, districtFacilitiesMeta) {
   let districtData = null;
   const districtFacilities = districtFacilitiesMeta[district]["facility_ids"];
@@ -847,6 +904,11 @@ export function extractDistrictData(data, district, districtFacilitiesMeta) {
   }
 }
 
+/**
+ * Function that converts an array of months to an array of quarters
+ * @param {*} months - array of date months e.g 202001
+ * @returns - array of data quarters e.g 2020Q1
+ */
 export function monthsToQuarters(months) {
   const q1 = ["01", "02", "03"];
   const q2 = ["04", "05", "06"];
@@ -905,31 +967,6 @@ export function clean(obj) {
     }
   }
   return obj;
-}
-
-export function processNansum(data, multiplicator = 1) {
-  if (!data || data === undefined) {
-    return;
-  }
-  const timePeriods = [...new Set(data.map((val) => val[2]))];
-  const orgUnits = [...new Set(data.map((val) => val[1]))];
-  const processedData = [];
-  timePeriods.forEach((pe, index) => {
-    orgUnits.forEach((org, idx) => {
-      const dataPeriodOrg = data.filter((val) => val[2] == pe && val[1] == org);
-      const dataPeriodOrgValue = dataPeriodOrg.map((val) => parseFloat(val[3]));
-      processedData.push([
-        "",
-        org,
-        pe,
-        dataPeriodOrgValue.reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0) * multiplicator,
-      ]);
-    });
-  });
-
-  return { results: { rows: processedData } };
 }
 
 export function findPosition(meta, key) {
