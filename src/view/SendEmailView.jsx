@@ -149,6 +149,7 @@ function SendEmailView({ setEmailTargets }) {
         <button className="button" onClick={handleSelectAll}>Select all</button>
         <button className="button" onClick={handleDeselectAll}>Deselect all</button>
         <button className="button"
+          id="send-email"
           style={{ float: "right", marginRight: "0px" }}
           onClick={() => {
             setDisabled(true);

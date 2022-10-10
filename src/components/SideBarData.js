@@ -18,6 +18,12 @@ export const sideBarData = [
         cName: 'nav-text'
     },
     {
+        title: 'Schedule Email',
+        path: "/spph/schedule",
+        icon: <MdIcons.MdScheduleSend />,
+        cName: 'nav-text'
+    },
+    {
         title: 'Email Template',
         path: "/spph/template/edit",
         icon: <HiIcons.HiTemplate />,

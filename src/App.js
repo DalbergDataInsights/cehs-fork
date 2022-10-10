@@ -10,7 +10,6 @@ import Wrapper from "./components/Wrapper";
 import { StoreContext } from "./Context";
 import { Store } from "./Store";
 
-
 const queryClient = new QueryClient();
 const d2Config = {};
 const antIcon = (
@@ -20,6 +19,8 @@ const authorization =
   process.env.NODE_ENV === "development"
     ? process.env.REACT_APP_DHIS2_AUTHORIZATION
     : null;
+const schedulerKey =
+  process.env.NODE_ENV === "development" ? process.env.APIKEY : null;
 if (authorization) {
   d2Config.headers = { Authorization: authorization };
 }

@@ -8,9 +8,12 @@ const updateQuery = {
   data: ({ data }) => data,
 };
 
-const DeleteSubList = ({ newSettingsData, onUpdate, setDeleteOpen, refetch }) => {
-  console.log(newSettingsData);
-
+const DeleteSubList = ({
+  newSettingsData,
+  onUpdate,
+  setDeleteOpen,
+  refetch,
+}) => {
   const [mutate] = useDataMutation(updateQuery, {
     variables: {
       data: newSettingsData,
@@ -20,7 +23,8 @@ const DeleteSubList = ({ newSettingsData, onUpdate, setDeleteOpen, refetch }) =>
 
   return (
     <>
-      <button className="button"
+      <button
+        className="button"
         onClick={() => {
           mutate({ newSettingsData });
           setTimeout(() => {

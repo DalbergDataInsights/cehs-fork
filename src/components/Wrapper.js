@@ -18,6 +18,7 @@ import DeleteTemplateView from "../view/DeleteTemplateView";
 import NewTemplateView from "../view/NewTemplateView";
 import SpphNavBar from "./SpphNavBar";
 import ProcessEmailView from "../view/ProcessEmailView";
+import ScheduleView from "../view/ScheduleView";
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 
 const antIcon = (
@@ -121,6 +122,9 @@ const SpphWrapper = () => {
                     payload={emailTargets}
                     setPayload={setEmailTargets}
                   />
+                </Route>
+                <Route path="/spph/schedule">
+                  <ScheduleView />
                 </Route>
               </Switch>
             </div>

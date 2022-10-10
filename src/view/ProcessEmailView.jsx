@@ -44,6 +44,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   const [count, setCount] = useState(0); // imitate process progress
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [currentPayload, setCurrentPayload] = useState([payload[0]]);
+  const [totalPayload, setTotalPayload] = useState(payload.length);
   const history = useHistory();
 
   useEffect(() => {
@@ -55,18 +56,27 @@ const ProcessEmailView = ({ payload, setPayload }) => {
     }
   }, [count]);
 
+
   // get trends data period
   const period =
     currentPayload.length > 0
       ? [
-          moment(currentPayload[0].trendDateStart),
-          moment(currentPayload[0].trendDateEnd),
+          isNumeric(currentPayload[0].trendDateStart) 
+            ? moment().add(currentPayload[0].trendDateStart, "months", "YYYY-MM-DD"):moment(currentPayload[0].trendDateStart),
+          isNumeric(currentPayload[0].trendDateEnd) 
+            ? moment().add(currentPayload[0].trendDateEnd, "months", "YYYY-MM-DD"):moment(currentPayload[0].trendDateEnd),
         ]
       : [];
   // get reporting data period
   const reportingPeriod =
     currentPayload.length > 0
-      ? [
+      ? isNumeric(currentPayload[0].reportingYear) ? [
+          moment().add(currentPayload[0].reportingYear, "months", "YYYY").startOf("year"),
+          moment().add(currentPayload[0].reportingYear, "months").format("YYYY") === moment().format("YYYY")
+            ? moment().subtract(1, "months")
+            : moment().add(currentPayload[0].reportingYear, "months", "YYYY").endOf("year"),
+        ] : 
+        [
           moment(currentPayload[0].reportingYear, "YYYY").startOf("year"),
           currentPayload[0].reportingYear === moment().format("YYYY")
             ? moment().subtract(1, "months")
@@ -169,7 +179,10 @@ const ProcessEmailView = ({ payload, setPayload }) => {
       variableId: varIds.join(";"),
       period:
         currentPayload.length > 0
-          ? [
+          ? isNumeric(currentPayload[0].monthOfInterest) ? [
+              moment().add(currentPayload[0].monthOfInterest, "months"),
+              moment().add(currentPayload[0].monthOfInterest, "months"),
+            ] : [
               moment(currentPayload[0].monthOfInterest),
               moment(currentPayload[0].monthOfInterest),
             ]
@@ -260,20 +273,18 @@ const ProcessEmailView = ({ payload, setPayload }) => {
             dataSets,
             mi,
             setCount,
+            period,
+            reportingPeriod
           });
-
-          // data = undefined;
-          // barData = undefined;
-          // rData = undefined;
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
       };
 
       testPayload(...currentPayload);
-      if (isMounted && currentPayload[0] === payload[payload.length - 1]) {
+      if (isMounted && count === totalPayload) {
         setPayload([]);
-        setButtonDisabled(false);
+        setTimeout(() => {setButtonDisabled(false)}, 5000)
       }
 
       return () => {
@@ -284,12 +295,16 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   }, [data, rData, barData]);
 
   return (
-    <div>
-      <p>Sending Emails: {" "}
-        {count} / {payload.length}
+    <div style={{padding:"3%"}}>
+      <p style={{fontWeight:"bold"}}>Sending Emails: {" "}
+        {count} / {totalPayload}
       </p>
       <div id="graph" style={{ display: "none" }}></div>
-      <button className="button" disabled={buttonDisabled} onClick={() => history.push("send")}>
+      {!buttonDisabled && 
+        <p id="completed-emails"> All emails sent </p>}
+      <button className="button" disabled={buttonDisabled} 
+      style={{marginLeft:"0px"}}
+        onClick={() => history.push("send")}>
         Back
       </button>
     </div>
@@ -316,7 +331,6 @@ function getVisTitle(selectedDistrictData, period, districtName, displayName) {
 
 // function to populate static and dynamic variables from the template
 function populateStaticVars(emailData, mi) {
-  const period = [moment(mi.trendDateStart), moment(mi.trendDateEnd)];
 
   //  get the meta item specific list of indicators
   const varIds = [];
@@ -337,11 +351,13 @@ function populateStaticVars(emailData, mi) {
     today.toLocaleString("default", { day: "numeric", month: "long" }) +
     " " +
     today.getFullYear();
-  emailData["dynamic_reporting_month"] = moment(mi.monthOfInterest).format("MMMM YYYY");
+  emailData["dynamic_reporting_month"] = isNumeric(mi.monthOfInterest) 
+    ? moment().add(mi.monthOfInterest, "months").format("MMMM YYYY")
+    : moment(mi.monthOfInterest).format("MMMM YYYY");
   emailData["dynamic_future_report_date"] = moment()
-    .add(0, "months")
+    .add(1, "months")
     .format("MMMM YYYY");
-  emailData["dynamic_following_reporting_date"] = moment(mi.monthOfInterest)
+  emailData["dynamic_following_reporting_date"] = (isNumeric(mi.monthOfInterest) ? moment().add(mi.monthOfInterest, "months"):moment(mi.monthOfInterest))
     .clone()
     .add(1, "months")
     .format("MMMM YYYY");
@@ -448,8 +464,10 @@ function getImagePayload({
   dataSets,
   mi,
   setCount,
+  period,
+  reportingPeriod
 }) {
-  const period = [moment(mi.trendDateStart), moment(mi.trendDateEnd)];
+  // const period = [moment(mi.trendDateStart), moment(mi.trendDateEnd)];
   const periodIndex = findPosition(facilitiesData.results.headers, "pe");
   
   // --- approach variable  ---
@@ -494,28 +512,24 @@ function getImagePayload({
         )
       );
       // add text to latest year
-      lineDistrictData[lineDistrictData.length -1].mode = "lines+markers+text"
-      lineDistrictData[lineDistrictData.length -1].textposition = "top"
-      lineDistrictData[lineDistrictData.length -1].texttemplate = "%{y}"
+      if (lineDistrictData.length > 0) {
+        lineDistrictData[lineDistrictData.length -1].mode = "lines+markers+text"
+        lineDistrictData[lineDistrictData.length -1].textposition = "top"
+        lineDistrictData[lineDistrictData.length -1].texttemplate = "%{y}"
+      }
 
       // ---facility level (horizontal bars) visualizations data
       const barVizData = getBarVisData(
         barData,
         districtFacilities,
         v,
-        moment(mi.monthOfInterest),
+        isNumeric(mi.monthOfInterest) ? moment().add(mi.monthOfInterest, "months"): moment(mi.monthOfInterest),
         variableName
       );
       const horizontalBarData = barVizData.plottingData;
       emailData[`title_bar_${v.replaceAll(";", "_")}`] = barVizData.title;
 
       // ---- Reporting visualizations
-      const reportingPeriod = [
-        moment(mi.reportingYear, "YYYY").startOf("year"),
-        mi.reportingYear === moment().format("YYYY")
-          ? moment().subtract(1, "months")
-          : moment(mi.reportingYear, "YYYY").endOf("year"),
-      ];
       const reporting = getReportingData(
         facilitiesData,
         dataSets,
@@ -583,6 +597,10 @@ function getImagePayload({
     });
     resolve();
   });
+}
+
+const isNumeric = (value) => {
+  return /^-?\d+$/.test(value);
 }
 
 export default ProcessEmailView;
