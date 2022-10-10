@@ -107,6 +107,7 @@
   align-items: center;
   justify-items: center;
   justify-content: center;
+  max-width: 100%;
   /* background-color: yellow; */
 }
 

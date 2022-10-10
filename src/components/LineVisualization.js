@@ -65,7 +65,7 @@ const LineVisualization = ({
                       x: 1,
                     },
                     coloraxis: { colorbar_len: 1 },
-                    margin: { r: 0, t: 0, b: 25, l: 50 },
+                    margin: { r: 0, t: 0, b: 25, l: 0 },
                     plot_bgcolor: "rgba(255, 255, 255, 1)",
                     paper_bgcolor: "rgba(255, 255, 255, 1)",
                     xaxis: {
@@ -74,6 +74,7 @@ const LineVisualization = ({
                     },
                     yaxis: {
                       autorange: true,
+                      automargin: true,
                       showgrid: true,
                       zeroline: true,
                       zerolinecolor: "lightgray",
@@ -81,6 +82,7 @@ const LineVisualization = ({
                       rangemode: "tozero",
                     },
                   }}
+                  useResizeHandler={true}
                   style={{ width: "100%", height: "100%" }}
                   config={{
                     displayModeBar: "hover",
