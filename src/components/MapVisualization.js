@@ -5,12 +5,9 @@ import { Col, Row } from "react-bootstrap";
 import { $store } from "../models/Store";
 import Loading from "./Loading";
 import {
-  customColorScale,
-  getOrgUnitDataAverages,
   getOrgUnitDataPercentageChanges,
   getOrgUnitDataTotals,
   postProcessData,
-  processDataPercentOfAverages,
 } from "../utils";
 import Download from "./Download";
 import HorizontalBar from "./HorizontalBar";
