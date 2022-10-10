@@ -380,3 +380,19 @@ table {
   height: 40px;
   font-size: calc(0.4vw + 0.4vh + 0.4vmin);
 }
+
+input:not(:focus):not(:placeholder-shown):invalid {
+  border-color: red;
+}
+
+input:not(:focus):not(:placeholder-shown) ~ #nameError.visible {
+  display: inline-block;
+  margin:0px; 
+}
+
+#nameError {
+  display: none;
+  font-size: 0.8em;
+  color: red;
+}
+
