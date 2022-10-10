@@ -743,7 +743,7 @@ export function computeReportingTotals(
 }
 
 /**
- *
+ * Function the copmuter the reporting propertions for the districts
  * @param {*} data
  * @param {*} maptype
  * @param {*} districtFacilitiesMeta
