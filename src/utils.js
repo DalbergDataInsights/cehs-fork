@@ -432,6 +432,11 @@ function sortByColumn(a, colIndex) {
   return a;
 }
 
+/**
+ * Function to compute the percentage change in an indicator value for a single organisation unit
+ * @param {*} data
+ * @returns
+ */
 export function processOrgUnitDataPercent(data) {
   if (!data) {
     return 0;
@@ -477,6 +482,13 @@ export function computeOrgUnitPercentOfAverage(data, orgUnit) {
   return value;
 }
 
+/**
+ * Function to compute the percentage change in average value of an indicator
+ * for organization units
+ * @param {*} orgUnits
+ * @param {*} data
+ * @returns
+ */
 export function processDataPercentOfAverages(orgUnits, data) {
   if (!data) {
     return {};
@@ -501,6 +513,12 @@ export function processDataPercentOfAverages(orgUnits, data) {
   return orgUnitAvChangesRenamed;
 }
 
+/**
+ * Function to compute the percentage change in an indicator value for organisation units
+ * @param {*} orgUnits
+ * @param {*} data
+ * @returns
+ */
 export function getOrgUnitDataPercentageChanges(orgUnits, data) {
   const orgUnitData = getDataPerOrgUnits(orgUnits, data);
   const orgUnitDataPercentages = {};
@@ -520,6 +538,11 @@ export function getOrgUnitDataPercentageChanges(orgUnits, data) {
   return orgUnitDataPercentagesRenamed;
 }
 
+/**
+ * Function to sort an object basing on the values
+ * @param {*} data
+ * @returns
+ */
 export function sortDictionary(data) {
   if (data) {
     let items = Object.keys(data).map(function (key) {
@@ -535,6 +558,13 @@ export function sortDictionary(data) {
   }
 }
 
+/**
+ * Function to convert data from country level to a time series object
+ * @param {*} data
+ * @param {*} level
+ * @param {*} periodType
+ * @returns
+ */
 export function computeCountryTimeSeries(data, level, periodType) {
   let processedData = null;
   if (level == "country") {
@@ -550,6 +580,15 @@ export function computeCountryTimeSeries(data, level, periodType) {
   return processedData;
 }
 
+/**
+ * Function to convert data from a district to a time series object
+ * @param {*} data
+ * @param {*} districts
+ * @param {*} level
+ * @param {*} selectedDistrict
+ * @param {*} periodType
+ * @returns
+ */
 export function computeDistrictTimeSeries(
   data,
   districts,
@@ -967,6 +1006,31 @@ export function clean(obj) {
     }
   }
   return obj;
+}
+
+export function processNansum(data, multiplicator = 1) {
+  if (!data || data === undefined) {
+    return;
+  }
+  const timePeriods = [...new Set(data.map((val) => val[2]))];
+  const orgUnits = [...new Set(data.map((val) => val[1]))];
+  const processedData = [];
+  timePeriods.forEach((pe, index) => {
+    orgUnits.forEach((org, idx) => {
+      const dataPeriodOrg = data.filter((val) => val[2] == pe && val[1] == org);
+      const dataPeriodOrgValue = dataPeriodOrg.map((val) => parseFloat(val[3]));
+      processedData.push([
+        "",
+        org,
+        pe,
+        dataPeriodOrgValue.reduce((accumulator, value) => {
+          return accumulator + value;
+        }, 0) * multiplicator,
+      ]);
+    });
+  });
+
+  return { results: { rows: processedData } };
 }
 
 export function findPosition(meta, key) {
