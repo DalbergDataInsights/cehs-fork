@@ -2272,68 +2272,6 @@ const indicatorMeta = [
     reportingFrequency: "monthly",
     processingFunction: processors.processNansum,
   },
-  {
-    key: "11135",
-    displayName: "HIV-positive mothers initiated on ART (incidence)",
-    function: "ratio",
-    numerator: {
-      dataElementId: ["L4pwIgSDdG6", "KDoEmOjpYnL", "kGC9MVJppnk"],
-      function: "nansum",
-    },
-    denominator: {
-      dataElementId: [
-        "AUfFbS7cWFd",
-        "jHqJsOlZWZG",
-        "uzlQdD84jNj",
-        "eerKMtKyYZt",
-      ],
-      function: "nansum",
-    },
-    group: "HIV",
-    reportingFrequency: "monthly",
-    processingFunction: processors.processRatioNansum,
-    arguments: {
-      numeratorIds: ["L4pwIgSDdG6", "KDoEmOjpYnL", "kGC9MVJppnk"],
-      denominatorIds: [
-        "AUfFbS7cWFd",
-        "jHqJsOlZWZG",
-        "uzlQdD84jNj",
-        "eerKMtKyYZt",
-      ],
-    },
-  },
-  {
-    key: "11136",
-    displayName: "Malaria cases treated (incidence)",
-    function: "ratio",
-    numerator: {
-      dataElementId: [
-        "PV8F3aPDKCu",
-        "YBXFadujBCQ",
-        "qR6OsOxADKt",
-        "sDDBGMsrw6z",
-        "S97lGebltuo",
-      ],
-      function: "nansum",
-    },
-    denominator: {
-      dataElementId: ["fUflbWWhouR"],
-      function: "single",
-    },
-    group: "HIV",
-    reportingFrequency: "monthly",
-    processingFunction: processors.processRatioNansum,
-    arguments: {
-      numeratorIds: [
-        "PV8F3aPDKCu",
-        "YBXFadujBCQ",
-        "qR6OsOxADKt",
-        "sDDBGMsrw6z",
-        "S97lGebltuo",
-      ],
-      denominatorIds: ["fUflbWWhouR"],
-    },
-  },
 ];
 
 export default indicatorMeta;

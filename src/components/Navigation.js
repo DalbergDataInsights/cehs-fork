@@ -97,7 +97,7 @@ const Navigation = () => {
                   >
                     center_focus_weak
                   </span>{" "}
-                  Data quality
+                  Data Quality
                 </p>
               </Link>
             </Col>

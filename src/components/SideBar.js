@@ -12,13 +12,16 @@ const SideBar = () => {
     <div className="sidebar">
       <Navigation />
       <Controlls />
-      <Row className="p-3" style={{display: "inline-block", position:"absolute", bottom:"0px"}}>
+      <Row
+        className="p-3"
+        style={{ display: "inline-block", position: "absolute", bottom: "0px" }}
+      >
         <Col className="align-self-center">
           <Row id="overview-info">
             <Col style={{ width: "80%" }}>
               <Link to="/spph/send">
                 <p style={{ color: "white" }} className="nav-element text-left">
-                  Go to email generator
+                  Go to Email Generator
                 </p>
               </Link>
             </Col>
