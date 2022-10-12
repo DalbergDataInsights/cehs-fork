@@ -282,7 +282,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
       };
 
       testPayload(...currentPayload);
-      if (isMounted && count === totalPayload) {
+      if (count === totalPayload) {
         setPayload([]);
         setTimeout(() => {setButtonDisabled(false)}, 5000)
       }
