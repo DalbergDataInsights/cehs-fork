@@ -157,17 +157,17 @@ function EditSubList({
 
     const formData = {};
     formData["id"] = count;
-    formData["templateId"] = JSON.parse(event.target[0].value).id;
-    formData["templateName"] = JSON.parse(event.target[0].value).name;
-    formData["trendDateStart"] = event.target[2].value;
-    formData["trendDateEnd"] = isNumeric(event.target[3].value)
-      ? event.target[3].value
-      : moment(event.target[3].value).endOf("month").format("YYYY-MM-DD");
-    formData["monthOfInterest"] = event.target[4].value
-    formData["reportingYear"] = event.target[3].value;
-    formData["recipientName"] = event.target[6].value;
-    formData["recipientEmail"] = event.target[7].value;
-    formData["orgUnit"] = event.target[8].value;
+    formData["templateId"] = JSON.parse(event.target[1].value).id;
+    formData["templateName"] = JSON.parse(event.target[1].value).name;
+    formData["trendDateStart"] = event.target[3].value;
+    formData["trendDateEnd"] = isNumeric(event.target[4].value)
+      ? event.target[4].value
+      : moment(event.target[4].value).endOf("month").format("YYYY-MM-DD");
+    formData["monthOfInterest"] = event.target[5].value
+    formData["reportingYear"] = event.target[6].value;
+    formData["recipientName"] = event.target[7].value;
+    formData["recipientEmail"] = event.target[8].value;
+    formData["orgUnit"] = event.target[9].value;
 
     var filteredArr = [];
     filteredArr = [...new Set([...subList, formData])].filter(
@@ -267,6 +267,7 @@ function EditSubList({
     selectedEndDate,
     selectedMonth,
     selectedYear,
+    subListName
   ]);
 
   // validate subscriber list name, if exists then invalid
@@ -331,7 +332,7 @@ function EditSubList({
                   title="Subscriber list name cannot contain special characters"
                   required
                   onChange={(e) => setSubListName(e.target.value)}
-                  defaultValue={subListId}
+                  defaultValue={subListId.replaceAll("_", " ")}
                   onBlur={validateName}
                 ></input>
                 <span role="alert" id="nameError" aria-hidden="true">
