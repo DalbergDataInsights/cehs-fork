@@ -70,7 +70,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   // get reporting data period
   const reportingPeriod =
     currentPayload.length > 0
-      ? Number(currentPayload[0].reportingYear) < 0 ? [
+      ? Number(currentPayload[0].reportingYear) <= 0 ? [
           moment().add(currentPayload[0].reportingYear, "months", "YYYY").startOf("year"),
           moment().add(currentPayload[0].reportingYear, "months").format("YYYY") === moment().format("YYYY")
             ? moment().subtract(1, "months")
