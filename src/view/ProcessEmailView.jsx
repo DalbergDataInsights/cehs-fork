@@ -70,7 +70,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
   // get reporting data period
   const reportingPeriod =
     currentPayload.length > 0
-      ? isNumeric(currentPayload[0].reportingYear) ? [
+      ? Number(currentPayload[0].reportingYear) <= 0 ? [
           moment().add(currentPayload[0].reportingYear, "months", "YYYY").startOf("year"),
           moment().add(currentPayload[0].reportingYear, "months").format("YYYY") === moment().format("YYYY")
             ? moment().subtract(1, "months")
@@ -83,7 +83,7 @@ const ProcessEmailView = ({ payload, setPayload }) => {
             : moment(currentPayload[0].reportingYear, "YYYY").endOf("year"),
         ]
       : [];
- 
+
   // get facilities for the recipients district
   const districtFacilities =
     currentPayload.length > 0
@@ -316,7 +316,7 @@ function getVisTitle(selectedDistrictData, period, districtName, displayName) {
   const data = Object.fromEntries(
     Object.entries(processOrgRawDataToTimeSeries(selectedDistrictData)).filter(([key]) => 
     period.map((p) => p.format("YYYYMM")).includes(key)))
-
+  
   const analysis = processTitle(
     data,
     ""
@@ -325,7 +325,10 @@ function getVisTitle(selectedDistrictData, period, districtName, displayName) {
   const month = `in ${period[1].format("MMMM YYYY")}`;
   const indicatorDescription = displayName;
 
-  const title = `The total number of ${indicatorDescription} ${what} ${month} ${analysis} from the previous month`;
+  const title = period[1].format("YYYYMM") in data 
+    ? `The total number of ${indicatorDescription} ${what} ${month} ${analysis} from the previous month` 
+    : `** No data on the total number of ${indicatorDescription} ${month}**`;
+
   return title;
 }
 
