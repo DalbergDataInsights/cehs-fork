@@ -128,7 +128,9 @@ const MapVisualizationReports = ({
                             geojson: store.rawGeojson,
                             colorscale: colorScaleValue,
                             reversescale: reversedScaleValue,
-                            hoverinfo: "all",
+                            // hoverinfo: "all",
+                            hovertemplate:
+                              "%{location}: %{z:.2f}%<extra></extra>",
                           },
                         ]}
                         layout={{
