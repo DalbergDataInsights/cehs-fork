@@ -177,7 +177,11 @@ const MapVisualization = ({
                               geojson: store.rawGeojson,
                               colorscale: colorScaleValue,
                               reversescale: reversedScaleValue,
-                              hoverinfo: "all",
+                              // hoverinfo: "all",
+                              hovertemplate:
+                                maptype == "total"
+                                  ? "%{location}: %{z:.0f}<extra></extra>"
+                                  : "%{location}: %{z:.2f}%<extra></extra>",
                             },
                           ]}
                           layout={{
