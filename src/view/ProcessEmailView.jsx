@@ -365,6 +365,9 @@ function populateStaticVars(emailData, mi) {
     .add(1, "months")
     .format("MMMM YYYY");
   emailData["static_recipients_name"] = mi.recipientName;
+  emailData["dynamic_report_start_date"] = isNumeric(mi.trendDateStart) 
+  ? moment().add(mi.trendDateStart, "months").format("MMMM YYYY")
+  : moment(mi.trendDateStart).format("MMMM YYYY");
 }
 
 // defining layouts for each type of visualization

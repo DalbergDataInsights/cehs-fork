@@ -37,6 +37,7 @@ Following the above rule, the static and dynamic variables that can be set for p
 | Name of the biostatistician &rarr; {{static_biostatistician_name}}                                  |
 | Number of indicators &rarr; {{static_number_of_indicators}}                                         |
 | Reporting month (group:dynamic, name:reporting_month) &rarr; {{dynamic_reporting_month}}            |
+| The starting date of the report &rarr; {{dynamic_report_start_date}}            |
 | The date of data extraction &rarr; {{dynamic_extraction_date}}                                      |
 | The month that will be featured in the following report &rarr; {{dynamic_following_reporting_date}} |
 | The month in which the following report will be published &rarr; {{dynamic_future_report_date}}     |
